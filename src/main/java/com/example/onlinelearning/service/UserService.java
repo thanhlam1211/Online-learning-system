@@ -56,7 +56,6 @@ public class UserService {
         User user = new User();
         user.setEmail(email);
         user.setUsername(name);
-        user.setEnabled(true);
         user.setAuthenticationProvider(authenticationProvider);
 
         repository.save(user);

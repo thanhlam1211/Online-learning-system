@@ -23,7 +23,7 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue
     private Integer role_id;
-    @Column
+    @Column(name = "role_name")
     private String name;
 
     @ManyToMany(mappedBy = "roleList")

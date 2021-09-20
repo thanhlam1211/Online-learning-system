@@ -36,11 +36,42 @@ public class User implements Serializable {
     @Column
     private String email;
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column
+    private String phone;
+
+    @Column
+    private int gender;
+
+    @Column(name = "avatar_url")
+    private String avatar;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
     private AuthenticationProvider authenticationProvider;
 
-    private boolean enabled;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Blog> blogList = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserCourse> userCourseList = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name ="status_id")
+    private Status status;
+
+    @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL)
+    private Set<UserQuiz> userQuizList = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "owner",
+               joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courseList = new HashSet<>();
+
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
