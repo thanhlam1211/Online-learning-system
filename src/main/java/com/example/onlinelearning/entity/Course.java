@@ -1,6 +1,6 @@
 package com.example.onlinelearning.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -12,7 +12,10 @@ import java.util.Set;
 /**
  * @author Admin
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "course")
 public class Course implements Serializable {
@@ -44,4 +47,24 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<UserCourse> userCourseList = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private Status status;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "course_package",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "package_id"))
+    private Set<PricePackage> pricePackageList = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Topic> topicList = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
 }

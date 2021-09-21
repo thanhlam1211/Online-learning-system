@@ -1,6 +1,6 @@
 package com.example.onlinelearning.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +10,10 @@ import java.util.Set;
 /**
  * @author Admin
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "quiz")
 public class Quiz implements Serializable {
@@ -35,4 +38,21 @@ public class Quiz implements Serializable {
 
     @OneToMany(mappedBy = "quiz", cascade =  CascadeType.ALL)
     private Set<UserQuiz> userQuizList = new HashSet<>();
+
+    @OneToMany(mappedBy = "quiz", cascade =  CascadeType.ALL)
+    private Set<Lesson> lessonList = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "quiz_question",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id"))
+    private Set<QuestionBank> questionBankList = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz_level_id")
+    private QuizLevel quizLevel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz_type_id")
+    private QuizType quizType;
 }
