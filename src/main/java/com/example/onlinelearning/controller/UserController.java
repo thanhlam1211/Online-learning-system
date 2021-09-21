@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Admin
@@ -48,4 +50,13 @@ public class UserController {
         return "/user_home";
     }
 
+
+    // Account của từng user
+    @GetMapping("/account/{username}")
+    public ModelAndView accountUser(@PathVariable(name = "username") String username){
+        ModelAndView modelAndView = new ModelAndView("account");
+        User user = service.getUserByName(username);
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
 }
