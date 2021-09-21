@@ -1,15 +1,20 @@
 package com.example.onlinelearning.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Admin
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "user_quiz")
 public class UserQuiz implements Serializable {
@@ -23,11 +28,14 @@ public class UserQuiz implements Serializable {
     @Column(name = "start_time")
     private Date startTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
+
+    @OneToMany(mappedBy = "userQuiz", cascade = CascadeType.ALL)
+    private Set<UserQuestionAnswer> userQuestionAnswerList = new HashSet<>();
 }

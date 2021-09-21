@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .permitAll()
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/logout_success")
+//                    .logoutSuccessUrl("/logout_success")
                 .and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())

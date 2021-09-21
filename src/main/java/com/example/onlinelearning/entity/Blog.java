@@ -1,6 +1,6 @@
 package com.example.onlinelearning.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,7 +8,10 @@ import java.io.Serializable;
 /**
  * @author Admin
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "blog")
 public class Blog implements Serializable {
@@ -35,6 +38,13 @@ public class Blog implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="status_id")
+    private Status status;
 
 }
 
