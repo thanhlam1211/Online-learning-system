@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -37,14 +39,14 @@
                     <div class="col-lg-6">
                         <div class="account_wrap">
                             <h3 class="title">Login your Account</h3>
-                            <form action="#" th:action="@{/verify}" method="post" th:object="${user}">
-                                <input type="text" th:field="*{username}" placeholder="username">
-                                <input type="text" th:field="*{password}" placeholder="password">
-                                <span th:text="${alert}"></span>
+                            <form action="#" th:action="@{/doLogin}" method="post" >
+                                <input type="text"  placeholder="Username" name="username">
+                                <input type="password"  placeholder="Password" name="password">
+<!--                                <span th:text="${alert}"></span>-->
                                 <button class="thm_btn" type="submit">Login Now</button>
                                 <div class="action ul_li">
                                     <span class="left">
-                                      <input id="remember" type="checkbox">
+                                      <input id="remember" type="checkbox" name="remember-me">
                                       <label for="remember">Remember me</label>
                                     </span>
                                     <span class="right">
@@ -52,6 +54,16 @@
                                     </span>
                                 </div>
                             </form>
+                            <div class="col-md-12 ">
+                                <div class="login-or">
+                                    <span class="span-or">or</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-block g-button" th:href="@{/oauth2/authorization/google}">
+                                    <i class="fa fa-google"></i> Sign up with Google
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

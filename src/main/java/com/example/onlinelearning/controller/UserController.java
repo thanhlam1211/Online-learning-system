@@ -6,7 +6,10 @@ import com.example.onlinelearning.service.UserService;
 import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +50,6 @@ public class UserController {
         return "/user_home";
     }
 
-
     // Account của từng user
     @GetMapping("/account/{username}")
     public ModelAndView accountUser(@PathVariable(name = "username") String username){
@@ -56,29 +58,14 @@ public class UserController {
         modelAndView.addObject("user", user);
         return modelAndView;
     }
-    //Điều hướng sang trang login
-    @RequestMapping("/login")
-    public String login(Model model){
-        User user = new User();
-        model.addAttribute("alert");
-        model.addAttribute("user",user);
-        return "login";
-    }
-    //Check login
-    @RequestMapping("/verify")
-    public String verify(@ModelAttribute("user") User user, Model model){
-        if(service.getUserByName(user.getUsername()) == null) {
-            model.addAttribute("alert","Your account isn't existed");
-            model.addAttribute("user",user);
+
+    @GetMapping("/login")
+    public String loginPage(){
+        //prevent user return back to login page if they already login to the system
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
-        else if(!service.getUserByName(user.getUsername()).getPassword().equals(user.getPassword())){
-            model.addAttribute("alert","Wrong Password");
-            model.addAttribute("user",user);
-            return "login";
-        }
-        else{
-            return "redirect:/";
-        }
+        return "redirect:/";
     }
 }
