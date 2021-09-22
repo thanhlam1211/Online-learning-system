@@ -10,10 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -58,5 +55,30 @@ public class UserController {
         User user = service.getUserByName(username);
         modelAndView.addObject("user", user);
         return modelAndView;
+    }
+    //Điều hướng sang trang login
+    @RequestMapping("/login")
+    public String login(Model model){
+        User user = new User();
+        model.addAttribute("alert");
+        model.addAttribute("user",user);
+        return "login";
+    }
+    //Check login
+    @RequestMapping("/verify")
+    public String verify(@ModelAttribute("user") User user, Model model){
+        if(service.getUserByName(user.getUsername()) == null) {
+            model.addAttribute("alert","Your account isn't existed");
+            model.addAttribute("user",user);
+            return "login";
+        }
+        else if(!service.getUserByName(user.getUsername()).getPassword().equals(user.getPassword())){
+            model.addAttribute("alert","Wrong Password");
+            model.addAttribute("user",user);
+            return "login";
+        }
+        else{
+            return "redirect:/";
+        }
     }
 }

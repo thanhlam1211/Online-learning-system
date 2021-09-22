@@ -1,0 +1,79 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Edulan - Education HTML Template</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- css include -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/metismenu.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap">
+    <main>
+        <!-- account start -->
+        <section class="account_area pt-120 pb-90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="account_wrap">
+                            <h3 class="title">Login your Account</h3>
+                            <form action="#" th:action="@{/verify}" method="post" th:object="${user}">
+                                <input type="text" th:field="*{username}" placeholder="username">
+                                <input type="text" th:field="*{password}" placeholder="password">
+                                <span th:text="${alert}"></span>
+                                <button class="thm_btn" type="submit">Login Now</button>
+                                <div class="action ul_li">
+                                    <span class="left">
+                                      <input id="remember" type="checkbox">
+                                      <label for="remember">Remember me</label>
+                                    </span>
+                                    <span class="right">
+                                      <span>Don’t have an account<a href="#">Sign up</a></span>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- account end -->
+    </main>
+</div>
+<!-- body wrap end -->
+
+<!-- jquery include -->
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/metismenu.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+
+</html>
