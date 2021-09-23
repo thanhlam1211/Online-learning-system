@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +35,9 @@ public class User implements Serializable {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
+    @Column(name = "verification_code", updatable = false)
+    private String verificationCode;
+
     @Column
     private String email;
 
@@ -40,6 +45,8 @@ public class User implements Serializable {
     private String fullName;
 
     @Column
+    @Size(min=10,max=10)
+    @Pattern(regexp="(^$|[0-9]{10})")
     private String phone;
 
     @Column

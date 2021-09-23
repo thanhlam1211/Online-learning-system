@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Edulan - Education HTML Template</title>
+    <title>Login</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 
     <!-- css include -->
@@ -40,10 +40,10 @@
                             <div class="account_wrap">
                                 <h3 class="title">Login your Account</h3>
                                 <form action="#" th:action="@{/doLogin}" method="post" >
-                                    <input type="text"  placeholder="Username" name="username">
-                                    <input type="password"  placeholder="Password" name="password">
+                                    <input type="text" placeholder="Your email" name="email">
+                                    <input type="password" placeholder="Password" name="password">
                                     <span class="left">
-                                      <a href="#">Forgot password?</a>
+                                      <a th:href="@{/forgot_password}">Forgot password?</a>
                                     </span>
                                     <button class="thm_btn" type="submit">Login Now</button>
                                     <div class="action ul_li">
@@ -52,7 +52,7 @@
                                       <label for="remember">Remember me</label>
                                     </span>
                                         <span class="right">
-                                      <span>Don’t have an account<a href="#">Sign up</a></span>
+                                      <span>Don’t have an account<a th:href="@{/process_register}">Sign up</a></span>
                                     </span>
                                     </div>
                                 </form>
