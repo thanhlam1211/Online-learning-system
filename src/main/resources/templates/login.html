@@ -29,49 +29,51 @@
 
 <body>
 <!-- body wrap start -->
-<div class="body_wrap">
-    <main>
-        <!-- account start -->
-        <section class="account_area pt-120 pb-90">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-6">
-                        <div class="account_wrap">
-                            <h3 class="title">Login your Account</h3>
-                            <form action="#" th:action="@{/doLogin}" method="post" >
-                                <input type="text"  placeholder="Username" name="username">
-                                <input type="password"  placeholder="Password" name="password">
-<!--                                <span th:text="${alert}"></span>-->
-                                <button class="thm_btn" type="submit">Login Now</button>
-                                <div class="action ul_li">
+    <div class="body_wrap">
+        <main>
+            <!-- account start -->
+            <section class="account_area pt-120 pb-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <div class="account_wrap">
+                                <h3 class="title">Login your Account</h3>
+                                <form action="#" th:action="@{/doLogin}" method="post" >
+                                    <input type="text"  placeholder="Username" name="username">
+                                    <input type="password"  placeholder="Password" name="password">
+                                    <span class="left">
+                                      <a href="#">Forgot password?</a>
+                                    </span>
+                                    <button class="thm_btn" type="submit">Login Now</button>
+                                    <div class="action ul_li">
                                     <span class="left">
                                       <input id="remember" type="checkbox" name="remember-me">
                                       <label for="remember">Remember me</label>
                                     </span>
-                                    <span class="right">
+                                        <span class="right">
                                       <span>Don’t have an account<a href="#">Sign up</a></span>
                                     </span>
+                                    </div>
+                                </form>
+                                <div class="col-md-12 ">
+                                    <div class="login-or">
+                                        <span class="span-or">or</span>
+                                    </div>
                                 </div>
-                            </form>
-                            <div class="col-md-12 ">
-                                <div class="login-or">
-                                    <span class="span-or">or</span>
+                                <div class="form-group">
+                                    <a class="btn btn-block g-button" th:href="@{/oauth2/authorization/google}">
+                                        <i class="fa fa-google"></i> Sign up with Google
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <a class="btn btn-block g-button" th:href="@{/oauth2/authorization/google}">
-                                    <i class="fa fa-google"></i> Sign up with Google
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- account end -->
-    </main>
-</div>
+            </section>
+            <!-- account end -->
+        </main>
+    </div>
 <!-- body wrap end -->
 
 <!-- jquery include -->
