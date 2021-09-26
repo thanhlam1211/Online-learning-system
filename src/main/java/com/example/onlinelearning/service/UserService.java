@@ -36,7 +36,9 @@ public class UserService {
     public User getUserByName(String username){
         return repository.getUserByUsername(username);
     }
-
+    public User getUserById(int id){
+        return  repository.getUserById(id);
+    }
     public void saveUser(User user) {
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
@@ -135,4 +137,6 @@ public class UserService {
 
         repository.save(user);
     }
+
+
 }

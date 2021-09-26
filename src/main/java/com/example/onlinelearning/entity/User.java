@@ -86,6 +86,19 @@ public class User implements Serializable {
                 inverseJoinColumns =@JoinColumn(name = "role_id"))
     private Set<Role> roleList = new HashSet<>();
 
+    public User(int i, String ducndt, String s, String s1, String s2, String s3, String trung_duc, String s4, int i1, String s5) {
+    id = i;
+    username = ducndt;
+    password = s;
+    resetPasswordToken = s1;
+    verificationCode = s2;
+    email = s3;
+    fullName = trung_duc;
+    phone = s4;
+    gender = i1;
+    avatar = s5;
+    }
+
     public void addRole(Role role) {
         this.roleList.add(role);
     }

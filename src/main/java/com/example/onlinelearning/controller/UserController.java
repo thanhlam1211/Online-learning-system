@@ -67,13 +67,23 @@ public class UserController {
     }
 
     // Account của từng user
-    @GetMapping("/account/{username}")
-    public ModelAndView accountUser(@PathVariable(name = "username") String username){
-        ModelAndView modelAndView = new ModelAndView("account");
-        User user = service.getUserByName(username);
-        modelAndView.addObject("user", user);
-        return modelAndView;
+    @GetMapping("/account")
+    public String accountPage(Model model){
+        //User user = service.getUserByName("ducduc");
+        // thêm constructor user để test
+//        User user1 = new User();
+//        user1 = service.getUserById(1);
+        User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
+                "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+        model.addAttribute("user", user);
+        return "account";
     }
+//    public ModelAndView accountUser(@PathVariable(name = "username") String username){
+//        ModelAndView modelAndView = new ModelAndView("account");
+//        User user = service.getUserByName(username);
+//        modelAndView.addObject("user", user);
+//        return modelAndView;
+//    }
 
     @GetMapping("/login")
     public String loginPage(){
