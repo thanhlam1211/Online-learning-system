@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author Admin
  */
@@ -19,7 +22,7 @@ public class UserService {
     public User getCustomerByEmail(String email){
         return repository.getUserByEmail(email);
     }
-    public User getUserByName(String username){
+    public User getUserByUsername(String username){
         return repository.getUserByUsername(username);
     }
 
@@ -66,5 +69,25 @@ public class UserService {
         user.setAuthenticationProvider(provider);
 
         repository.save(user);
+    }
+
+    //Get user list
+    public List<User> getAllUsers() {
+        return repository.findAll();
+    }
+    //Get user by id
+    public User getUserById(Integer id) {
+        Optional<User> optional = repository.findById(id);
+        User user = null;
+        if(optional.isPresent()) {
+            user = optional.get();
+        } else {
+            throw new RuntimeException("User not found by id :: " + id);
+        }
+        return user;
+    }
+    //Delete user
+    public void deleteById(Integer id) {
+        this.repository.deleteById(id);
     }
 }

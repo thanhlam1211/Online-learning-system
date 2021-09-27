@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Admin
@@ -46,6 +47,13 @@ public class UserController {
     public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
         model.addAttribute("user",userDetail);
         return "/user_home";
+    }
+
+    //Admin Site
+    @GetMapping("/admin_home")
+    public String viewAdminPage(Model model) {
+        model.addAttribute("userList", service.getAllUsers());
+        return "Admin Homepage";
     }
 
 }
