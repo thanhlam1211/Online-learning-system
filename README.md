@@ -4,3 +4,4 @@ Very useful for student
 Love to study
 Database link:
 Schema:
+Use case diagram
