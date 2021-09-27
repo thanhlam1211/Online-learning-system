@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
  * Not finished
  * Deadline Oct 10
  * Public feature
- * Just for fun
  */
 @Controller
 public class ForgotPasswordController {
