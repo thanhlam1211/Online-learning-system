@@ -60,30 +60,28 @@ public class UserController {
         return "verify";
     }
 
-    @GetMapping("/user_home")
-    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-        model.addAttribute("user",userDetail);
-        return "/user_home";
-    }
+//    @GetMapping("/user_home")
+//    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+//        model.addAttribute("user",userDetail);
+//        return "/user_home";
+//    }
 
     // Account của từng user
-    @GetMapping("/account")
-    public String accountPage(Model model){
-        //User user = service.getUserByName("ducduc");
-        // thêm constructor user để test
-//        User user1 = new User();
-//        user1 = service.getUserById(1);
+    @GetMapping("/user_home")
+    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
         User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
                 "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
         model.addAttribute("user", user);
-        return "account";
+        return "user_home";
     }
-//    public ModelAndView accountUser(@PathVariable(name = "username") String username){
-//        ModelAndView modelAndView = new ModelAndView("account");
-//        User user = service.getUserByName(username);
-//        modelAndView.addObject("user", user);
-//        return modelAndView;
-//    }
+
+    @GetMapping("/user_update")
+    public String viewUserUpdate(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+        User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
+                "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+        model.addAttribute("user", user);
+        return "user_update";
+    }
 
     @GetMapping("/login")
     public String loginPage(){
