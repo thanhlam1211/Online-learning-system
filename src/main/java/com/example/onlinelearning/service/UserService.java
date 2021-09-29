@@ -77,7 +77,7 @@ public class UserService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("testsupport@gmail.com",senderName);
+        helper.setFrom("EdulanSupport@gmail.com",senderName);
         helper.setTo(user.getEmail());
         helper.setSubject(subject);
         helper.setText(content, true);
