@@ -54,6 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/oauth2/**").permitAll()
+                    .antMatchers("/user_home").authenticated()
+                    .antMatchers("/user_home/update").authenticated()
+                    .antMatchers("/user_home/update/changePass").authenticated()
 //                    .antMatchers("/delete/**").hasRole("ADMIN")
 //                    .antMatchers("/edit/**").hasAnyRole("ADMIN","EDITOR")
 //                    .antMatchers("/new").authenticated()
@@ -77,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .permitAll()
                     .logoutUrl("/logout")
-//                    .logoutSuccessUrl("/logout_success")
+                    .logoutSuccessUrl("/")
                 .and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
