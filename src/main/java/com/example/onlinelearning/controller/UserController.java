@@ -69,16 +69,16 @@ public class UserController {
     // Account của từng user
     @GetMapping("/user_home")
     public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-        User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
-                "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+        User user = userDetail.getUser();
         model.addAttribute("user", user);
         return "user_home";
     }
 
-    @GetMapping("/user_update")
+    @GetMapping("/user_home/update")
     public String viewUserUpdate(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-        User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
-                "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+        //User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
+        //        "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+        User user = userDetail.getUser();
         model.addAttribute("user", user);
         return "user_update";
     }
