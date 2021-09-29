@@ -24,14 +24,12 @@
         <div class="col-md-6 offset-md-3">
             <form th:action="@{/user_home/update/{id} (id = ${user.id})}" th:object="${user}" method="POST">
                 <!-- Fix th:action -->
-                <!--             left frame -->
                 <div class="text-center">
                     <div class="d-flex flex-column align-items-center text-center p-3"><img class="rounded-circle mt-5"
                                                                                             th:src="${user.getAvatar()}">
                     </div>
                 </div>
 
-                <!--            right frame-->
                 <div class="align-self-center">
                     <div class="p-3">
                         <div class="d-flex justify-content-center align-items-center mb-3">

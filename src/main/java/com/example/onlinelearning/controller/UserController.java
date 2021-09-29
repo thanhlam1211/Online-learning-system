@@ -36,10 +36,13 @@ public class UserController {
     @Autowired
     private StatusRepository statusRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @GetMapping("/process_register")
-    public String createNewUser(Model model){
+    public String createNewUser(Model model) {
         User user = new User();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "sign_up";
     }
 
@@ -62,14 +65,14 @@ public class UserController {
 
     // Account của từng user
     @GetMapping("/user_home")
-    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         User user = userDetail.getUser();
         model.addAttribute("user", user);
         return "user_home";
     }
 
     @GetMapping("/user_home/update")
-    public String viewUserEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+    public String viewUserEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         User user = userDetail.getUser();
         model.addAttribute("user", user);
         return "user_update";
@@ -78,7 +81,7 @@ public class UserController {
     @PostMapping("/user_home/update/{id}")
     public String userUpdate(@AuthenticationPrincipal MyUserDetail userDetail
             , @ModelAttribute("user") User user
-            , Model model){
+            , Model model) {
 
         User existUser = userDetail.getUser();
         existUser.setFullName(user.getFullName());
@@ -86,14 +89,42 @@ public class UserController {
         existUser.setPhone(user.getPhone());
         //save user
         service.updateUser(existUser);
-        return "redirect:/user_home";
+        model.addAttribute("user", existUser);
+        return "user_home";
+    }
+
+    @GetMapping("/user_home/changePass")
+    public String changePass(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
+        User user = userDetail.getUser();
+//        model.addAttribute("msg", "");
+        return "change_password_form";
+    }
+
+    @PostMapping("/user_home/change_password")
+    public String changePassWord(@AuthenticationPrincipal MyUserDetail userDetail, Model model
+            , @RequestParam("oldPassWord") String oldPassword, @RequestParam("newPassWord") String newPassword
+            , @RequestParam("retypePass") String retypePass
+    ) {
+        User user = userDetail.getUser();
+        if (this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())
+            && newPassword.equals(retypePass)
+        ) {
+            // Change password, return user_home
+                service.updatePassword(user, newPassword);
+                model.addAttribute("user", user);
+                model.addAttribute("msg","Change password successfully");
+                return "user_home";
+        } else {
+            model.addAttribute("msg","Incorrect password");
+            return "change_password_form";
+        }
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         //prevent user return back to login page if they already login to the system
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
         return "redirect:/";
