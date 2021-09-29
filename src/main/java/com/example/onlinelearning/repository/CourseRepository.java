@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-    public Page<Course> findByTitleContainingOrCategoryValue(String name, String brand, Pageable pageable);
+    public Page<Course> findByTitleContainingOrCategoryValueOrderByIdDesc(String name, String brand, Pageable pageable);
 }

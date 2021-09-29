@@ -62,9 +62,26 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "package_id"))
     private Set<PricePackage> pricePackageList = new HashSet<>();
 
+    public double minSalePrice(){
+        Set<PricePackage> pricePackageList = getPricePackageList();
+        double min = 0;
+        int count = 0;
+        for (PricePackage element : pricePackageList) {
+            if(count==0){
+                min = element.getSalePrice();
+                count=-1;
+            }
+            if(min > element.getSalePrice()){
+                min = element.getSalePrice();
+            }
+        }
+        return min;
+    }
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Topic> topicList = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
+
 }
