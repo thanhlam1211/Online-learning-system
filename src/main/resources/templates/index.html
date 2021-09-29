@@ -88,7 +88,7 @@
                       </li>
                       <li><a href="pricing.html">Pricing</a></li>
                       <li><a href="faq.html">FAQ</a></li>
-                      <li><a href="account">Account</a></li> //modify account
+                      <li><a href="user_home">Account</a></li> //modify account
                     </ul>
                   </li>
                   <li class="has_dropdown">
@@ -134,7 +134,7 @@
                   <a th:href="@{/process_register}" type="button" class="btn btn-primary">Sign up</a>
                 </div>
                 <div class="account" sec:authorize="isAuthenticated()">
-                    <a th:href="@{/account}"><i class="fal fa-key"></i>account</a>
+                    <a th:href="@{/user_home}"><i class="fal fa-key"></i>account</a>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@
               </li>
               <li><a href="pricing.html">Pricing</a></li>
               <li><a href="faq.html">FAQ</a></li>
-              <li><a href="account.html">Account</a></li>
+              <li><a href="user_home.html">Account</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -1062,8 +1062,8 @@
             </ul>
           </div>
           <div class="right f-right">
-            <a class="thm_btn thm_btn-border" href="account.html">Login<i class="fal fa-key"></i></a>
-            <a class="thm_btn" href="account.html">Sign Up<i class="fal fa-long-arrow-right"></i></a>
+            <a class="thm_btn thm_btn-border" href="user_home.html">Login<i class="fal fa-key"></i></a>
+            <a class="thm_btn" href="user_home.html">Sign Up<i class="fal fa-long-arrow-right"></i></a>
           </div>
         </div>
       </div>

@@ -60,19 +60,33 @@ public class UserController {
         return "verify";
     }
 
+    // Account của từng user
     @GetMapping("/user_home")
     public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-        model.addAttribute("user",userDetail);
-        return "/user_home";
+        User user = userDetail.getUser();
+        model.addAttribute("user", user);
+        return "user_home";
     }
 
-    // Account của từng user
-    @GetMapping("/account/{username}")
-    public ModelAndView accountUser(@PathVariable(name = "username") String username){
-        ModelAndView modelAndView = new ModelAndView("account");
-        User user = service.getUserByName(username);
-        modelAndView.addObject("user", user);
-        return modelAndView;
+    @GetMapping("/user_home/update")
+    public String viewUserEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+        User user = userDetail.getUser();
+        model.addAttribute("user", user);
+        return "user_update";
+    }
+
+    @PostMapping("/user_home/update/{id}")
+    public String userUpdate(@AuthenticationPrincipal MyUserDetail userDetail
+            , @ModelAttribute("user") User user
+            , Model model){
+
+        User existUser = userDetail.getUser();
+        existUser.setFullName(user.getFullName());
+        existUser.setGender(user.getGender());
+        existUser.setPhone(user.getPhone());
+        //save user
+        service.updateUser(existUser);
+        return "redirect:/user_home";
     }
 
     @GetMapping("/login")
