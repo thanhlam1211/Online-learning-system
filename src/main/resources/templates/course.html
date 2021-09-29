@@ -107,8 +107,20 @@
                                         <li><a href="account.html">Account</a></li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="has_dropdown">
                                     <a th:href="@{/course}">Courses</a>
+                                    <ul class="submenu">
+                                        <li><a th:href="@{/course}">All Course</a></li>
+                                        <li class="has_dropdown">
+                                            <a>Category</a>
+                                            <ul class="submenu">
+                                                <li th:each="category : ${listCategory}">
+                                                    <a th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                                       th:text="${category.value}"></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="has_dropdown">
                                     <a href="#">Blog</a>
@@ -233,8 +245,20 @@
                         <li><a href="account.html">Account</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a th:href="@{/course}">Courses</a>
+                <li class="dropdown">
+                    <a href="#">Courses</a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/course}">All Course</a></li>
+                        <li class="dropdown">
+                            <a href="#">Category</a>
+                            <ul class="submenu">
+                                <li th:each="category : ${listCategory}">
+                                    <a th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                       th:text="${category.value}"></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#">Blog</a>
@@ -294,7 +318,7 @@
                                         <button>Category</button>
                                         <ul class="submenu">
                                             <li>
-                                                <a th:href="@{'/page/1?keyword='}"> All category</a>
+                                                <a th:href="@{'/course'}"> All category</a>
                                             </li>
                                             <li th:each="category : ${listCategory}">
                                                 <a th:href="@{'/page/1?keyword=' + ${category.value}}"
@@ -318,7 +342,7 @@
                             <div class="course_content">
                                 <div class="c_head">
                                     <span class="cat" th:text="${course.category.value}"></span>
-                                    <span class="price" th:text="'Only: $' + ${course.minSalePrice()}"></span>
+                                    <span class="price" th:text="'Only: $' + ${course.minSalePrice().getSalePrice()}"></span>
                                 </div>
                                 <a th:href="@{'/course_detail/'+${course.getId()}}">
                                     <h3 class="title" th:text="${course.title}"></h3>

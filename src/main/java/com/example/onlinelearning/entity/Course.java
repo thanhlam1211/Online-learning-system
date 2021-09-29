@@ -5,6 +5,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -62,20 +64,29 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "package_id"))
     private Set<PricePackage> pricePackageList = new HashSet<>();
 
-    public double minSalePrice(){
+    public PricePackage minSalePrice(){
         Set<PricePackage> pricePackageList = getPricePackageList();
         double min = 0;
         int count = 0;
+        PricePackage pricePackage = new PricePackage();
         for (PricePackage element : pricePackageList) {
             if(count==0){
                 min = element.getSalePrice();
+                pricePackage = element;
                 count=-1;
             }
             if(min > element.getSalePrice()){
                 min = element.getSalePrice();
+                pricePackage = element;
             }
         }
-        return min;
+        return pricePackage;
+    }
+
+    public String getDateCreate(){
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String date = df.format(createdDate);
+        return date;
     }
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

@@ -27,7 +27,7 @@ public class CourseService {
             return courseRepository.findByTitleContainingOrCategoryValueOrderByIdDesc(keyword,keyword,pageable);
         }
 
-        return courseRepository.findAll(pageable);
+        return courseRepository.findAllByOrderByIdDesc(pageable);
     }
 
 }

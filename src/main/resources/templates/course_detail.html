@@ -107,8 +107,20 @@
                                         <li><a href="account.html">Account</a></li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="has_dropdown">
                                     <a th:href="@{/course}">Courses</a>
+                                    <ul class="submenu">
+                                        <li><a th:href="@{/course}">All Course</a></li>
+                                        <li class="has_dropdown">
+                                            <a>Category</a>
+                                            <ul class="submenu">
+                                                <li th:each="category : ${listCategory}">
+                                                    <a th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                                       th:text="${category.value}"></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="has_dropdown">
                                     <a href="#">Blog</a>
@@ -233,8 +245,20 @@
                         <li><a href="account.html">Account</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a th:href="@{/course}">Courses</a>
+                <li class="dropdown">
+                    <a href="#">Courses</a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/course}">All Course</a></li>
+                        <li class="dropdown">
+                            <a href="#">Category</a>
+                            <ul class="submenu">
+                                <li th:each="category : ${listCategory}">
+                                    <a th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                       th:text="${category.value}"></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#">Blog</a>
@@ -280,31 +304,30 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="course_dtls_left mb-30">
-                            <div class="cdl_top mb-30">
-                                <div class="cd_thumb">
-                                    <img src="picture/cd_thumb.jpg" alt="">
+                            <div class="cdl_top mb-30 row">
+                                <div class="col-6">
+                                    <img th:src="${'/'+course.thumbnail}" alt="">
                                 </div>
-                                <div class="cd_content">
-                                    <div class="meta">
+                                <div class="cd_content pt-0 col-6">
+                                    <h3 class="title" th:text="${course.title}"></h3>
+                                    <span th:text="${course.shortDescription}"></span>
+                                    <div class="meta mt-2">
                                         <div class="left ul-li">
-                                            <span class="price text-primary"
-                                                  th:text="'Price: $' + ${course.minSalePrice()}"></span>
+                                            <span class="old text-decoration-line-through"
+                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}">
+                                            </span>
+                                            <span class="price text-danger h5"
+                                                  th:text="'$' + ${course.minSalePrice().getSalePrice()}">
+                                            </span>
                                         </div>
                                         <div class="right">
-                                            <button class="btn btn-primary">Course Register</button>
+                                            <span class="price text-primary h5"
+                                                  th:text="'Created: ' + ${course.getDateCreate()}">
+                                            </span>
                                         </div>
                                     </div>
-                                    <h3 class="title" th:text="${course.title}"></h3>
-                                    <div class="bottom">
-                                        <div class="right ul_li">
-                                            <span>Share :</span>
-                                            <div class="cd_social">
-                                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                                <a href="#"><i class="fab fa-behance"></i></a>
-                                                <a href="#"><i class="fab fa-youtube"></i></a>
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <button class="btn btn-primary col-12">Enroll course</button>
                                     </div>
                                 </div>
                             </div>
@@ -344,39 +367,7 @@
                                          aria-labelledby="pills-home-tab">
                                         <div class="ov_text_wrap">
                                             <div class="ov_text">
-                                                <p>Rorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                    enim ad minim veniam, quis nostrud exercitation eyee. ullamco
-                                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                                    dolorrepr ehenderit in voluptate velit esse cillum dolore eu
-                                                    fugiat nulla pariatur. Excepteur sint occaecat yeef cupidatat
-                                                    non proident, sunt in culpa qui officia deserunt mollit anim id
-                                                    est laborum. Sed ut perspiciatis unde omnis iste natus error sit
-                                                    voluptatem</p>
-                                            </div>
-                                            <div class="ov_text">
-                                                <h4>Get a New Mindset :</h4>
-                                                <p>Rorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                                    nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                            <div class="ov_text">
-                                                <h4>Show Realtime Resualts :</h4>
-                                                <p>Rorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                                    nisiey.</p>
-                                            </div>
-                                            <div class="ov_text">
-                                                <h4>Altime Support From Course Instractor :</h4>
-                                                <p>Rorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                                    nisi ut aliquip ex ea commodo consequat.Rorem ipsum dolor sit
-                                                    amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                    veniam, quis nostrud exercitation ullamcoey.</p>
+                                                <p th:text="${course.description}"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -635,9 +626,9 @@
                                                                 </div>
                                                                 <div class="comment_content">
                                                                     <h6>Yalina De</h6>
-                                                                    <span class="date"><i
-                                                                            class="fal fa-calendar-alt"></i> 20th
-                                      Fabrury 2021</span>
+                                                                    <span class="date">
+                                      <i class="fal fa-calendar-alt">
+                                      </i> 20thFabrury 2021</span>
                                                                     <p>Lorem ipsum dolor sit amet, consectetur
                                                                         adipisicing elit, sed do eiusmod tempor
                                                                         incididunt ut labore et dolore magna aliqua.
@@ -710,90 +701,19 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="course_dtls_right">
-                            <div class="course_widget mb-30">
-                                <div class="thumb_wrap pos-rel">
-                                    <div class="thumb">
-                                        <img src="picture/course_thumb.jpg" alt="">
-                                    </div>
-                                    <a class="popup-video video_icon"
-                                       href="https://www.youtube.com/watch?v=cRXm1p-CNyk"><i
-                                            class="fal fa-play"></i></a>
-                                </div>
-                                <div class="course_content">
-                                    <ul>
-                                        <li>
-                                            <span class="left">Duration :</span>
-                                            <span>3 Hours</span>
-                                        </li>
-                                        <li>
-                                            <span class="left">Lectures :</span>
-                                            <span>148</span>
-                                        </li>
-                                        <li>
-                                            <span class="left">Skill Level :</span>
-                                            <span>Beginner</span>
-                                        </li>
-                                        <li>
-                                            <span class="left">Quizzers :</span>
-                                            <span>09</span>
-                                        </li>
-                                        <li>
-                                            <span class="left">Pass Pareentages</span>
-                                            <span>80</span>
-                                        </li>
-                                        <li>
-                                            <span class="left">Certificate</span>
-                                            <span>Yes</span>
-                                        </li>
-                                    </ul>
-                                    <div class="course_btn text-center mt-35">
-                                        <a class="thm_btn" href="#">Enroll Course<i class="fal fa-long-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="course_widget_wrap related_course mb-30">
-                                <h3>More Related Course :</h3>
+                                <h3>New Course:</h3>
                                 <ul class="course_widget">
-                                    <li>
+                                    <li th:each="course : ${newCourses}">
                                         <div class="thumb">
-                                            <img src="picture/c_01.jpg" alt="">
+                                            <img style="height: 100%;"
+                                                 th:src="${'/'+course.thumbnail}" alt="">
                                         </div>
                                         <div class="content">
-                                            <h6><a href="course-details.html">The Complete Web Design Courses</a></h6>
-                                            <span class="new">$65.00</span>
-                                            <span class="old">$85.00</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <img src="picture/c_02.jpg" alt="">
-                                        </div>
-                                        <div class="content">
-                                            <h6><a href="course-details.html">Best Architectural Solution Online
-                                                Class</a></h6>
-                                            <span class="new">$53.00</span>
-                                            <span class="old">$75.00</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <img src="picture/c_03.jpg" alt="">
-                                        </div>
-                                        <div class="content">
-                                            <h6><a href="course-details.html">The Complete Web Design Courses</a></h6>
-                                            <span class="new">$65.00</span>
-                                            <span class="old">$85.00</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <img src="picture/c_04.jpg" alt="">
-                                        </div>
-                                        <div class="content">
-                                            <h6><a href="course-details.html">Best Architectural Solution Online
-                                                Class</a></h6>
-                                            <span class="new">$43.00</span>
-                                            <span class="old">$55.00</span>
+                                            <h6><a th:href="@{'/course_detail/'+${course.getId()}}"
+                                                   th:text="${course.title}"></a></h6>
+                                            <span class="new" th:text="'$' + ${course.minSalePrice().getSalePrice()}"></span>
+                                            <span class="old" th:text="'$' + ${course.minSalePrice().getListPrice()}"></span>
                                         </div>
                                     </li>
                                 </ul>

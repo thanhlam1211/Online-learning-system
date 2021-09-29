@@ -51,6 +51,8 @@ public class CourseController {
     public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id){
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
+        modelAndView.addObject("newCourses", courseService.listAll(1, null));
+        modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course",course);
         return modelAndView;
     }
