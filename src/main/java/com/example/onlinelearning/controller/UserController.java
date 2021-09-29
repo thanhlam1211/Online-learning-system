@@ -60,12 +60,6 @@ public class UserController {
         return "verify";
     }
 
-//    @GetMapping("/user_home")
-//    public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-//        model.addAttribute("user",userDetail);
-//        return "/user_home";
-//    }
-
     // Account của từng user
     @GetMapping("/user_home")
     public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
@@ -75,12 +69,24 @@ public class UserController {
     }
 
     @GetMapping("/user_home/update")
-    public String viewUserUpdate(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
-        //User user = new User(1,"ducndt","123","","","email@gmail.com","Trung duc","1900100112",0,
-        //        "https://hinhnen123.com/wp-content/uploads/2021/06/anh-meo-cute-nhat-9.jpg");
+    public String viewUserEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
         User user = userDetail.getUser();
         model.addAttribute("user", user);
         return "user_update";
+    }
+
+    @PostMapping("/user_home/update/{id}")
+    public String userUpdate(@AuthenticationPrincipal MyUserDetail userDetail
+            , @ModelAttribute("user") User user
+            , Model model){
+
+        User existUser = userDetail.getUser();
+        existUser.setFullName(user.getFullName());
+        existUser.setGender(user.getGender());
+        existUser.setPhone(user.getPhone());
+        //save user
+        service.updateUser(existUser);
+        return "redirect:/user_home";
     }
 
     @GetMapping("/login")

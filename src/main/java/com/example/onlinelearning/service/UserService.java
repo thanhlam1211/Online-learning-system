@@ -33,12 +33,12 @@ public class UserService {
     public User getCustomerByEmail(String email){
         return repository.getUserByEmail(email);
     }
-    public User getUserByName(String username){
-        return repository.getUserByUsername(username);
+
+    public User updateUser(User user){
+        return repository.save(user);
     }
-    public User getUserById(int id){
-        return  repository.getUserById(id);
-    }
+
+
     public void saveUser(User user) {
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);

@@ -57,8 +57,11 @@
 <!--                        <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" th:value="${}"></div>-->
                     </div>
 
-                    <div><span class="mt-50 font-weight-bold"><a th:href="@{/user_home/update}">Change profile account</a> </span></div>
-<!--                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>-->
+                    <div class="row mt-30">
+                    <div class="col-md-3"><span class="font-weight-bold"><a th:href="@{/user_home/update}" class="btn btn-primary">Edit information</a> </span></div>
+                    <div class="col-md-3"><span class="font-weight-bold"><a th:href="@{/changePass}" class="btn btn-primary">Change Password</a> </span></div>
+                    </div>
+                    <!--                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>-->
                 </div>
             </div>
         </div>
