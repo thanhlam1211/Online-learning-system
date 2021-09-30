@@ -112,7 +112,7 @@
                 <!--Add Modal Form-->
                 <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <form>
+                    <form th:action="@{/saveChange}" method="post">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -126,22 +126,27 @@
 
                                     <div class="form-group">
                                         <label for="editUser" class="col-form-label">Username:</label>
-                                        <input type="text" class="form-control" id="editUser">
+                                        <input type="text" class="form-control" id="editUser" name="username">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="editFullName" class="col-form-label">Password:</label>
+                                        <input type="text" class="form-control" id="editPass" name="password">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="editFullName" class="col-form-label">Full name:</label>
-                                        <input type="text" class="form-control" id="editFullName">
+                                        <input type="text" class="form-control" id="editFullName" name="fullName">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="editEmail" class="col-form-label">Email:</label>
-                                        <input type="text" class="form-control" id="editEmail">
+                                        <input type="text" class="form-control" id="editEmail" name="email">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="editPhone" class="col-form-label">Phone:</label>
-                                        <input type="text" class="form-control" id="editPhone">
+                                        <input type="text" class="form-control" id="editPhone" name="phone">
                                     </div>
 
 
@@ -149,7 +154,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
                         </div>
