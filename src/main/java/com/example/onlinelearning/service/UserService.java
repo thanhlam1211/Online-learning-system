@@ -90,4 +90,8 @@ public class UserService {
     public void deleteById(Integer id) {
         this.repository.deleteById(id);
     }
+    //Update user
+    public void update(User user) {
+        repository.save(user);
+    }
 }
