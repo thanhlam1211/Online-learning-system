@@ -19,7 +19,9 @@
     <link rel="stylesheet" th:href="@{/css/responsive.css}">
 </head>
 <body>
+
 <div class="container rounded bg-white mt-5 mb-5 col-lg-6">
+    <button class="btn btn-primary" onclick="goBack()">Go Back</button>
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <form th:action="@{/user_home/update/{id} (id = ${user.id})}" th:object="${user}" method="POST">
@@ -69,6 +71,10 @@
         </div>
     </div>
 </div>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>
