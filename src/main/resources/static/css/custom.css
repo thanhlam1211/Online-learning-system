@@ -1,0 +1,32 @@
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+/* HOME NAVBAR */
+.home-navbar {
+    z-index: 9999;
+}
+
+.search-box {
+    max-height: 46px;
+    min-width: 800px;
+}
+
+/* SLIDESHOW */
+.slide-text-box {
+    background: #fff;
+    text-align: left;
+    padding: 2rem;
+    border-radius: 3px;
+    right: 65%;
+    left: 5%;
+    top: 20%;
+    bottom: 20%;
+}
+
+.slide-text-box h5 {
+    font-family: "Raleway", sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 32px;
+}
