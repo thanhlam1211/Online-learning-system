@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <th:block th:fragment="home_navbar">
+    <th:block th:fragment="home_navbar(categoryList)">
         <div class="bg-primary text-center py-2">
             <div class="container">
                 <p class="mb-0 text-white">Fall Sale 2021 - Buy One get One for FREE</p>
@@ -24,9 +24,9 @@
                                 Categories
                             </a>
                             <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Python</a></li>
-                                <li><a class="dropdown-item" href="#">SQL</a></li>
-                                <li><a class="dropdown-item" href="#">Java</a></li>
+                                <th:block th:each="category : ${categoryList}">
+                                    <li><a class="dropdown-item" href="#" th:text="${category.value}"></a></li>
+                                </th:block>
                             </ul>
                         </li>
                         <li class="nav-item">

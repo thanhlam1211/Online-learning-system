@@ -9,7 +9,7 @@
 <body>
 <!-- body wrap start -->
 <div class="body_wrap bg-white">
-    <div th:replace="fragments/navbar:: home_navbar"></div>
+    <div th:include="fragments/navbar:: home_navbar(${categoryList})"></div>
 
     <main class="container">
 
@@ -25,25 +25,16 @@
                             aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img th:src="@{/images/slide1.jpg}" class="d-block w-100" alt="...">
+                    <div class="carousel-item active" th:each="slide : ${slideList}">
+                        <img th:src="${slide.imageUrl}" class="d-block w-100" alt="...">
                         <div class="carousel-caption slide-text-box shadow-sm">
-                            <h5>Get there. From here.</h5>
-                            <p>Welcome to the place where success begins. Log in for savings. Ends Soon.</p>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
+                            <h5 th:text="${slide.title}"></h5>
+                            <p th:text="${slide.description}"></p>
+                            <a th:href="${slide.courseLink}" class="btn btn-outline-primary">Learn More</a>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+            </div>
         </section>
 
         <!-- FEATURED SUBJECTS -->
