@@ -56,4 +56,19 @@ public class CourseController {
         modelAndView.addObject("course",course);
         return modelAndView;
     }
+
+    @GetMapping("/course_modal/{id}")
+    public ModelAndView viewCoursemodal(@PathVariable(name = "id") Integer id){
+        ModelAndView modelAndView = new ModelAndView("course_detail_modal");
+        Course course = courseService.getCourseById(id);
+        modelAndView.addObject("listCategory", categoryService.findAll());
+        modelAndView.addObject("course",course);
+        return modelAndView;
+    }
+
+    @GetMapping("/lesson_view/{id}")
+    public String viewLesson (@PathVariable(name = "id") Integer id ,Model model){
+        // Thao tác để lấy thông tin về lesson và up lên course
+        return "lesson_view";
+    }
 }

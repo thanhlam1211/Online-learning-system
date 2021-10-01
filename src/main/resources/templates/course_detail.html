@@ -327,7 +327,10 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button class="btn btn-primary col-12">Enroll course</button>
+<!--                                        controller to enroll the course-->
+<!--                                        change to a link-->
+                                        <a class="btn btn-primary col-12" th:href="@{'/lesson_view/'+${course.id}}"> Enroll course </a>
+                                        <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
                                 </div>
                             </div>
@@ -377,7 +380,7 @@
                                             <ul class="accordion_box clearfix">
                                                 <li class="accordion block active-block">
                                                     <div class="acc-btn">
-                                                        Intorduction
+                                                        Introduction
                                                     </div>
                                                     <ul class="acc_body current">
                                                         <li>
@@ -699,6 +702,8 @@
                             </div>
                         </div>
                     </div>
+
+<!--                    Có thể thêm vò modal form trong course.html-->
                     <div class="col-lg-4">
                         <div class="course_dtls_right">
                             <div class="course_widget_wrap related_course mb-30">
@@ -721,6 +726,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
         <!-- course details end -->
