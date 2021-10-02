@@ -13,10 +13,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Base64;
+import java.util.Objects;
 
 /**
  * @author Admin
@@ -66,15 +77,27 @@ public class UserController {
     }
 
     @PostMapping("/user_home/update/{id}")
-    public String userUpdate(@AuthenticationPrincipal MyUserDetail userDetail
-            , @ModelAttribute("user") User user
-            , Model model) {
-
+    public String userUpdate(@RequestParam("file") MultipartFile file,
+                             @AuthenticationPrincipal MyUserDetail userDetail,
+                             @ModelAttribute("user") User user,
+                             Model model) {
+        //save user
         User existUser = userDetail.getUser();
+        Path path = Paths.get("uploads/");
+        if(file.isEmpty()) {
+            return "user_home";
+        }
+        try{
+            InputStream inputStream = file.getInputStream();
+            Files.copy(inputStream, path.resolve(Objects.requireNonNull(file.getOriginalFilename())), StandardCopyOption.REPLACE_EXISTING);
+            existUser.setAvatar(file.getOriginalFilename().toLowerCase());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         existUser.setFullName(user.getFullName());
         existUser.setGender(user.getGender());
         existUser.setPhone(user.getPhone());
-        //save user
+
         service.updateUser(existUser);
         model.addAttribute("user", existUser);
         return "user_home";

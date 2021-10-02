@@ -32,9 +32,8 @@
     <div class="row" th:object="${user}">
         <!--             left frame -->
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
-                                                                                         th:src="${user.avatar}">
-                <span class="font-weight-bold"><a th:href="@{/uploadAvatar}">Upload Avatar</a> </span>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5" th:if="${user.avatar != null}">
+                <img class="rounded-circle mt-5" th:src="@{'getImage/' + ${user.avatar}}">
             </div>
         </div>
 
@@ -44,12 +43,17 @@
 <!--                <h3 th:text="${msg}"></h3>-->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
+                    <div class="col-md-3">
+                        <span class="font-weight-bold">
+                            <a th:href="@{'/'}" class="btn btn-primary">Home</a>
+                        </span>
+                    </div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Full Name: </label><input type="text"
-                                                                                           class="form-control"
-                                                                                           th:value="${user.fullName}"
-                                                                                           readonly></div>
+                    <div class="col-md-12">
+                        <label class="labels">Full Name: </label>
+                        <input type="text" class="form-control" th:value="${user.fullName}" readonly>
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div th:if="${user.gender == 1}">
@@ -64,15 +68,14 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text"
-                                                                                           class="form-control"
-                                                                                           th:value="${user.phone}"
-                                                                                           readonly></div>
-                    <!--                        <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div>-->
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control"
-                                                                                     th:value="${user.email}" readonly>
+                    <div class="col-md-12">
+                        <label class="labels">PhoneNumber</label>
+                        <input type="text" class="form-control" th:value="${user.phone}" readonly>
                     </div>
-                    <!--                        <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" th:value="${}"></div>-->
+                    <div class="col-md-12">
+                        <label class="labels">Email</label>
+                        <input type="text" class="form-control" th:value="${user.email}" readonly>
+                    </div>
                 </div>
 
                 <div class="row mt-30">
@@ -87,6 +90,7 @@
                             <button class="btn btn-primary mb-5" onclick="goBack()">Go Back</button>
                         </span>
                     </div>
+
                 </div>
                 <!--                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>-->
             </div>

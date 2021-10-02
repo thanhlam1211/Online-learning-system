@@ -45,14 +45,16 @@
                             <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post" name="login">
                                 <input type="text" placeholder="User Name" th:field="*{username}" required>
                                 <input type="text" placeholder="Full Name" th:field="*{fullName}" required>
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <span>Gender: </span>
                                     <label class="radio inline">
-                                        <input class="form-check-input" type="radio" name="gender" value="1" th:field="*{gender}">
+                                        <input class="form-check-input" type="radio" name="gender" value="1"
+                                               th:field="*{gender}">
                                         <span> Male </span>
                                     </label>
                                     <label class="radio inline">
-                                        <input class="form-check-input" type="radio" name="gender" value="0" th:field="*{gender}">
+                                        <input class="form-check-input" type="radio" name="gender" value="0"
+                                               th:field="*{gender}">
                                         <span>Female </span>
                                     </label>
                                 </div>

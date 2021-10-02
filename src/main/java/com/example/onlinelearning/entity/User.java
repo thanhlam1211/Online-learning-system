@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -52,8 +53,9 @@ public class User implements Serializable {
     @Column
     private int gender;
 
-    @Column(name = "avatar_url")
+    @Column(name = "avatar_url", length = Integer.MAX_VALUE, nullable = true)
     private String avatar;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")

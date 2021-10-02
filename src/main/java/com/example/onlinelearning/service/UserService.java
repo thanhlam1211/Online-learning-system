@@ -5,16 +5,23 @@ import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.repository.UserRepository;
 import com.example.onlinelearning.entity.AuthenticationProvider;
 import com.example.onlinelearning.entity.User;
+import com.example.onlinelearning.security.MyUserDetail;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.Objects;
 
 /**
  * @author Admin
@@ -34,10 +41,9 @@ public class UserService {
         return repository.getUserByEmail(email);
     }
 
-    public User updateUser(User user){
-        return repository.save(user);
+    public void updateUser(User user){
+        repository.save(user);
     }
-
 
     public void saveUser(User user) {
         String randomCode = RandomString.make(64);
