@@ -15,4 +15,8 @@ public class BlogService {
     public List<Blog> getFeaturedBlogs() {
         return blogRepository.findAllByFeaturedEquals(1);
     }
+
+    public Blog getBlogById(Integer id) {
+        return blogRepository.getById(id);
+    }
 }
