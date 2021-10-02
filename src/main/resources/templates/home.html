@@ -58,14 +58,23 @@
                              aria-labelledby="profile-tab" th:classappend="${iter.first} ? 'show active' : ''">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-6 mt-4" th:each="course : ${item.value}">
-                                    <div class="small-course-box pe-5">
+                                    <a class="small-course-box pe-5" th:href="@{'/course/' + ${course.id}}">
                                         <img th:src="${course.thumbnail}" class="course-thumbnail d-block border rounded">
                                         <h4 class="small-course-box-title fs-6 mt-1 mb-0"
                                             th:text="${course.title}"></h4>
-                                        <span class="small-course-box-author">Jose Portilla</span><br/>
-                                        <span class="small-course-box-list-price text-danger fw-bold">$18.99</span>
-                                        <s class="small-course-box sale-price">$89.99</s>
-                                    </div>
+                                        <th:block th:each="teacher : ${course.userList}">
+                                            <span class="small-course-box-author" th:text="${teacher.fullName}"></span> &nbsp;
+                                        </th:block>
+                                        <br/>
+                                        <th:block th:each="pricePackage : ${course.pricePackageList}">
+                                            <th:block th:if="${pricePackage.status.value} == 'ACTIVE'">
+                                                <span class="small-course-box-list-price text-danger fw-bold" th:text="'$' + ${pricePackage.salePrice}"></span>
+                                                <s class="small-course-box sale-price" th:text="'$' + ${pricePackage.listPrice}"></s>
+                                                <br />
+                                            </th:block>
+                                        </th:block>
+
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -84,12 +93,12 @@
                 <p>See our fking hot posts</p>
                 <div class="row">
                     <div class="col-md-4" th:each="blog : ${featuredBlogList}">
-                        <div class="small-blog-post">
+                        <a class="small-blog-post" th:href="@{'/blog/' +  ${blog.id}}">
                             <img th:src="${blog.thumbnail}" class="d-block mb-1 rounded">
-                            <span class="small-blog-post-author me-3" th:text="${blog.user.fullName}"><i class="fas fa-user"></i> </span>
+                            <i class="fas fa-user"></i> <span class="small-blog-post-author me-3" th:text="${blog.user.fullName}"></span>
 <!--                            <span class="small-blog-post-date"><i class="far fa-clock"></i> 9/30/2021</span>-->
                             <h4 class="small-blog-post-title" th:text="${blog.title}">s</h4>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

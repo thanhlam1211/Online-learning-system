@@ -25,7 +25,7 @@
                             </a>
                             <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
                                 <th:block th:each="category : ${categoryList}">
-                                    <li><a class="dropdown-item" href="#" th:text="${category.value}"></a></li>
+                                    <li><a class="dropdown-item" th:href="@{'/category/' + ${category.id}}" th:text="${category.value}"></a></li>
                                 </th:block>
                             </ul>
                         </li>

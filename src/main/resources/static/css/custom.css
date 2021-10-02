@@ -47,9 +47,17 @@ body {
     font-size: 14px;
 }
 
+a.small-course-box {
+    color: inherit;
+}
+
 /* HOT POSTS */
 .small-blog-post .small-blog-post-author, .small-blog-post .small-blog-post-date {
     font-size: 14px;
+}
+
+a.small-blog-post {
+    color: inherit;
 }
 
 .small-blog-post .small-blog-post-title {
