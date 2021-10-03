@@ -123,3 +123,10 @@ a.small-blog-post {
     }
 }
 
+
+/* BLOG LIST */
+.blog-list-item h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+

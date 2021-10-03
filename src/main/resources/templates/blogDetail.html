@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <title>G3Learn - Welcome to our Online Learning System</title>
+    <title th:text="${blog.title} + ' - G3Learn'"></title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
 
@@ -24,7 +24,7 @@
                 <div class="blog-sidebar rounded shadow-sm border pt-4 pb-5 px-4">
                     <h4 class="mb-3">Category</h4>
                     <ul class="list-group">
-                        <a class="list-group-item" href="#" th:each="category, iter : ${categoryList}" th:text="${category.value}" th:classappend="${category.id == blog.category.id} ? 'active' : ''"></a>
+                        <a class="list-group-item" th:href="@{'/blog/category/' + ${category.id}}" th:each="category, iter : ${categoryList}" th:text="${category.value}" th:classappend="${category.id == blog.category.id} ? 'active' : ''"></a>
                     </ul>
                 </div>
             </div>
