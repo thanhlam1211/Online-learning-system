@@ -98,7 +98,7 @@ a.small-blog-post {
     /* HOME NAVBAR */
     .search-box {
         max-height: 46px;
-        min-width: 600px;
+        min-width: 400px;
     }
     /* SLIDESHOW */
     .slide-text-box {
@@ -111,7 +111,7 @@ a.small-blog-post {
     /* HOME NAVBAR */
     .search-box {
         max-height: 46px;
-        min-width: 800px;
+        min-width: 600px;
     }
 
     /* SLIDESHOW */
