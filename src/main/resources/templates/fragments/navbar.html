@@ -29,7 +29,7 @@
                         </a>
                         <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
                             <th:block th:each="category : ${categoryList}">
-                                <li><a class="dropdown-item" th:href="@{'/category/' + ${category.id}}"
+                                <li><a class="dropdown-item" th:href="@{'/page/1?keyword=' + ${category.value}}"
                                        th:text="${category.value}"></a></li>
                             </th:block>
                         </ul>
@@ -38,28 +38,33 @@
                         <a class="nav-link" href="#">Blogs</a>
                     </li>
                     <li class="nav-item pt-1 me-1">
-                        <a class="nav-link" href="#">Courses</a>
+                        <a class="nav-link" th:href="@{/course}">Courses</a>
                     </li>
                     <li class="nav-item">
-                        <form class="d-flex rounded border">
+                        <form class="d-flex rounded border" th:action="@{/page/1}">
                             <span class="input-group-text bg-white border-0" id="basic-addon1"><i
                                     class="fas fa-search form-control-feedback"></i></span>
-                            <input class="form-control me-2 border-0 search-box" type="text"
-                                   placeholder="Search any courses..." aria-label="Search">
+                            <input class="form-control me-2 border-0 search-box" type="search"
+                                   placeholder="Search courses" aria-label="Search"
+                                   name="keyword" th:value="${keyword}">
                         </form>
                     </li>
                 </ul>
                 <div sec:authorize="isAuthenticated()">
-                                        <li class="nav-item dropdown pt-1 me-3">
-                                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px" height="35px" class="rounded-circle">
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                                                <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item" th:href="@{/logout}">Log out</a></li>
-                                            </ul>
-                                        </li>
+                    <li class="nav-item dropdown pt-1 me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px"
+                                 height="35px" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Log out</a></li>
+                        </ul>
+                    </li>
                 </div>
                 <div sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}" class="btn btn-outline-primary me-2">Login</a>
@@ -98,12 +103,16 @@
                 </ul>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown pt-1 me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px" height="35px" class="rounded-circle">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px"
+                                 height="35px" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Log out</a></li>
                         </ul>
                     </li>

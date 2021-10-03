@@ -58,19 +58,23 @@
                              aria-labelledby="profile-tab" th:classappend="${iter.first} ? 'show active' : ''">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-6 mt-4" th:each="course : ${item.value}">
-                                    <a class="small-course-box pe-5" th:href="@{'/course/' + ${course.id}}">
-                                        <img th:src="${course.thumbnail}" class="course-thumbnail d-block border rounded">
+                                    <a class="small-course-box pe-5" th:href="@{'/course_detail/'+${course.getId()}}">
+                                        <img th:src="${course.thumbnail}"
+                                             class="course-thumbnail d-block border rounded">
                                         <h4 class="small-course-box-title fs-6 mt-1 mb-0"
                                             th:text="${course.title}"></h4>
                                         <th:block th:each="teacher : ${course.userList}">
-                                            <span class="small-course-box-author" th:text="${teacher.fullName}"></span> &nbsp;
+                                            <span class="small-course-box-author" th:text="${teacher.fullName}"></span>
+                                            &nbsp;
                                         </th:block>
                                         <br/>
                                         <th:block th:each="pricePackage : ${course.pricePackageList}">
                                             <th:block th:if="${pricePackage.status.value} == 'ACTIVE'">
-                                                <span class="small-course-box-list-price text-danger fw-bold" th:text="'$' + ${pricePackage.salePrice}"></span>
-                                                <s class="small-course-box sale-price" th:text="'$' + ${pricePackage.listPrice}"></s>
-                                                <br />
+                                                <span class="small-course-box-list-price text-danger fw-bold"
+                                                      th:text="'$' + ${pricePackage.salePrice}"></span>
+                                                <s class="small-course-box sale-price"
+                                                   th:text="'$' + ${pricePackage.listPrice}"></s>
+                                                <br/>
                                             </th:block>
                                         </th:block>
 
@@ -95,8 +99,9 @@
                     <div class="col-md-4" th:each="blog : ${featuredBlogList}">
                         <a class="small-blog-post" th:href="@{'/blog/' +  ${blog.id}}">
                             <img th:src="${blog.thumbnail}" class="d-block mb-1 rounded">
-                            <i class="fas fa-user"></i> <span class="small-blog-post-author me-3" th:text="${blog.user.fullName}"></span>
-<!--                            <span class="small-blog-post-date"><i class="far fa-clock"></i> 9/30/2021</span>-->
+                            <i class="fas fa-user"></i> <span class="small-blog-post-author me-3"
+                                                              th:text="${blog.user.fullName}"></span>
+                            <!--                            <span class="small-blog-post-date"><i class="far fa-clock"></i> 9/30/2021</span>-->
                             <h4 class="small-blog-post-title" th:text="${blog.title}">s</h4>
                         </a>
                     </div>
