@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Account</title>
+
+    <!-- css include -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/metismenu.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+<div>
+<!--Chèn header vào đây-->
+</div>
+<div class="container rounded bg-white mt-5 mb-5">
+
+    <div th:if="${msg}">
+        <h5 class="alert alert-primary text-center" th:text="${msg}"></h5>
+    </div>
+
+    <div class="row" th:object="${user}">
+        <!--             left frame -->
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5" th:if="${user.avatar != null}">
+                <img class="rounded-circle mt-5" th:src="@{'getImage/' + ${user.avatar}}">
+            </div>
+        </div>
+
+        <!--            right frame-->
+        <div class="col-md-9 border-right">
+            <div class="p-3 py-5">
+<!--                <h3 th:text="${msg}"></h3>-->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                    <div class="col-md-3">
+                        <span class="font-weight-bold">
+                            <a th:href="@{'/'}" class="btn btn-primary">Home</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label class="labels">Full Name: </label>
+                        <input type="text" class="form-control" th:value="${user.fullName}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div th:if="${user.gender == 1}">
+                        <div class="col-md-12"><label class="labels">Gender: </label>
+                            <input type="text" class="form-control" th:value="Male" readonly>
+                        </div>
+                    </div>
+                    <div th:if="${user.gender == 0}">
+                        <div class="col-md-12"><label class="labels">Gender: </label>
+                            <input type="text" class="form-control" th:value="Female" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="labels">PhoneNumber</label>
+                        <input type="text" class="form-control" th:value="${user.phone}" readonly>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Email</label>
+                        <input type="text" class="form-control" th:value="${user.email}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-30">
+                    <div class="col-md-3"><span class="font-weight-bold"><a th:href="@{/user_home/update}"
+                                                                            class="btn btn-primary">Edit information</a> </span>
+                    </div>
+                    <div class="col-md-3"><span class="font-weight-bold"><a th:href="@{/user_home/changePass}"
+                                                                            class="btn btn-primary">Change Password</a> </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="font-weight-bold">
+                            <button class="btn btn-primary mb-5" onclick="goBack()">Go Back</button>
+                        </span>
+                    </div>
+
+                </div>
+                <!--                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<!--source to edit user: https://bbbootstrap.com/snippets/bootstrap-edit-profile-87948053-->
+</body>
+</html>
