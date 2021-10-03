@@ -81,25 +81,18 @@ public class UserController {
     //Update user
     @GetMapping("/update/{id}")
     public String viewProduct(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
-        Optional<User> user = service.getOne(id);
+        User user = service.getUserById(id);
         model.addAttribute("userDetail", user);
 
         return "Admin Homepage";
     }
 
     //Get detail
-    @GetMapping("/details/{id}")
-    public String showDetails(@PathVariable (value = "id") Integer id, Model model) {
-        Optional<User> user = service.getOne(id);
+    @GetMapping("/details")
+    public String showDetails(Integer id, Model model) {
+        User user = service.getUserById(id);
 
         model.addAttribute("userdt", user);
         return "details";
-    }
-
-    //Get one
-    @RequestMapping("/getOne")
-    @ResponseBody
-    public Optional<User> getOne(Integer id) {
-        return service.getOne(id);
     }
 }

@@ -21,11 +21,16 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public User getCustomerByEmail(String email){
+    public User getCustomerByEmail(String email) {
         return repository.getUserByEmail(email);
     }
-    public User getUserByUsername(String username){
+
+    public User getUserByUsername(String username) {
         return repository.getUserByUsername(username);
+    }
+
+    public User getUserById(int id) {
+        return repository.getUserById(id);
     }
 
     public void saveUser(User user) {
@@ -34,10 +39,10 @@ public class UserService {
 
     public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
         User user = repository.findByEmail(email);
-        if(user != null) {
+        if (user != null) {
             user.setResetPasswordToken(token);
             repository.save(user);
-        }else{
+        } else {
             throw new UserNotFoundException("Could not find any user with " + email);
         }
     }
@@ -78,14 +83,11 @@ public class UserService {
         return repository.findAll();
     }
 
-    //Get user by id
-    public Optional<User> getOne(Integer id) {
-        return repository.findById(id);
-    }
     //Delete user
     public void deleteById(Integer id) {
         this.repository.deleteById(id);
     }
+
     //Update user
     public void update(User user) {
         repository.save(user);
