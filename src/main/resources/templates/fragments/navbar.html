@@ -35,7 +35,7 @@
                         </ul>
                     </li>
                     <li class="nav-item pt-1 me-1">
-                        <a class="nav-link" href="#">Blogs</a>
+                        <a class="nav-link" th:href="@{/blog/all}">Blogs</a>
                     </li>
                     <li class="nav-item pt-1 me-1">
                         <a class="nav-link" th:href="@{/course}">Courses</a>
@@ -62,7 +62,12 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Log out</a></li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-primary" type="submit">Log out</button>
+                                </form>
+<!--                                <a th:href="@{/logout}">Log out</a>-->
+                            </li>
                         </ul>
                     </li>
                 </div>
@@ -113,7 +118,11 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Log out</a></li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-primary" type="submit">Log out</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </div>
