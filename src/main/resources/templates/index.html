@@ -1,13 +1,13 @@
 <!doctype html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+
+    <title>Edulan - Education HTML Template</title>
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
 
     <!-- css include -->
@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!--  <link href="http://localhost:5500/themify-icons.css" rel="stylesheet">-->
 </head>
 
@@ -52,6 +51,24 @@
 
     <!-- header start -->
     <header class="header_area">
+        <div class="header_top pl-130 pr-130">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="left">
+                            <li>info@tojn.com</li>
+                            <li> 24/7</li>
+                        </ul>
+                        <ul class="right">
+                            <li><a href="#"><span class="ti-twitter"></span></a></li>
+                            <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                            <li><a href="#"><i class="ti-instagram"></i></a></li>
+                            <li><a href="#"><i class="ti-vimeo-alt"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="sticky-header" class="header_bottom white_bg pl-130 pr-130">
             <div class="container-fluid">
                 <div class="row align-items-center">
@@ -86,16 +103,11 @@
                                         </li>
                                         <li><a href="pricing.html">Pricing</a></li>
                                         <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="user_home">Account</a></li>
-                                        //modify account
+                                        <li><a href="account.html">Account</a></li>
                                     </ul>
                                 </li>
-                                <li class="has_dropdown">
-                                    <a href="#">Courses</a>
-                                    <ul class="submenu">
-                                        <li><a href="courses.html">Courses</a></li>
-                                        <li><a href="course-details.html">Course Details</a></li>
-                                    </ul>
+                                <li>
+                                    <a th:href="@{/course}">Courses</a>
                                 </li>
                                 <li class="has_dropdown">
                                     <a href="#">Blog</a>
@@ -112,28 +124,23 @@
                         <div class="header_right">
                             <div class="header_search_wrap">
                                 <div class="search_main">
-                                    <i class="fas fa-search"></i>
-                                    <span><i class="fas fa-times"></i></span>
+                                    <i class="fal fa-search"></i>
+                                    <span><i class="fal fa-times"></i></span>
                                 </div>
                                 <div class="search_form_main">
-                                    <form role="search" method="get" action="#">
-                                        <input type="text" placeholder="Search Keywords">
-                                        <button type="submit"><i class="fas fa-search"></i></button>
+                                    <form role="search" th:action="@{/page/1}">
+                                        <input type="search" placeholder="Search" name="keyword" th:value="${keyword}">
+                                        <button type="submit"><i class="fal fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>
-                            &nbsp;&nbsp;
-                            <div sec:authorize="isAuthenticated()">
-                                <form th:action="@{/logout}" method="post">
-                                    <button class="btn btn-primary" type="submit">Logout</button>
-                                </form>
+                            <div class="hamburger_menu">
+                                <a href="javascript:void(0);" class="">
+                                    <i class="fal fa-bars"></i>
+                                </a>
                             </div>
-                            <div sec:authorize="!isAuthenticated()">
-                                <a th:href="@{/login}" type="button" class="btn btn-primary">Sign in</a>
-                                <a th:href="@{/process_register}" type="button" class="btn btn-primary">Sign up</a>
-                            </div>
-                            <div class="account" sec:authorize="isAuthenticated()">
-                                <a th:href="@{/user_home}"><i class="fal fa-key"></i>account</a>
+                            <div class="account">
+                                <a href="account.html"><i class="fal fa-key"></i>account</a>
                             </div>
                         </div>
                     </div>
@@ -148,14 +155,54 @@
         <div class="close-mobile-menu">
             <a href="javascript:void(0);"><i class="ti-close"></i></a>
         </div>
+
+        <!-- sidebar-info start -->
+        <div class="sidebar-info">
+            <div class="sidebar-logo mb-30">
+                <a href="index.html">
+                    <img src="picture/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="sidebar-content mb-45">
+                <h4 class="s-title">About us</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud nisi ut aliquip ex ea commodo
+                    consequat.</p>
+                <a class="thm_btn" href="contact.html">Contact us<i class="fal fa-long-arrow-right"></i></a>
+            </div>
+            <div class="s_contact-list mb-30">
+                <h4 class="s-title">Get In Touch</h4>
+                <div class="footer_widget pt-20">
+                    <ul>
+                        <li>
+                            <p>786/A Romada tower mall Brooklyn, NYC</p>
+                        </li>
+                        <li>
+                            <p>+1 876 765765</p>
+                            <p>(+1)787 876876 </p>
+                        </li>
+                        <li>
+                            <p>info@tonj.com</p>
+                            <p>jobsinfo@tonj.com</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="social_icon mt-20">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-behance"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
         <!-- sidebar-info end -->
 
         <!-- side-mobile-menu start -->
         <nav class="side-mobile-menu">
             <div class="header-mobile-search">
-                <form role="search" method="get" action="#">
-                    <input type="text" placeholder="Search Keywords">
-
+                <form role="search" th:action="@{/page/1}" >
+                    <input type="search" placeholder="Search" name="keyword" th:value="${keyword}">
                     <button type="submit"><i class="ti-search"></i></button>
                 </form>
             </div>
@@ -182,24 +229,17 @@
                         </li>
                         <li><a href="pricing.html">Pricing</a></li>
                         <li><a href="faq.html">FAQ</a></li>
-
-                        <li><a href="user_home.html">Account</a></li>
+                        <li><a href="account.html">Account</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#">Courses</a>
-                    <ul class="sub-menu">
-                        <li><a href="courses.html">Courses</a></li>
-                        <li><a href="course-details.html">Course Details</a></li>
-                    </ul>
+                <li>
+                    <a th:href="@{/course}">Courses</a>
                 </li>
-                <li class="dropdown">
-                    <a href="#">Blog</a>
-                    <ul class="sub-menu">
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="blog-details.html">Blog Details</a></li>
-                    </ul>
-
+                <a href="#">Blog</a>
+                <ul class="sub-menu">
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="blog-details.html">Blog Details</a></li>
+                </ul>
                 </li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -744,14 +784,12 @@
                             <h2>Featured Instructors</h2>
                             <p>Online learning offers a new way to explore subjects you’re passionate about.</p>
                         </div>
-
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div class="crs_btn text-md-end mb-20">
                             <a class="thm_btn" href="team.html">View all<i class="fal fa-long-arrow-right"></i></a>
                         </div>
                     </div>
-
                 </div>
                 <div class="row justify-content-md-center">
                     <div class="col-lg-4 col-md-6">
@@ -1096,10 +1134,8 @@
                     </ul>
                 </div>
                 <div class="right f-right">
-
-                    <a class="thm_btn thm_btn-border" href="user_home.html">Login<i class="fal fa-key"></i></a>
-                    <a class="thm_btn" href="user_home.html">Sign Up<i class="fal fa-long-arrow-right"></i></a>
-
+                    <a class="thm_btn thm_btn-border" href="account.html">Login<i class="fal fa-key"></i></a>
+                    <a class="thm_btn" href="account.html">Sign Up<i class="fal fa-long-arrow-right"></i></a>
                 </div>
             </div>
         </div>
