@@ -39,6 +39,6 @@ public class HomeController {
         model.addAttribute("slideList", slideList);
         model.addAttribute("allCategoryFeaturedCourse", allCategoryFeaturedCourse);
         model.addAttribute("featuredBlogList", featuredBlogList);
-        return "home";
+        return "index";
     }
 }
