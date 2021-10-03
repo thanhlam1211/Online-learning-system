@@ -7,6 +7,8 @@ import com.example.onlinelearning.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,16 +77,10 @@ public class UserService {
     public List<User> getAllUsers() {
         return repository.findAll();
     }
+
     //Get user by id
-    public User getUserById(Integer id) {
-        Optional<User> optional = repository.findById(id);
-        User user = null;
-        if(optional.isPresent()) {
-            user = optional.get();
-        } else {
-            throw new RuntimeException("User not found by id :: " + id);
-        }
-        return user;
+    public Optional<User> getOne(Integer id) {
+        return repository.findById(id);
     }
     //Delete user
     public void deleteById(Integer id) {
