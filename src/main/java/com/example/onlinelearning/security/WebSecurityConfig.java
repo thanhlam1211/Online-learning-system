@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/user_home").authenticated()
                     .antMatchers("/user_home/update").authenticated()
                     .antMatchers("/user_home/update/changePass").authenticated()
+                    .antMatchers("/lesson_view/**").authenticated()
 //                    .antMatchers("/delete/**").hasRole("ADMIN")
 //                    .antMatchers("/edit/**").hasAnyRole("ADMIN","EDITOR")
 //                    .antMatchers("/new").authenticated()
