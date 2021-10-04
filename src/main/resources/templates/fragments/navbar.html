@@ -59,13 +59,10 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
                         </ul>
                     </li>
                 </div>
-                <form th:action="@{/logout}" method="post">
+                <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                     <button class="btn btn-primary" type="submit">Log out</button>
                 </form>
                 <div sec:authorize="!isAuthenticated()">
