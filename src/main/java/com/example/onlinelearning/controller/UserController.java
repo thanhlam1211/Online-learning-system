@@ -8,13 +8,12 @@ import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * @author Admin
@@ -37,12 +36,7 @@ public class UserController {
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        Role roleUser = repository.findByName("ROLE_USER");
-        user.addRole(roleUser);
-        service.saveUser(user);
+        service.saveUserWithDefaultRole(user);
         return "login";
     }
 
@@ -54,45 +48,52 @@ public class UserController {
 
     //Admin Site
     @GetMapping("/admin_home")
-    public String viewAdminPage(Model model) {
-        model.addAttribute("userList", service.getAllUsers());
-        return "Admin Homepage";
+    public String viewAdminPage(Model model, String keyword) {
+        if(keyword != null) {
+            model.addAttribute("userList", service.findByKeyword(keyword));
+        }
+        else {
+            model.addAttribute("userList", service.getAllUsers());
+        }
+        return "Admin_Homepage";
     }
 
     //Delete user
-    @GetMapping("/delete")
-    public String deleteUser(Integer id) {
-        userRepo.deleteById(id);
-        return "redirect:/";
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable (value = "id") int id) {
+        this.service.deleteById(id);
+        return "redirect:/admin_home";
     }
 
     //Save change for user (admin)
-    @PostMapping("/saveChange")
-    public String saveUserChange(@ModelAttribute(name = "user") User user){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        Role roleUser = repository.findByName("ROLE_USER");
-        user.addRole(roleUser);
-        service.saveUser(user);
-        return "/admin_home";
+    @PostMapping("/addUser")
+    public String addUser(User user){
+        service.saveUserWithDefaultRole(user);
+        return "redirect:/admin_home";
     }
 
     //Update user
-    @GetMapping("/update/{id}")
-    public String viewProduct(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+    @GetMapping("/edit/{id}")
+    public String viewUserEdit(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         User user = service.getUserById(id);
-        model.addAttribute("userDetail", user);
+        List<Role> listRoles = service.getRoles();
 
-        return "Admin Homepage";
+        model.addAttribute("userDetail", user);
+        model.addAttribute("listRoles", listRoles);
+        return "Admin_user_edit";
     }
 
-    //Get detail
-    @GetMapping("/details")
-    public String showDetails(Integer id, Model model) {
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable("id") Integer id, Model model) {
         User user = service.getUserById(id);
-
         model.addAttribute("userdt", user);
-        return "details";
+        return "Admin_user_details";
+    }
+
+    @PostMapping("/update/{id}")
+    public String saveUpdate(@PathVariable("id") int id, User user) {
+
+        service.updateUser(id, user);
+        return "redirect:/admin_home";
     }
 }

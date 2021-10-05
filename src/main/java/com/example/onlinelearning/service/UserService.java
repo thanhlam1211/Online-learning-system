@@ -1,6 +1,8 @@
 package com.example.onlinelearning.service;
 
+import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.exception.UserNotFoundException;
+import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.UserRepository;
 import com.example.onlinelearning.entity.AuthenticationProvider;
 import com.example.onlinelearning.entity.User;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private RoleRepository roleRepo;
 
     public User getCustomerByEmail(String email) {
         return repository.getUserByEmail(email);
@@ -33,8 +37,28 @@ public class UserService {
         return repository.getUserById(id);
     }
 
-    public void saveUser(User user) {
+    public void saveUserWithDefaultRole(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        Role roleUser = roleRepo.findByName("ROLE_STUDENT");
+        user.addRole(roleUser);
+
         repository.save(user);
+    }
+
+    public void updateUser(int id, User user) {
+        User oldUser = repository.getUserById(id);
+
+        oldUser.setUsername(user.getUsername());
+        oldUser.setFullName(user.getFullName());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setPhone(user.getPhone());
+        oldUser.setGender(user.getGender());
+        oldUser.setRoleList(user.getRoleList());
+
+        repository.save(oldUser);
     }
 
     public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
@@ -91,5 +115,15 @@ public class UserService {
     //Update user
     public void update(User user) {
         repository.save(user);
+    }
+
+    //Get Roles
+    public List<Role> getRoles() {
+        return roleRepo.findAll();
+    }
+
+    //Get user by keyword
+    public List<User> findByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
     }
 }

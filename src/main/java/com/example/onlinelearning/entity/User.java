@@ -82,5 +82,6 @@ public class User implements Serializable {
     public void addRole(Role role) {
         this.roleList.add(role);
     }
-
+    @Column(name = "verification_code", updatable = false)
+    private String verificationCode;
 }
