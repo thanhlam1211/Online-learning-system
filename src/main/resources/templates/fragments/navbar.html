@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="home_navbar(categoryList)">
+    <div class="bg-primary text-center py-2">
+        <div class="container">
+            <p class="mb-0 text-white">Fall Sale 2021 - Buy One get One for FREE</p>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm home-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/"><img th:src="@{/images/logo.png}" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown pt-1 me-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
+                            <th:block th:each="category : ${categoryList}">
+                                <li><a class="dropdown-item" th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                       th:text="${category.value}"></a></li>
+                            </th:block>
+                        </ul>
+                    </li>
+                    <li class="nav-item pt-1 me-1">
+                        <a class="nav-link" th:href="@{/blog/all}">Blogs</a>
+                    </li>
+                    <li class="nav-item pt-1 me-1">
+                        <a class="nav-link" th:href="@{/course}">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="d-flex rounded border" th:action="@{/page/1}">
+                            <span class="input-group-text bg-white border-0" id="basic-addon1"><i
+                                    class="fas fa-search form-control-feedback"></i></span>
+                            <input class="form-control me-2 border-0 search-box" type="search"
+                                   placeholder="Search courses" aria-label="Search"
+                                   name="keyword" th:value="${keyword}">
+                        </form>
+                    </li>
+                </ul>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item dropdown pt-1 me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px"
+                                 height="35px" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
+                        </ul>
+                    </li>
+                </div>
+                <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                    <button class="btn btn-primary" type="submit">Log out</button>
+                </form>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="btn btn-outline-primary me-2">Login</a>
+                    <a th:href="@{/process_register}" class="btn btn-primary">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+
+<th:block th:fragment="blog_navbar">
+    <div class="bg-primary text-center py-2">
+        <div class="container">
+            <p class="mb-0 text-white">Fall Sale 2021 - Buy One get One for FREE</p>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm home-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/"><img th:src="@{/images/logo.png}" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+                    <li class="nav-item">
+                        <form class="d-flex rounded border" th:action="@{/blog/search/}">
+                            <span class="input-group-text bg-white border-0" id="basic-addon1"><i
+                                    class="fas fa-search form-control-feedback"></i></span>
+                            <input class="form-control me-2 border-0 search-box" type="text"
+                                   placeholder="Search any blogs..." aria-label="Search" name="query">
+                        </form>
+                    </li>
+                </ul>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item dropdown pt-1 me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px"
+                                 height="35px" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-primary" type="submit">Log out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="btn btn-outline-primary me-2">Login</a>
+                    <a th:href="@{/process_register}" class="btn btn-primary">Sign up</a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</th:block>
+</body>
+</html>

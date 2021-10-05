@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +36,9 @@ public class User implements Serializable {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
+    @Column(name = "verification_code", updatable = false)
+    private String verificationCode;
+
     @Column
     private String email;
 
@@ -40,13 +46,16 @@ public class User implements Serializable {
     private String fullName;
 
     @Column
+    @Size(min=10,max=10)
+    @Pattern(regexp="(^$|[0-9]{10})")
     private String phone;
 
     @Column
     private int gender;
 
-    @Column(name = "avatar_url")
+    @Column(name = "avatar_url", length = Integer.MAX_VALUE, nullable = true)
     private String avatar;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
