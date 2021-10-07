@@ -3,7 +3,6 @@ package com.example.onlinelearning.controller;
 import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.Status;
 import com.example.onlinelearning.repository.RoleRepository;
-import com.example.onlinelearning.repository.UserRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.UserService;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -37,9 +35,8 @@ public class UserController {
     private UserService service;
 
     @Autowired
-    private UserRepository userRepo;
-
     private RoleRepository roleRepository;
+
     @Autowired
     private StatusRepository statusRepository;
 
