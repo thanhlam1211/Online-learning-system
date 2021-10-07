@@ -1,27 +1,23 @@
 package com.example.onlinelearning.service;
 
+import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.exception.UserNotFoundException;
+import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.repository.UserRepository;
 import com.example.onlinelearning.entity.AuthenticationProvider;
 import com.example.onlinelearning.entity.User;
-import com.example.onlinelearning.security.MyUserDetail;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.Objects;
 
 /**
  * @author Admin
@@ -30,16 +26,49 @@ import java.util.Objects;
 public class UserService {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private RoleRepository roleRepo;
+    public User getCustomerByEmail(String email) {
+        return repository.getUserByEmail(email);
+    }
+
+    public User getUserByUsername(String username) {
+        return repository.getUserByUsername(username);
+    }
+
+    public User getUserById(int id) {
+        return repository.getUserById(id);
+    }
+
+    public void saveUserWithDefaultRole(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        Role roleUser = roleRepo.findByName("ROLE_STUDENT");
+        user.addRole(roleUser);
+
+        repository.save(user);
+    }
+
+    public void updateUser(int id, User user) {
+        User oldUser = repository.getUserById(id);
+
+        oldUser.setUsername(user.getUsername());
+        oldUser.setFullName(user.getFullName());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setPhone(user.getPhone());
+        oldUser.setGender(user.getGender());
+        oldUser.setRoleList(user.getRoleList());
+
+        repository.save(oldUser);
+    }
 
     @Autowired
     private StatusRepository statusRepository;
 
     @Autowired
     private JavaMailSender javaMailSender;
-
-    public User getCustomerByEmail(String email){
-        return repository.getUserByEmail(email);
-    }
 
     public void updateUser(User user){
         repository.save(user);
@@ -105,10 +134,10 @@ public class UserService {
 
     public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
         User user = repository.findByEmail(email);
-        if(user != null) {
+        if (user != null) {
             user.setResetPasswordToken(token);
             repository.save(user);
-        }else{
+        } else {
             throw new UserNotFoundException("Could not find any user with " + email);
         }
     }
@@ -143,6 +172,29 @@ public class UserService {
 
         repository.save(user);
     }
+    //Get user list
+    public List<User> getAllUsers() {
+        return repository.findAll();
+    }
 
+    //Delete user
+    public void deleteById(Integer id) {
+        this.repository.deleteById(id);
+    }
+
+    //Update user
+    public void update(User user) {
+        repository.save(user);
+    }
+
+    //Get Roles
+    public List<Role> getRoles() {
+        return roleRepo.findAll();
+    }
+
+    //Get user by keyword
+    public List<User> findByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
+    }
 
 }
