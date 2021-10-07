@@ -91,31 +91,30 @@ public class UserController {
         return "Admin_Homepage";
     }
 
-    //Delete user
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable (value = "id") int id) {
-        this.service.deleteById(id);
-        return "redirect:/admin_home";
-    }
-
     //Save change for user (admin)
     @PostMapping("/addUser")
-    public String addUser(User user){
+    public String addUser(User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         service.saveUserWithDefaultRole(user);
+
+        String siteUrl = Utility.getSiteURL(request);
+        service.sendVerificationEmail(user, siteUrl);
         return "redirect:/admin_home";
     }
 
-    //Update user
+    //Get user in4 for edit page (admin)
     @GetMapping("/edit/{id}")
     public String viewUserEdit(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         User user = service.getUserById(id);
         List<Role> listRoles = service.getRoles();
+        List<Status> listStatus = service.getStatus();
 
         model.addAttribute("userDetail", user);
         model.addAttribute("listRoles", listRoles);
+        model.addAttribute("listStatus", listStatus);
         return "Admin_user_edit";
     }
 
+    //User detail (admin)
     @GetMapping("/details/{id}")
     public String showDetails(@PathVariable("id") Integer id, Model model) {
         User user = service.getUserById(id);
@@ -123,6 +122,7 @@ public class UserController {
         return "Admin_user_details";
     }
 
+    //User update (admin)
     @PostMapping("/update/{id}")
     public String saveUpdate(@PathVariable("id") int id, User user) {
         service.updateUser(id, user);
