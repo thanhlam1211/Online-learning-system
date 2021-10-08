@@ -22,9 +22,6 @@ public class BlogController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private BlogRepository blogRepository;
-
     @GetMapping("/blog/{id}")
     public String viewBlogDetail(@PathVariable(name = "id") Integer id, Model model) {
         Blog blog = blogService.getBlogById(id);
