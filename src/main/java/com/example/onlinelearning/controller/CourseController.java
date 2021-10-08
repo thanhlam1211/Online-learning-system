@@ -25,7 +25,7 @@ public class CourseController {
     private CategoryService categoryService;
 
     @RequestMapping("/course")
-    public String viewIndex(Model model){
+    public String viewCourse(Model model){
         String keyword = null;
         return listByPages(model, 1, keyword);
     }
