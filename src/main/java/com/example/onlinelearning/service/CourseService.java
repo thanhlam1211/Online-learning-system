@@ -2,17 +2,16 @@ package com.example.onlinelearning.service;
 
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class CourseService {
@@ -21,6 +20,9 @@ public class CourseService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Course> getFeaturedCourseInCategory(String category) {
         return courseRepository.findCourseByCategory_ValueAndFeaturedEqualsAndStatus_Value(category, 1, "ACTIVE");
@@ -51,7 +53,11 @@ public class CourseService {
         Set<User> userList = new HashSet<>();
         userList.add(user);
         course.setUserList(userList);
+        course.setFeatured(1);
+        Date currentDate  = new Date();
+        course.setCreatedDate(currentDate);
+        course.addUser(user);
+//        user.addCourse(course);
         courseRepository.save(course);
     }
-
 }

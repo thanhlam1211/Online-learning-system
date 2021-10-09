@@ -80,7 +80,9 @@ public class User implements Serializable {
                 inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<Course> courseList = new HashSet<>();
-
+//    public void addCourse(Course course){
+//        this.courseList.add(course);
+//    }
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
