@@ -50,8 +50,8 @@ public class QuestionBank implements Serializable {
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
+    @JoinColumn(name = "quiz_level_id")
+    private QuizLevel quizLevel;
 
     @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL)
     private Set<UserQuestionAnswer> userQuestionAnswerList = new HashSet<>();

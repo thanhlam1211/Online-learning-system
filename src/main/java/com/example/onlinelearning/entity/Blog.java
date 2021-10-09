@@ -22,13 +22,13 @@ public class Blog implements Serializable {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String content;
 
     @Column
     private String thumbnail;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String brief;
 
     @Column
