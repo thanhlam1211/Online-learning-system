@@ -1,16 +1,18 @@
 package com.example.onlinelearning.service;
 
-import com.example.onlinelearning.entity.Category;
-import com.example.onlinelearning.entity.Course;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CourseService {
@@ -43,6 +45,13 @@ public class CourseService {
         }
 
         return courseRepository.findAllByOrderByIdDesc(pageable);
+    }
+
+    public void saveCourseToDB(Course course, User user) {
+        Set<User> userList = new HashSet<>();
+        userList.add(user);
+        course.setUserList(userList);
+        courseRepository.save(course);
     }
 
 }

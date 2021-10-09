@@ -1,16 +1,20 @@
 package com.example.onlinelearning.controller;
 
-import com.example.onlinelearning.entity.Course;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.StatusRepository;
+import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +27,9 @@ public class CourseController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     @RequestMapping("/course")
     public String viewCourse(Model model){
@@ -71,4 +78,32 @@ public class CourseController {
         // Thao tác để lấy thông tin về lesson và up lên course
         return "lesson_view";
     }
+
+    @GetMapping("/test_course_content")
+    public String testCourseContentBranch()
+    {
+        return"test_course_content";
+    }
+
+    @GetMapping("/addnew_course")
+    public String addCourseModal(Model model){
+        List<Category> listCate = categoryService.findAll();
+        List<Status> listStatus = statusRepository.findAll();
+        Course course = new Course();
+
+        model.addAttribute("new_course",course);
+        model.addAttribute("listCate", listCate);
+        model.addAttribute("listStatus", listStatus);
+
+        return "addnew_course_modal";
+    }
+
+    @PostMapping("/addnew_course")
+    public String addNewCourse(@AuthenticationPrincipal MyUserDetail userDetail,
+                               Model model, Course course){
+        User user = userDetail.getUser();
+        courseService.saveCourseToDB(course, user);
+        return "test_course_content";
+    }
+
 }

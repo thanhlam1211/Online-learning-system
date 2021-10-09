@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Edulan - Education HTML Template</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+    <style>
+        @media screen and (min-width: 676px) {
+            .modal-dialog {
+                max-width: 700px; /* New width for default modal */
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div id="thetop"></div>
+    <div id="backtotop">
+        <a href="#" id="scroll">
+            <i class="fal fa-arrow-up"></i>
+            <i class="fal fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- header start -->
+    <!-- header start -->
+
+<!--    Main Content-->
+    <div>
+        <h1>Đây là button để add new</h1>
+        <a class="btn btn-primary link-detail" th:href="@{addnew_course}">
+            Add New Course
+        </a>
+    </div>
+<!--    End of main content-->
+
+    <th:block th:replace="fragments/footer :: footer">
+
+    </th:block>
+
+<!--    Từ đây trở xuống phải thêm vào trang html của dương-->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- body wrap end -->
+
+<!-- jquery include -->
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

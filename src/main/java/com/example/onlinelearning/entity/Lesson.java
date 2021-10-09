@@ -30,7 +30,7 @@ public class Lesson implements Serializable {
     @Column(name = "html_content")
     private String htmlContent;
 
-    @Column
+    @Column(name ="topic_order")
     private int order;
 
     @ManyToOne(fetch = FetchType.LAZY)
