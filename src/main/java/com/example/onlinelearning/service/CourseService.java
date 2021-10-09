@@ -56,8 +56,9 @@ public class CourseService {
         course.setFeatured(1);
         Date currentDate  = new Date();
         course.setCreatedDate(currentDate);
-        course.addUser(user);
-//        user.addCourse(course);
+//        course.addUser(user);
+        user.addCourse(course);
+        userRepository.save(user);
         courseRepository.save(course);
     }
 }

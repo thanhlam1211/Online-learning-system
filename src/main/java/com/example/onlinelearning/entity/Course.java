@@ -46,9 +46,9 @@ public class Course implements Serializable {
 
     @ManyToMany(mappedBy = "courseList")
     private Set<User> userList = new HashSet<>();
-    public void addUser(User user){
-        this.userList.add(user);
-    }
+//    public void addUser(User user){
+//        this.userList.add(user);
+//    }
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<UserCourse> userCourseList = new HashSet<>();
