@@ -15,22 +15,22 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "lesson")
+@Table(name = "lessons")
 public class Lesson implements Serializable {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer lessonId;
 
     @Column
-    private String name;
+    private String lessonName;
 
     @Column(name = "video_link")
     private String videoLinkId;
 
-    @Column(name = "html_content")
+    @Column(name = "html_content",columnDefinition = "text")
     private String htmlContent;
 
-    @Column(name ="topic_order")
+    @Column(name = "lesson_order")
     private int order;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,10 +41,4 @@ public class Lesson implements Serializable {
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
-    private Set<QuestionBank> questionBankList = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
 }

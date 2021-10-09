@@ -28,10 +28,10 @@ public class Course implements Serializable {
     @Column
     private String title;
 
-    @Column(name = "short_description")
+    @Column(name = "short_description", columnDefinition = "text")
     private String shortDescription;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column
@@ -93,7 +93,10 @@ public class Course implements Serializable {
     }
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Topic> topicList = new HashSet<>();
+    private Set<Topic> topicList;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizList;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
