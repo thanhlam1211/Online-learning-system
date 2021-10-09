@@ -39,9 +39,6 @@ public class Quiz implements Serializable {
     @OneToMany(mappedBy = "quiz", cascade =  CascadeType.ALL)
     private Set<UserQuiz> userQuizList = new HashSet<>();
 
-    @OneToMany(mappedBy = "quiz", cascade =  CascadeType.ALL)
-    private Set<Lesson> lessonList = new HashSet<>();
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "quiz_question",
             joinColumns = @JoinColumn(name = "quiz_id"),
@@ -55,4 +52,8 @@ public class Quiz implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_type_id")
     private QuizType quizType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 }

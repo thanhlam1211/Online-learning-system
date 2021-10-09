@@ -29,4 +29,7 @@ public class QuizLevel implements Serializable {
 
     @OneToMany(mappedBy = "quizLevel", cascade = CascadeType.ALL)
     private Set<Quiz> quizList = new HashSet<>();
+
+    @OneToMany(mappedBy = "quizLevel", cascade = CascadeType.ALL)
+    private Set<QuestionBank> questionBankList = new HashSet<>();
 }

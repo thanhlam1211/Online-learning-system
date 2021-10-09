@@ -18,16 +18,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "topic")
+@Table(name = "topics")
 public class Topic implements Serializable {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer topicId;
 
     @Column
-    private String name;
+    private String topicName;
 
-    @Column
+    @Column(name = "topic_order")
     private int order;
 
     @ManyToOne(fetch = FetchType.LAZY)

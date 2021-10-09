@@ -28,10 +28,10 @@ public class Course implements Serializable {
     @Column
     private String title;
 
-    @Column(name = "short_description")
+    @Column(name = "short_description", columnDefinition = "text")
     private String shortDescription;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column
@@ -57,6 +57,9 @@ public class Course implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private Status status;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizList;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "course_package",
