@@ -6,6 +6,7 @@ import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.CourseService;
+import com.example.onlinelearning.service.DimensionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -30,6 +31,9 @@ public class CourseController {
 
     @Autowired
     private StatusRepository statusRepository;
+
+    @Autowired
+    private DimensionService dimensionService;
 
     @RequestMapping("/course")
     public String viewCourse(Model model){
@@ -106,4 +110,10 @@ public class CourseController {
         return "test_course_content";
     }
 
+    //test_layout
+    @GetMapping("/subject_detail")
+    public String viewSubjectDetail(Model model){
+        model.addAttribute("dimensionList", dimensionService.getAllDimension());
+        return "test_layout";
+    }
 }

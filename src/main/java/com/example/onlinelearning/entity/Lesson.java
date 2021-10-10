@@ -21,7 +21,7 @@ public class Lesson implements Serializable {
     @GeneratedValue
     private Integer lessonId;
 
-    @Column
+    @Column(name = "lesson_name")
     private String lessonName;
 
     @Column(name = "video_link")
