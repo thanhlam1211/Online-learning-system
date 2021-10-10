@@ -74,11 +74,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL)
     private Set<UserQuiz> userQuizList = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    @JoinTable(name = "owner",
-               joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
+    @ManyToMany(mappedBy = "userList")
     private Set<Course> courseList = new HashSet<>();
     public void addCourse(Course course){
         this.courseList.add(course);

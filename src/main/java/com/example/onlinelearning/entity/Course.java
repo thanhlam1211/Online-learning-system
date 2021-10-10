@@ -44,11 +44,16 @@ public class Course implements Serializable {
     @CreatedDate
     private Date createdDate;
 
-    @ManyToMany(mappedBy = "courseList")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "owner",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> userList = new HashSet<>();
-//    public void addUser(User user){
-//        this.userList.add(user);
-//    }
+
+    public void addUser(User user) {
+        this.userList.add(user);
+    }
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<UserCourse> userCourseList = new HashSet<>();
@@ -67,18 +72,18 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "package_id"))
     private Set<PricePackage> pricePackageList = new HashSet<>();
 
-    public PricePackage minSalePrice(){
+    public PricePackage minSalePrice() {
         Set<PricePackage> pricePackageList = getPricePackageList();
         double min = 0;
         int count = 0;
         PricePackage pricePackage = new PricePackage();
         for (PricePackage element : pricePackageList) {
-            if(count==0){
+            if (count == 0) {
                 min = element.getSalePrice();
                 pricePackage = element;
-                count=-1;
+                count = -1;
             }
-            if(min > element.getSalePrice()){
+            if (min > element.getSalePrice()) {
                 min = element.getSalePrice();
                 pricePackage = element;
             }
@@ -86,7 +91,7 @@ public class Course implements Serializable {
         return pricePackage;
     }
 
-    public String getDateCreate(){
+    public String getDateCreate() {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String date = df.format(createdDate);
         return date;
