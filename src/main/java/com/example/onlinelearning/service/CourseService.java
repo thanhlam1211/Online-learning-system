@@ -54,11 +54,12 @@ public class CourseService {
         userList.add(user);
         course.setUserList(userList);
         course.setFeatured(1);
+        course.addUser(user);
         Date currentDate  = new Date();
         course.setCreatedDate(currentDate);
 //        course.addUser(user);
         user.addCourse(course);
-        userRepository.save(user);
+//        userRepository.save(user);
         courseRepository.save(course);
     }
 }
