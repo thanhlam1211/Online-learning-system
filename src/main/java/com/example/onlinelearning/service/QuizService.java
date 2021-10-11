@@ -22,4 +22,8 @@ public class QuizService {
 
         return quizRepository.findAll(pageable);
     }
+
+    public Quiz getQuizById(int id){
+        return quizRepository.getById(id);
+    }
 }

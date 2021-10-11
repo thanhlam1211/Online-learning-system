@@ -28,6 +28,7 @@
                             Categories
                         </a>
                         <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" th:href="@{/course}">All Courses</a></li>
                             <th:block th:each="category : ${categoryList}">
                                 <li><a class="dropdown-item" th:href="@{'/page/1?keyword=' + ${category.value}}"
                                        th:text="${category.value}"></a></li>
@@ -38,7 +39,7 @@
                         <a class="nav-link" th:href="@{/blog/all}">Blogs</a>
                     </li>
                     <li class="nav-item pt-1 me-1">
-                        <a class="nav-link" th:href="@{/course}">Courses</a>
+                        <a class="nav-link" th:href="@{/quiz}">Quizes</a>
                     </li>
                     <li class="nav-item">
                         <form class="d-flex rounded border" th:action="@{/page/1}">
