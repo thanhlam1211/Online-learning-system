@@ -24,4 +24,8 @@ public class QuestionService {
         }
         return repository.findAll(pageable);
     }
+
+    public QuestionBank getQuestionById(Integer id) {
+        return repository.getById(id);
+    }
 }

@@ -47,13 +47,13 @@
                 <td><a href="" class="text-big" data-abc="true" th:text="${question.getContent()}"></a></td>
                 <td>Computer Science</td>
                 <td th:text="${question.getStatus().getValue()}"></td>
-                <td>HARD</td>
+                <td th:text="${question.getQuizLevel().getName()}"></td>
                 <td>CS</td>
                 &nbsp;
                 <td>
-                    <button type="submit" class="btn btn-primary">Detail</button>
+                    <a th:href="@{'/questionModal/' + ${question.getId()}}" class="btn btn-primary link-detail">Detail</a>
                     &nbsp;
-                    <button type="submit" class="btn btn-success">Edit</button>
+                    <a class="btn btn-success">Edit</a>
                     &nbsp;
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </td>
@@ -122,7 +122,25 @@
 
 <th:block th:replace="fragments/footer :: footer">
 </th:block>
+<div class="modal" id="myModal" style="margin-top: 10%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 </body>
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </html>

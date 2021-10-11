@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionBankRepository extends JpaRepository<QuestionBank, Integer> {
     public Page<QuestionBank> findByContentContaining(String content, Pageable pageable);
+    public QuestionBank getById(Integer id);
 }

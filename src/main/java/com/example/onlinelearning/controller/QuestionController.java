@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -49,5 +50,14 @@ public class QuestionController {
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("questionList", questionList);
         return "questionList";
+    }
+
+    @GetMapping("/questionModal/{id}")
+    public ModelAndView viewQuestion(@PathVariable(name = "id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("question-detail-modal.component");
+        QuestionBank question = service.getQuestionById(id);
+        modelAndView.addObject("listCategory", categoryService.findAll());
+        modelAndView.addObject("question", question);
+        return modelAndView;
     }
 }
