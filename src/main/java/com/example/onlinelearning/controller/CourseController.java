@@ -113,7 +113,7 @@ public class CourseController {
     }
 
     @PostMapping("/course/save")
-    public String saveCourse(Course course){
+    public String saveCourse(Course course) {
         courseService.save(course);
         // sau khi edit hoặc add sẽ trở về trang chính của Dương
         return "redirect:/LinkCuaDuong";
@@ -143,44 +143,38 @@ public class CourseController {
         return "test_layout";
     }
 
+    // SUBJECT LIST DEFAULT
     @GetMapping("/manage-courses")
     public String manageCourses(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
-            return viewManageCoursesPage(userDetail, model, searchInput, categoryId, statusId, 1);
+        return viewManageCoursesPage(userDetail, model, searchInput, categoryId, statusId, 1);
     }
 
+    // SUBJECT LIST PAGINATION
     @GetMapping("/manage-courses/{pageNumber}")
-    public String viewManageCoursesPage (@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId, @PathVariable(name = "pageNumber") int currentPage) {
+    public String viewManageCoursesPage(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId, @PathVariable(name = "pageNumber") int currentPage) {
         User currentUser = userDetail.getUser();
+        Page<Course> page;
 
-
-        // ADMIN ROLE
-        // -> Show all courses
+        // ROLE ADMIN
+        // => Show all courses
         if (userDetail != null && userDetail.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            Page<Course> page = courseService.filterCoursesByAdmin(searchInput, categoryId, statusId, currentPage);
-            long totalItems = page.getTotalElements();
-            int totalPages = page.getTotalPages();
-            List<Course> courseList = page.getContent();
-            model.addAttribute("courseList", courseList);
-            model.addAttribute("totalItems", totalItems);
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("currentPage", currentPage);
-            model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId + "&status=" + statusId);
+            page = courseService.filterCoursesByAdmin(searchInput, categoryId, statusId, currentPage);
+
         }
-        // TEACHER ROLE
+        // ROLE TEACHER
         // -> Show owned courses
         else {
-            Page<Course> page = courseService.filterCoursesByTeacher(currentUser, searchInput, categoryId, statusId, currentPage);
-            long totalItems = page.getTotalElements();
-            int totalPages = page.getTotalPages();
-            List<Course> courseList = page.getContent();
-            model.addAttribute("courseList", courseList);
-            model.addAttribute("totalItems", totalItems);
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("currentPage", currentPage);
-            model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId + "&status=" + statusId);
+            page = courseService.filterCoursesByTeacher(currentUser, searchInput, categoryId, statusId, currentPage);
         }
-
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<Course> courseList = page.getContent();
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId + "&status=" + statusId);
         model.addAttribute("categoryList", categoryService.findAll());
         model.addAttribute("statusList", statusService.findAll());
         model.addAttribute("lessonService", lessonService);
