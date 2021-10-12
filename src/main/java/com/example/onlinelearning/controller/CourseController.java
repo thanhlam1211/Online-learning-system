@@ -86,10 +86,6 @@ public class CourseController {
         return "lesson_view";
     }
 
-    @GetMapping("/test_course_content")
-    public String testCourseContentBranch() {
-        return "test_course_content";
-    }
 
     @GetMapping("/addnew_course")
     public String addCourseModal(Model model) {
@@ -112,6 +108,7 @@ public class CourseController {
         return "redirect:/manage-courses";
     }
 
+    // Save course to DB
     @PostMapping("/course/save")
     public String saveCourse(Course course) {
         Course originalCourse = courseService.getCourseById(course.getId());
@@ -131,7 +128,6 @@ public class CourseController {
         List<Category> listCate = categoryService.findAll();
 
         Course course = courseService.getCourseById(id);
-//        course = new Course();
         course.setFeatured(1);
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
@@ -140,20 +136,11 @@ public class CourseController {
         return "test_layout";
     }
 
-//    //test_layout
-//    @GetMapping("/subject_detail")
-//    public String viewSubjectDetail(Model model) {
-//        List<Status> listStatus = statusRepository.findAll();
-//        List<Category> listCate = categoryService.findAll();
-//
-//        Course course = new Course();
-//        course.setFeatured(1);
-//        model.addAttribute("listCate", listCate);
-//        model.addAttribute("listStatus", listStatus);
-//        model.addAttribute("dimensionList", dimensionService.getAllDimension());
-//        model.addAttribute("nCourse", course);
-//        return "test_layout";
-//    }
+    // Lesson list default
+    @GetMapping("/lesson_detail/{id}")
+    public String viewLessionList(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+        return "manage_lesson_list";
+    }
 
     // SUBJECT LIST DEFAULT
     @GetMapping("/manage-courses")
