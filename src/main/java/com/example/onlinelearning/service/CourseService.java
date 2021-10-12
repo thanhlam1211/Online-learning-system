@@ -57,7 +57,7 @@ public class CourseService {
         course.addUser(user);
         Date currentDate  = new Date();
         course.setCreatedDate(currentDate);
-//        course.addUser(user);
+        //course.addUser(user);
         user.addCourse(course);
 //        userRepository.save(user);
         courseRepository.save(course);
@@ -92,6 +92,15 @@ public class CourseService {
         } else {
             return courseRepository.findCourseByTitleContainingAndCategory_IdAndStatus_IdAndUserListContains(searchInput, categoryId, statusId, user, pageable);
         }
+    }
+
+    // get course to edit
+    public Course getCourse(int id){
+        Optional<Course> result = courseRepository.findById(id);
+        return result.get();
+    }
+    public void save(Course course){
+        courseRepository.save(course);
     }
 
 }

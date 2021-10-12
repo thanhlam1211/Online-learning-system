@@ -112,10 +112,34 @@ public class CourseController {
         return "test_course_content";
     }
 
+    @PostMapping("/course/save")
+    public String saveCourse(Course course){
+        courseService.save(course);
+        // sau khi edit hoặc add sẽ trở về trang chính của Dương
+        return "redirect:/LinkCuaDuong";
+    }
+
+    // Khi bấm nút subject detail thì sẽ link sang đây (từ html sang subject detail thì phải gửi 1 id để view)
+    // getMapping cần có thêm id. Cái này chính là showEditForm, Có thể sửa thành
+
+//    @GetMapping("/subject_detail/{id}")
+//    public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
+
+//        return "test_layout";
+//    }
+
     //test_layout
     @GetMapping("/subject_detail")
     public String viewSubjectDetail(Model model) {
+        List<Status> listStatus = statusRepository.findAll();
+        List<Category> listCate = categoryService.findAll();
+
+        Course course = new Course();
+        course.setFeatured(1);
+        model.addAttribute("listCate", listCate);
+        model.addAttribute("listStatus", listStatus);
         model.addAttribute("dimensionList", dimensionService.getAllDimension());
+        model.addAttribute("nCourse", course);
         return "test_layout";
     }
 
