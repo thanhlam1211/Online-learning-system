@@ -62,4 +62,36 @@ public class CourseService {
 //        userRepository.save(user);
         courseRepository.save(course);
     }
+
+    public List<Course> findAll() {
+        return courseRepository.findAll();
+    }
+
+
+    public Page<Course> filterCoursesByAdmin(String searchInput, Integer categoryId, Integer statusId, int currentPage) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 5);
+        if (categoryId == -1 && statusId == -1) {
+            return courseRepository.findCourseByTitleContaining(searchInput, pageable);
+        } else if (categoryId == -1) {
+            return courseRepository.findCourseByTitleContainingAndStatus_Id(searchInput, statusId, pageable);
+        } else if (statusId == -1 ) {
+            return courseRepository.findCourseByTitleContainingAndCategory_Id(searchInput, categoryId, pageable);
+        } else {
+            return courseRepository.findCourseByTitleContainingAndCategory_IdAndStatus_Id(searchInput, categoryId, statusId, pageable);
+        }
+    }
+
+    public Page<Course> filterCoursesByTeacher(User user, String searchInput, Integer categoryId, Integer statusId, int currentPage) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 5);
+        if (categoryId == -1 && statusId == -1) {
+            return courseRepository.findCourseByTitleContainingAndUserListContains(searchInput, user, pageable);
+        } else if (categoryId == -1) {
+            return courseRepository.findCourseByTitleContainingAndStatus_IdAndUserListContains(searchInput, statusId, user, pageable);
+        } else if (statusId == -1 ) {
+            return courseRepository.findCourseByTitleContainingAndCategory_IdAndUserListContains(searchInput, categoryId, user, pageable);
+        } else {
+            return courseRepository.findCourseByTitleContainingAndCategory_IdAndStatus_IdAndUserListContains(searchInput, categoryId, statusId, user, pageable);
+        }
+    }
+
 }

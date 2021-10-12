@@ -4,22 +4,17 @@ import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
-import com.example.onlinelearning.service.CategoryService;
-import com.example.onlinelearning.service.CourseService;
-import com.example.onlinelearning.service.DimensionService;
-import com.example.onlinelearning.service.QuizService;
+import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -29,6 +24,13 @@ public class CourseController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private StatusService statusService;
+
+    @Autowired
+    private LessonService lessonService;
+
 
     @Autowired
     private StatusRepository statusRepository;
@@ -117,5 +119,53 @@ public class CourseController {
         return "test_layout";
     }
 
+    @GetMapping("/manage-courses")
+    public String manageCourses(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
+            return viewManageCoursesPage(userDetail, model, searchInput, categoryId, statusId, 1);
+    }
+
+    @GetMapping("/manage-courses/{pageNumber}")
+    public String viewManageCoursesPage (@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId, @PathVariable(name = "pageNumber") int currentPage) {
+        User currentUser = userDetail.getUser();
+
+
+        // ADMIN ROLE
+        // -> Show all courses
+        if (userDetail != null && userDetail.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            Page<Course> page = courseService.filterCoursesByAdmin(searchInput, categoryId, statusId, currentPage);
+            long totalItems = page.getTotalElements();
+            int totalPages = page.getTotalPages();
+            List<Course> courseList = page.getContent();
+            model.addAttribute("courseList", courseList);
+            model.addAttribute("totalItems", totalItems);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId + "&status=" + statusId);
+        }
+        // TEACHER ROLE
+        // -> Show owned courses
+        else {
+            Page<Course> page = courseService.filterCoursesByTeacher(currentUser, searchInput, categoryId, statusId, currentPage);
+            long totalItems = page.getTotalElements();
+            int totalPages = page.getTotalPages();
+            List<Course> courseList = page.getContent();
+            model.addAttribute("courseList", courseList);
+            model.addAttribute("totalItems", totalItems);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId + "&status=" + statusId);
+        }
+
+        model.addAttribute("categoryList", categoryService.findAll());
+        model.addAttribute("statusList", statusService.findAll());
+        model.addAttribute("lessonService", lessonService);
+        model.addAttribute("currentCategoryId", categoryId);
+        model.addAttribute("currentStatusId", statusId);
+        model.addAttribute("currentSearch", searchInput);
+        return "manage_course_list";
+
+
+    }
 
 }
