@@ -3,6 +3,7 @@ package com.example.onlinelearning.controller;
 import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.Quiz;
 import com.example.onlinelearning.repository.QuizLevelRepository;
+import com.example.onlinelearning.repository.QuizTypeRepository;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class QuizController {
 
     @Autowired
     private QuizLevelRepository quizLevelRepository;
+    @Autowired
+    private QuizTypeRepository quizTypeRepository;
 
     @Autowired
     private CategoryService categoryService;
@@ -57,6 +60,7 @@ public class QuizController {
         Quiz quiz = quizService.getQuizById(id);
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("listQuizLevel", quizLevelRepository.findAll());
+        modelAndView.addObject("listQuizType", quizTypeRepository.findAll());
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }

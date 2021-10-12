@@ -1,12 +1,8 @@
-<!--<head>-->
-<!--    <link rel="stylesheet" th:href="@{/css/layout.css}">-->
-<!--</head>-->
 <div class="modal-header">
     <h5 class="modal-title" id="modalTitle">Quiz Details</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal"
             aria-label="Close"></button>
 </div>
-
 <!-- course details start -->
 <section class="course_details_area pt-30 pb-10">
     <div class="container">
@@ -31,23 +27,42 @@
                     <input type="text" class="form-control" th:field="*{name}">
                     <label>Course</label>
                     <input type="text" class="form-control" th:field="*{course}">
-                    <label>level</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <th:block  th:each="level : ${listQuizLevel}" >
-                            <option th:text="${level.name}"></option>
-                        </th:block>
-
-                    </select>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Level</label>
+                            <select th:field="*{quizLevel}" class="form-select" aria-label="Default select example">
+                                <option th:each="lv :${listQuizLevel}" th:value="${lv.id}" th:text="${lv.name}"></option>
+                            </select>
+                            <label>Pass rate</label>
+                            <input type="text" class="form-control" th:field="*{passRate}">
+                        </div>
+                        <div class="col-6">
+                            <label>Duration</label>
+                            <input type="text" class="form-control" th:field="*{duration}">
+                            <label>Type</label>
+                            <select th:field="*{quizType}" class="form-select" aria-label="Default select example">
+                                <option th:each="type :${listQuizType}" th:value="${type.id}" th:text="${type.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <label>Course</label>
+                    <textarea class="form-control" th:field="*{description}"></textarea>
+                    <div class="mt-3 d-flex float-right justify-content-end">
+                        <button type="submit" class="mr-2 btn btn-primary btn-block" style="margin-right: 5px;">Add</button>
+                        <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
+                    </div>
                 </form>
             </div>
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
         </div>
     </div>
+
+
 </section>
 
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
+<!--<div class="modal-footer">-->
+<!--    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--</div>-->
 <!-- course details end -->
 
 
