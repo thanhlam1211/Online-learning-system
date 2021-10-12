@@ -1,6 +1,8 @@
 package com.example.onlinelearning.controller;
 
+import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.Quiz;
+import com.example.onlinelearning.repository.QuizLevelRepository;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 @Controller
 public class QuizController {
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    private QuizLevelRepository quizLevelRepository;
 
     @Autowired
     private CategoryService categoryService;
@@ -28,7 +34,7 @@ public class QuizController {
         return listQuizByPages(model, 1, keyword);
     }
 
-    @GetMapping("/page/{pageNumber}")
+    @GetMapping("/quiz/page/{pageNumber}")
     public String listQuizByPages(Model model,
                                   @PathVariable(name = "pageNumber") int currentPage,
                                   @Param("keyword") String keyword) {
@@ -44,4 +50,15 @@ public class QuizController {
         model.addAttribute("listQuiz", listQuiz);
         return "quiz";
     }
+
+    @GetMapping("/quiz_detail/{id}")
+    public ModelAndView viewQuizDetail(@PathVariable(name = "id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("quiz_detail");
+        Quiz quiz = quizService.getQuizById(id);
+        modelAndView.addObject("listCategory", categoryService.findAll());
+        modelAndView.addObject("listQuizLevel", quizLevelRepository.findAll());
+        modelAndView.addObject("quiz", quiz);
+        return modelAndView;
+    }
+
 }

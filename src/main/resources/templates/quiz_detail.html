@@ -1,3 +1,6 @@
+<!--<head>-->
+<!--    <link rel="stylesheet" th:href="@{/css/layout.css}">-->
+<!--</head>-->
 <div class="modal-header">
     <h5 class="modal-title" id="modalTitle">Quiz Details</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -7,11 +10,37 @@
 <!-- course details start -->
 <section class="course_details_area pt-30 pb-10">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-home" type="button" role="tab"
+                        aria-controls="pills-home" aria-selected="true">Overview
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-profile" type="button" role="tab"
+                        aria-controls="pills-profile" aria-selected="false">Setting
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <form th:object="${quiz}" method="POST">
+                    <label>Name</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                    <label>Course</label>
+                    <input type="text" class="form-control" th:field="*{course}">
+                    <label>level</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <th:block  th:each="level : ${listQuizLevel}" >
+                            <option th:text="${level.name}"></option>
+                        </th:block>
 
-                <img th:src="@{/static/images/Capture.PNG}" height="388" width="1298"/>
+                    </select>
+                </form>
             </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
         </div>
     </div>
 </section>
