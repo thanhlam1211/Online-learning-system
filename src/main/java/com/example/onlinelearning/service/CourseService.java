@@ -58,8 +58,8 @@ public class CourseService {
         Date currentDate  = new Date();
         course.setCreatedDate(currentDate);
         //course.addUser(user);
-        user.addCourse(course);
-//        userRepository.save(user);
+//        user.addCourse(course);
+        userRepository.save(user);
         courseRepository.save(course);
     }
 
