@@ -61,14 +61,14 @@
 
         <table class="table mt-3">
             <thead>
-            <tr>
+            <tr class="text-center">
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Category</th>
                 <th scope="col">Number of lessons</th>
                 <th scope="col">Owner</th>
                 <th scope="col">Status</th>
-                <th scope="col">Action</th>
+                <th colspan="2" scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -79,7 +79,8 @@
                 <td th:text="${lessonService.getNumberOfLessonsInCourseId(course.id)}"></td>
                 <td><th:block th:each="owner : ${course.userList}"><span th:text="${owner.fullName}"></span></th:block></td>
                 <td th:text="${course.status.value}"></td>
-                <td><a th:href="@{'/subject_detail/' + ${course.id}}" class="btn btn-secondary">Edit Details</a> <a th:href="@{'/subject_detail/' + ${course.id}}" class="btn btn-primary">Edit Lessons</a></td>
+                <td><a th:href="@{'/subject_detail/' + ${course.id}}" class="text-center btn-sm btn-secondary">Edit Subject</a></td>
+                <td><a th:href="@{'/lesson_detail/' + ${course.id}}" class="text-center btn-sm btn-primary">Edit Lessons</a></td>
             </tr>
             </tbody>
         </table>
