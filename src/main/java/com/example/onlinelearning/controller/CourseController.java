@@ -109,32 +109,29 @@ public class CourseController {
                                Model model, Course course) {
         User user = userDetail.getUser();
         courseService.saveCourseToDB(course, user);
-        return "test_course_content";
+        return "redirect:/manage-courses";
     }
 
     @PostMapping("/course/save")
     public String saveCourse(Course course) {
+        Course originalCourse = courseService.getCourseById(course.getId());
+        course.setCreatedDate(originalCourse.getCreatedDate());
+        course.setUserList(originalCourse.getUserList());
         courseService.save(course);
         // sau khi edit hoặc add sẽ trở về trang chính của Dương
-        return "redirect:/LinkCuaDuong";
+        return "redirect:/manage-courses";
     }
 
     // Khi bấm nút subject detail thì sẽ link sang đây (từ html sang subject detail thì phải gửi 1 id để view)
     // getMapping cần có thêm id. Cái này chính là showEditForm, Có thể sửa thành
 
-//    @GetMapping("/subject_detail/{id}")
-//    public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
-
-//        return "test_layout";
-//    }
-
-    //test_layout
-    @GetMapping("/subject_detail")
-    public String viewSubjectDetail(Model model) {
+    @GetMapping("/subject_detail/{id}")
+    public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
         List<Status> listStatus = statusRepository.findAll();
         List<Category> listCate = categoryService.findAll();
 
-        Course course = new Course();
+        Course course = courseService.getCourseById(id);
+//        course = new Course();
         course.setFeatured(1);
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
@@ -142,6 +139,21 @@ public class CourseController {
         model.addAttribute("nCourse", course);
         return "test_layout";
     }
+
+//    //test_layout
+//    @GetMapping("/subject_detail")
+//    public String viewSubjectDetail(Model model) {
+//        List<Status> listStatus = statusRepository.findAll();
+//        List<Category> listCate = categoryService.findAll();
+//
+//        Course course = new Course();
+//        course.setFeatured(1);
+//        model.addAttribute("listCate", listCate);
+//        model.addAttribute("listStatus", listStatus);
+//        model.addAttribute("dimensionList", dimensionService.getAllDimension());
+//        model.addAttribute("nCourse", course);
+//        return "test_layout";
+//    }
 
     // SUBJECT LIST DEFAULT
     @GetMapping("/manage-courses")

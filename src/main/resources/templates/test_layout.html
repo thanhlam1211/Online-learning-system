@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="/css/layout.css">
     <title>Course layout</title>
 </head>
 <body>
@@ -14,6 +14,7 @@
     <label for="overviewtab" style="margin-right: 10px;">Overview</label>
     <div class="tab">
         <form th:action="@{/course/save}" method="post" th:object="${nCourse}">
+            <input type="hidden" th:field="*{id}" name="id" />
             <div class="container">
                 <div class="row mb-5 mt-4">
                     <div class="col-8">
@@ -22,29 +23,33 @@
                             <input type="text" th:field="*{title}" id="form3Example2" class="form-control" name="subject"/>
                         </div>
                         <div class="form-outline mb-4">
+                            <h5 class="form-label" for="form3Example3">Thumbnail URL</h5>
+                            <input type="text" th:value="*{thumbnail}" th:field="*{thumbnail}" id="thumbnailURL" class="form-control" name="thumbnail"/>
+                        </div>
+                        <div class="form-outline mb-4">
                             <h5 class="form-label" for="form3Example3">Category</h5>
                             <select th:field="*{category}">
-                                <option th:each="p: ${listCate}" th:value="${p.getValue()}" th:text="${p.getValue()}"></option>
+                                <option th:each="p: ${listCate}" th:value="${p.id}" th:text="${p.value}"></option>
                             </select>
                         </div>
                         <div class="row">
                             <div class="col align-self-start form-outline mb-4">
                                 <h5 class="form-label" for="form3Example3">Featured Subject</h5>
-<!--                                Đang bị sai-->
-                                <input type="checkbox" checked id="form2Example2" name="feature"/>
+                                <!--                                Đang bị sai-->
+                                <input type="checkbox" checked id="form2Example2" name="featured" value="1"/>
 
                             </div>
                             <div class="col align-self-end form-outline mb-4">
                                 <h5 class="form-label" for="form3Example3">Status</h5>
                                 <select th:field="*{status}">
-                                    <option th:each="p: ${listStatus}" th:value="${p.getValue()}" th:text="${p.getValue()}"></option>
+                                    <option th:each="p: ${listStatus}" th:value="${p.id}" th:text="${p.value}"></option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="col-4">
                         <p>Thumbnail Image</p>
-                        <img src="https://img-c.udemycdn.com/course/240x135/903744_8eb2.jpg">
+                        <img th:src="*{thumbnail}">
                     </div>
                 </div>
                 <!--            Description-->
@@ -54,7 +59,7 @@
                 </div>
                 <!--            Button-->
                 <div class="row mt-5 mb-5">
-                    <a class="col-1 btn btn-primary">Submit</a>
+                    <button class="col-1 btn btn-primary" type="submit">Submit</button>
                     <a onclick="goBack()" class="col-1 btn btn-primary">Back</a>
                 </div>
             </div>

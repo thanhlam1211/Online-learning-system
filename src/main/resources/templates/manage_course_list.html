@@ -4,6 +4,13 @@
 <head>
     <title>Course List - G3Learn</title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+    <style>
+        @media screen and (min-width: 676px) {
+            .modal-dialog {
+                max-width: 700px; /* New width for default modal */
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +22,10 @@
         <h1 class="mb-4">Manage Courses</h1>
         <div class="row">
             <div class="col-md-2">
-                <a href="#" class="btn btn-success">Add new</a>
+                <a class="btn btn-success link-detail" th:href="@{addnew_course}">
+                    Add New Course
+                </a>
+<!--                <a href="#" class="btn btn-success">Add new</a>-->
             </div>
             <div class="col-md-10">
                 <div class="d-flex justify-content-end">
@@ -69,7 +79,7 @@
                 <td th:text="${lessonService.getNumberOfLessonsInCourseId(course.id)}"></td>
                 <td><th:block th:each="owner : ${course.userList}"><span th:text="${owner.fullName}"></span></th:block></td>
                 <td th:text="${course.status.value}"></td>
-                <td><a th:href="@{'/edit-course/' + ${course.id}}" class="btn btn-secondary">Edit</a></td>
+                <td><a th:href="@{'/subject_detail/' + ${course.id}}" class="btn btn-secondary">Edit Details</a> <a th:href="@{'/subject_detail/' + ${course.id}}" class="btn btn-primary">Edit Lessons</a></td>
             </tr>
             </tbody>
         </table>
@@ -94,9 +104,27 @@
 
 </div>
 <!-- body wrap end -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
