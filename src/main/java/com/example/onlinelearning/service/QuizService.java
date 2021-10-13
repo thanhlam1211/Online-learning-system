@@ -28,8 +28,8 @@ public class QuizService {
     }
 
     public void saveQuiz(Quiz quiz){quizRepository.save(quiz);}
-    public void deleteQuiz(Integer id){
-        Quiz quiz = quizRepository.getById(id);
-        quizRepository.delete(quiz);
-    }
+//    public void deleteQuiz(Integer id){
+//        Quiz quiz = quizRepository.getById(id);
+//        quizRepository.delete(quiz);
+//    }
 }

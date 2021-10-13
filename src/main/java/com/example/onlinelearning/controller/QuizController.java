@@ -70,11 +70,11 @@ public class QuizController {
         return "redirect:/quiz";
     }
 
-    @PostMapping("/deleteQuiz/{id}")
-    public String deleteQuiz(@PathVariable(name = "id") Integer id, Model model){
-        quizService.deleteQuiz(id);
-        return viewQuiz(model);
-    }
+//    @PostMapping("/deleteQuiz/{id}")
+//    public String deleteQuiz(@PathVariable(name = "id") Integer id, Model model){
+//        quizService.deleteQuiz(id);
+//        return viewQuiz(model);
+//    }
 
     @GetMapping("/add_quiz/{id}")
     public ModelAndView addQuiz(@PathVariable(name = "id") Integer id) {
