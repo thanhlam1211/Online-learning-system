@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
     public List<Topic> findAllByCourse_Id(Integer courseId);
+    public List<Topic> findAll();
 }

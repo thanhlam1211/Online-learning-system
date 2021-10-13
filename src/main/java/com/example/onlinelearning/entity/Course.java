@@ -106,4 +106,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Lesson> lessonList;
+
 }

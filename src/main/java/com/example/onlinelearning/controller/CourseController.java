@@ -144,13 +144,20 @@ public class CourseController {
 
     // SUBJECT LIST DEFAULT
     @GetMapping("/manage-courses")
-    public String manageCourses(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
+    public String manageCourses(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
+                                @RequestParam(value = "search", defaultValue = "") String searchInput,
+                                @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
+                                @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
         return viewManageCoursesPage(userDetail, model, searchInput, categoryId, statusId, 1);
     }
 
     // SUBJECT LIST PAGINATION
     @GetMapping("/manage-courses/{pageNumber}")
-    public String viewManageCoursesPage(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @RequestParam(value = "search", defaultValue = "") String searchInput, @RequestParam(value = "category", defaultValue = "-1") Integer categoryId, @RequestParam(value = "status", defaultValue = "-1") Integer statusId, @PathVariable(name = "pageNumber") int currentPage) {
+    public String viewManageCoursesPage(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
+                                        @RequestParam(value = "search", defaultValue = "") String searchInput,
+                                        @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
+                                        @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
+                                        @PathVariable(name = "pageNumber") int currentPage) {
         User currentUser = userDetail.getUser();
         Page<Course> page;
 
@@ -181,8 +188,6 @@ public class CourseController {
         model.addAttribute("currentStatusId", statusId);
         model.addAttribute("currentSearch", searchInput);
         return "manage_course_list";
-
-
     }
 
 }

@@ -80,7 +80,7 @@
                 <td><th:block th:each="owner : ${course.userList}"><span th:text="${owner.fullName}"></span></th:block></td>
                 <td th:text="${course.status.value}"></td>
                 <td><a th:href="@{'/subject_detail/' + ${course.id}}" class="text-center btn-sm btn-secondary">Edit Subject</a></td>
-                <td><a th:href="@{'/lesson_detail/' + ${course.id}}" class="text-center btn-sm btn-primary">Edit Lessons</a></td>
+                <td><a th:href="@{'/manage-lessons/course' + ${course.id}}" class="text-center btn-sm btn-primary">Edit Lessons</a></td>
             </tr>
             </tbody>
         </table>

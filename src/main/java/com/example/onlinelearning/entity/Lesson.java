@@ -41,4 +41,8 @@ public class Lesson implements Serializable {
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
 }
