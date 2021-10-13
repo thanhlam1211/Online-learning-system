@@ -32,21 +32,31 @@ public class QuizController {
     private CourseController courseController;
     //Quiz
     @GetMapping("/quiz")
-    public String viewQuiz(Model model) {
+    public String viewQuiz(Model model,
+                           @RequestParam(value = "search", defaultValue = "") String searchInput,
+                           @RequestParam(value = "type", defaultValue = "-1") Integer typeId,
+                           @RequestParam(value = "level", defaultValue = "-1") Integer levelId) {
         String keyword = null;
-        return listQuizByPages(model, 1, keyword);
+        return listQuizByPages(model, searchInput, typeId, levelId, 1);
     }
 
-    @GetMapping("/quiz/page/{pageNumber}")
+    @GetMapping("/quiz/{pageNumber}")
     public String listQuizByPages(Model model,
-                                  @PathVariable(name = "pageNumber") int currentPage,
-                                  @Param("keyword") String keyword) {
-        Page<Quiz> page = quizService.listAll(currentPage, keyword);
+                                  @RequestParam(value = "search ", defaultValue = "") String searchInput,
+                                  @RequestParam(value = "type", defaultValue = "-1") Integer typeId,
+                                  @RequestParam(value = "level", defaultValue = "-1") Integer levelId,
+                                  @PathVariable(name = "pageNumber") int currentPage) {
+        Page<Quiz> page = quizService.listAll(currentPage, searchInput, typeId, levelId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Quiz> listQuiz = page.getContent();
+        model.addAttribute("query", "/?search=" + searchInput + "&level=" + levelId + "&type=" + typeId);
+        model.addAttribute("listQuizLevel", quizLevelRepository.findAll());
+        model.addAttribute("listQuizType", quizTypeRepository.findAll());
         model.addAttribute("listCategory", categoryService.findAll());
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("currentSearch", searchInput);
+        model.addAttribute("currentLevel", levelId);
+        model.addAttribute("currentType", typeId);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
@@ -67,7 +77,7 @@ public class QuizController {
     @PostMapping("/updateQuiz")
     public String updateQuiz(@ModelAttribute("quiz") Quiz quiz, Model model){
         quizService.saveQuiz(quiz);
-        return "redirect:/quiz";
+        return "quiz";
     }
 
 //    @PostMapping("/deleteQuiz/{id}")

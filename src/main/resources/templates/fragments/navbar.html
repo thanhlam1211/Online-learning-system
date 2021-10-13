@@ -30,7 +30,7 @@
                         <ul class="dropdown-menu mb-4" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" th:href="@{/course}">All Courses</a></li>
                             <th:block th:each="category : ${categoryList}">
-                                <li><a class="dropdown-item" th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                <li><a class="dropdown-item" th:href="@{'/course?search=&category=' + ${category.id}}"
                                        th:text="${category.value}"></a></li>
                             </th:block>
                         </ul>

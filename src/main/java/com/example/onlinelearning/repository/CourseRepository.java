@@ -11,9 +11,9 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
+    public Page<Course> findCoursesByCategoryIdAndTitleContaining(Integer category_id, String title, Pageable pageable);
+    public Page<Course> findCoursesByCategoryIdOrderByIdDesc(Integer category_id, Pageable pageable);
     public List<Course> findCourseByCategory_ValueAndFeaturedEqualsAndStatus_Value(String category, int featured, String status);
-    public Page<Course> findByTitleContainingOrCategoryValueOrderByIdDesc(String title, String categoryValue, Pageable pageable);
-    public Page<Course> findAllByOrderByIdDesc(Pageable pageable);
     public Page<Course> findCourseByTitleContaining(String title, Pageable pageable);
     public Page<Course> findCourseByTitleContainingAndCategory_IdAndStatus_Id(String title, Integer categoryId, Integer statusId, Pageable pageable);
     public Page<Course> findCourseByTitleContainingAndCategory_Id(String title, Integer categoryId, Pageable pageable);

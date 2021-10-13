@@ -29,35 +29,28 @@
         <section class="courses_area pt-120 pb-120">
             <div class="container">
                 <div class="row">
-                    <form th:action="@{/page/1}" class="col-10">
-                        <div class="input-group col-10">
-                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                                   name="keyword" th:value="${keyword}"
-                                   aria-describedby="search-addon"/>
-                            <button type="submit" class="btn btn-outline-primary col-2">search</button>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end">
+                            <form th:action="@{/course}" class="row g-1" method="GET">
+                                <div class="col-auto">
+                                    <input type="text" class="form-control" placeholder="Find course" style="height:auto;" name="search" th:value="${currentSearch}">
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="category" style="height: auto;">
+                                        <option th:selected="(${currentCategoryId == -1})" value="-1">All Categories</option>
+                                        <th:block th:each="category : ${listCategory}">
+                                            <option th:value="${category.id}" th:text="${category.value}" th:selected="(${currentCategoryId == category.id})"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                    <div class="masonry_active col-2">
-                        <nav class="main_menu">
-                            <ul>
-                                <li class="has_dropdown">
-                                    <button class="btn btn-outline-primary">Category</button>
-                                    <ul class="submenu">
-                                        <li>
-                                            <a th:href="@{'/course'}"> All category</a>
-                                        </li>
-                                        <li th:each="category : ${listCategory}">
-                                            <a th:href="@{'/page/1?keyword=' + ${category.value}}"
-                                               th:text="${category.value}"></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
-
-                <div class="row grid">
+                <div class="row grid mt-3">
                     <div th:each="course : ${listCourse}"
                          class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat4 cat5">
                         <div class="course_single mb-30">
@@ -93,52 +86,52 @@
                     </div>
                     <nav class="pagination justify-content-center flex-wrap">
                         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                            <a th:href="@{'/page/1' + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                            <a th:href="@{'/course/1' + ${query}}"
                                class="page-link">First</a>
                         </li>
                         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                            <a th:href="@{'/page/'+${currentPage - 1} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                            <a th:href="@{'/course/'+${currentPage - 1} + ${query}}"
                                class="page-link">Previous</a>
                         </li>
 
                         <th:block th:if="${totalPages <= 10}">
                             <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
-                                <a th:href="@{'/page/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                <a th:href="@{'/course/'+${i} + ${query}}"
                                    class="page-link"> [[${i}]]</a>
                             </li>
                         </th:block>
                         <th:block th:if="${totalPages > 10}">
                             <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
                                 <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
-                                    <a th:href="@{'/page/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                    <a th:href="@{'/course/'+${i} + ${query}}"
                                        class="page-link"> [[${i}]]</a>
                                 </li>
-                                <a th:href="@{'/page/4' + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                <a th:href="@{'/4' + ${query}}"
                                    class="page-link">...</a>
                                 <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
-                                    <a th:href="@{'/page/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                    <a th:href="@{'/course/'+${i} + ${query}}"
                                        class="page-link"> [[${i}]]</a>
                                 </li>
                             </th:block>
                             <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
-                                <a th:href="@{'/page/'+${currentPage - 3} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                <a th:href="@{'/course/'+${currentPage - 3} + ${query}}"
                                    class="page-link">...</a>
                                 <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
-                                    <a th:href="@{'/page/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                    <a th:href="@{'/course/'+${i} + ${query}}"
                                        class="page-link"> [[${i}]]</a>
                                 </li>
-                                <a th:href="@{'/page/'+${currentPage + 3} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                <a th:href="@{'/course/'+${currentPage + 3} + ${query}}"
                                    class="page-link">...</a>
                             </th:block>
                         </th:block>
 
 
                         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                            <a th:href="@{'/page/'+${currentPage + 1} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                            <a th:href="@{'/course/'+${currentPage + 1} + ${query}}"
                                class="page-link">Next</a>
                         </li>
                         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                            <a th:href="@{'/page/'+${totalPages} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                            <a th:href="@{'/course/'+${totalPages} + ${query}}"
                                class="page-link">Last</a>
                         </li>
                     </nav>

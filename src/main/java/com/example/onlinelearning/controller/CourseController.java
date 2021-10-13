@@ -38,22 +38,26 @@ public class CourseController {
     @Autowired
     private DimensionService dimensionService;
 
-    @RequestMapping("/course")
-    public String viewCourse(Model model) {
-        String keyword = null;
-        return listByPages(model, 1, keyword);
+    @GetMapping("/course")
+    public String viewCourse(Model model,
+                             @RequestParam(value = "search", defaultValue = "") String searchInput,
+                             @RequestParam(value = "category", defaultValue = "-1") Integer categoryId) {
+        return listByPages(model, searchInput, categoryId, 1);
     }
 
-    @RequestMapping("/page/{pageNumber}")
+    @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
-                              @PathVariable(name = "pageNumber") int currentPage,
-                              @Param("keyword") String keyword) {
-        Page<Course> page = courseService.listAll(currentPage, keyword);
+                             @RequestParam(value = "search ", defaultValue = "") String searchInput,
+                             @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
+                             @PathVariable(name = "pageNumber") int currentPage) {
+        Page<Course> page = courseService.listAll(currentPage, searchInput, categoryId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
         model.addAttribute("listCategory", categoryService.findAll());
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId);
+        model.addAttribute("currentCategoryId", categoryId);
+        model.addAttribute("currentSearch", searchInput);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
@@ -65,7 +69,7 @@ public class CourseController {
     public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
-        modelAndView.addObject("newCourses", courseService.listAll(1, null));
+        modelAndView.addObject("newCourses", courseService.listAll(1, "",-1));
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course", course);
         return modelAndView;

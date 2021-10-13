@@ -40,13 +40,21 @@ public class CourseService {
         return courseRepository.getById(id);
     }
 
-    public Page<Course> listAll(int currentPage, String keyword){
+    public Page<Course> listAll(int currentPage, String searchInput, Integer categoryId){
         Pageable pageable = PageRequest.of(currentPage - 1,6);
-        if(keyword !=null){
-            return courseRepository.findByTitleContainingOrCategoryValueOrderByIdDesc(keyword,keyword,pageable);
+        if(categoryId==-1){
+            if(searchInput==""){
+                return courseRepository.findAll(pageable);
+            }
+            else{
+                return courseRepository.findCourseByTitleContaining(searchInput,pageable);
+            }
         }
-
-        return courseRepository.findAllByOrderByIdDesc(pageable);
+        else if (searchInput==""){
+            return courseRepository.findCoursesByCategoryIdOrderByIdDesc(categoryId,pageable);
+        }
+        else
+            return courseRepository.findCoursesByCategoryIdAndTitleContaining(categoryId,searchInput,pageable);
     }
 
     public void saveCourseToDB(Course course, User user) {
