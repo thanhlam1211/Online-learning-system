@@ -26,4 +26,10 @@ public class QuizService {
     public Quiz getQuizById(int id){
         return quizRepository.getById(id);
     }
+
+    public void saveQuiz(Quiz quiz){quizRepository.save(quiz);}
+    public void deleteQuiz(Integer id){
+        Quiz quiz = quizRepository.getById(id);
+        quizRepository.delete(quiz);
+    }
 }

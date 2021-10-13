@@ -420,7 +420,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="pills-quizzes" role="tabpanel"
                                          aria-labelledby="pills-quizzes-tab">
-                                        <a th:href="@{'/add_quiz'}">Add new quiz</a>
+                                        <a class="link-detail" th:href="@{'/add_quiz/'+${course.id}}">Add new quiz</a>
                                         <div class="cc_wrap mt-20">
                                             <ul th:each="quiz:${course.getQuizList()}" class="accordion_box clearfix">
                                                 <li class="accordion block">

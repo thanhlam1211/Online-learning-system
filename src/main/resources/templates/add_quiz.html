@@ -4,13 +4,14 @@
             aria-label="Close"></button>
 </div>
 <!-- course details start -->
-<form th:object="${quiz}" method="POST">
+<form th:object="${quiz}" method="POST" th:action="@{/saveQuiz}">
     <section class="course_details_area pt-30 pb-10">
         <div class="container">
             <label>Name</label>
             <input type="text" class="form-control" th:field="*{name}">
             <label>Course</label>
-            <input type="text" class="form-control" th:field="*{course}">
+            <input type="text" class="form-control" th:value="${course.title}" readonly>
+            <input type="hidden" id="courseid" name="courseid" th:value="${course.id}">
             <label>Total questions</label>
             <input type="text" class="form-control" th:field="*{numberQuestion}">
             <div class="row">
@@ -31,14 +32,14 @@
                     </select>
                 </div>
             </div>
-            <label>Course</label>
+            <label>Quiz description</label>
             <textarea class="form-control" th:field="*{description}"></textarea>
         </div>
     </section>
 
     <div class="modal-footer">
         <button type="submit" class="mr-2 btn btn-primary btn-block">
-            Save
+            Add
         </button>
         <button type="button" class="btn btn-secondary close" data-dismiss="modal" data-bs-dismiss="modal">
             Close

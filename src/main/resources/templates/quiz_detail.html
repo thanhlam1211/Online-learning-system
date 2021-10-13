@@ -4,9 +4,11 @@
             aria-label="Close"></button>
 </div>
 <!-- course details start -->
-<form th:object="${quiz}" method="POST">
+<form th:object="${quiz}" method="POST" th:action="@{/updateQuiz}">
     <section class="course_details_area pt-30 pb-10">
         <div class="container">
+            <label>ID</label>
+            <input type="text" class="form-control" th:field="*{id}" readonly>
             <label>Name</label>
             <input type="text" class="form-control" th:field="*{name}">
             <label>Course</label>
@@ -31,7 +33,7 @@
                     </select>
                 </div>
             </div>
-            <label>Course</label>
+            <label>Quiz description</label>
             <textarea class="form-control" th:field="*{description}"></textarea>
         </div>
     </section>
@@ -40,6 +42,11 @@
         <button type="submit" class="mr-2 btn btn-primary btn-block">
             Save
         </button>
+        <a  th:href="@{'/deleteQuiz/'+${quiz.id}}">
+            <button type="submit" class="mr-2 btn btn-danger btn-block">
+                Delete
+            </button>
+        </a>
         <button type="button" class="btn btn-secondary close" data-dismiss="modal" data-bs-dismiss="modal">
             Close
         </button>
