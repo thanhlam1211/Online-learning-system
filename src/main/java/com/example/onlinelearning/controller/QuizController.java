@@ -58,11 +58,21 @@ public class QuizController {
     public ModelAndView viewQuizDetail(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("quiz_detail");
         Quiz quiz = quizService.getQuizById(id);
-        modelAndView.addObject("listCategory", categoryService.findAll());
+//        modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("listQuizLevel", quizLevelRepository.findAll());
         modelAndView.addObject("listQuizType", quizTypeRepository.findAll());
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }
 
+    @GetMapping("/add_quiz")
+    public ModelAndView addQuiz() {
+        ModelAndView modelAndView = new ModelAndView("quiz_detail");
+        Quiz quiz = new Quiz();
+//        modelAndView.addObject("listCategory", categoryService.findAll());
+        modelAndView.addObject("listQuizLevel", quizLevelRepository.findAll());
+        modelAndView.addObject("listQuizType", quizTypeRepository.findAll());
+        modelAndView.addObject("quiz", quiz);
+        return modelAndView;
+    }
 }

@@ -37,25 +37,23 @@
                             <button type="submit" class="btn btn-outline-primary col-2">search</button>
                         </div>
                     </form>
-                    <div class="col-2">
-                        <div class="masonry_active">
-                            <nav class="main_menu">
-                                <ul>
-                                    <li class="has_dropdown">
-                                        <button>Category</button>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a th:href="@{'/course'}"> All category</a>
-                                            </li>
-                                            <li th:each="category : ${listCategory}">
-                                                <a th:href="@{'/page/1?keyword=' + ${category.value}}"
-                                                   th:text="${category.value}"></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <div class="masonry_active col-2">
+                        <nav class="main_menu">
+                            <ul>
+                                <li class="has_dropdown">
+                                    <button class="btn btn-outline-primary">Category</button>
+                                    <ul class="submenu">
+                                        <li>
+                                            <a th:href="@{'/course'}"> All category</a>
+                                        </li>
+                                        <li th:each="category : ${listCategory}">
+                                            <a th:href="@{'/page/1?keyword=' + ${category.value}}"
+                                               th:text="${category.value}"></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
 
@@ -170,7 +168,7 @@
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
 <script type="text/javascript">
-    $(document).ready(function (){
+    $(document).ready(function () {
         $(".link-detail").on("click", function (e) {
             e.preventDefault();
             $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));

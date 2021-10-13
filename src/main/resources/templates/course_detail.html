@@ -5,7 +5,6 @@
     <title>Course Details</title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
-
 <body>
 <!-- body wrap start -->
 <div class="body_wrap">
@@ -76,6 +75,13 @@
                                                 data-bs-target="#pills-reviews" type="button" role="tab"
                                                 aria-controls="pills-reviews"
                                                 aria-selected="false">Reviews
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-quiz-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-quizzes" type="button" role="tab"
+                                                aria-controls="pills-quizzes"
+                                                aria-selected="false">Quiz
                                         </button>
                                     </li>
                                 </ul>
@@ -412,6 +418,49 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="pills-quizzes" role="tabpanel"
+                                         aria-labelledby="pills-quizzes-tab">
+                                        <a th:href="@{'/add_quiz'}">Add new quiz</a>
+                                        <div class="cc_wrap mt-20">
+                                            <ul th:each="quiz:${course.getQuizList()}" class="accordion_box clearfix">
+                                                <li class="accordion block">
+                                                    <div th:text="${quiz.name}" class="acc-btn"></div>
+                                                    <ul class="acc_body current">
+                                                        <li>
+                                                            <a class="popup-video"
+                                                               href="https://www.youtube.com/watch?v=cRXm1p-CNyk"><i
+                                                                    class="fal fa-play"></i>Rorem ipsum dolor
+                                                                sit amet, consectetur adipisicing elitnon </a>
+                                                            <div class="acb_right">
+                                  <span class="title">
+                                    <a class="popup-video"
+                                       href="https://www.youtube.com/watch?v=cRXm1p-CNyk">Preview</a>
+                                  </span>
+                                                                <span class="acc-time">36min</span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fal fa-file-alt"></i>dolore eu
+                                                                fugiat nulla pariat cepteur sint oident</a>
+                                                            <div class="acb_right">
+                                                                <span class="title"><a href="#"> Download</a></span>
+                                                                <span class="time"> 8 Pages</span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <a class="popup-video"
+                                                               href="https://www.youtube.com/watch?v=cRXm1p-CNyk"><i
+                                                                    class="fal fa-play"></i>officia deserunt
+                                                                moyllit anim id est laborum iciatis unde omnis </a>
+                                                            <div class="acb_right">
+                                                                <span class="time">16min</span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -445,11 +494,36 @@
         </section>
         <!-- course details end -->
     </main>
+
     <th:block th:replace="fragments/footer :: footer">
+
     </th:block>
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- body wrap end -->
+
+<!-- jquery include -->
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
