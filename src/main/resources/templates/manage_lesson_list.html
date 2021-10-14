@@ -78,7 +78,7 @@
                             <td th:text="${lesson.getOrder()}"></td>
                             <td th:text="${lesson.getTopic().topicName}" ></td>
                             <td th:text="${lesson.status.value}"></td>
-                            <td><a class="link-detail" th:href="@{'/list_lesson_detail/'+${lesson.lessonId}}">Edit</a></td>
+                            <td><a class="link-detail edit-detail" th:href="@{'/manage-lessons/course' + ${currentCourseId} + '/edit/lesson/'+${lesson.lessonId}}">Edit</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -125,6 +125,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+        $(".edit-detail").on("click", function (e) {
             e.preventDefault();
             $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
         });

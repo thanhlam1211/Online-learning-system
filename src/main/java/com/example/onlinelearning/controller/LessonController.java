@@ -112,5 +112,24 @@ public class LessonController {
         return "redirect:/manage-lessons/course" + courseId;
     }
 
+    // EDIT LESSON MODAL
+    @GetMapping("/manage-lessons/course{courseId}/edit/lesson/{lessonId}")
+    public String editLesson(Model model, @PathVariable(name = "lessonId") Integer lessonId, @PathVariable(name = "courseId") Integer courseId) {
+        Lesson currentLesson = lessonRepository.getById(lessonId);
+        List<Topic> topicList = topicService.findAllByCourse_Id(courseId);
+        model.addAttribute("topicList", topicList);
+        model.addAttribute("currentLesson", currentLesson);
+        return "edit_lesson_modal";
+    }
+
+    @PostMapping("/manage-lessons/course{courseId}/edit/lesson/{lessonId}")
+    public String saveLessonChanges(Model model, @PathVariable(name = "lessonId") Integer lessonId, @PathVariable(name = "courseId") Integer courseId, Lesson lesson) {
+        Lesson originalLesson = lessonRepository.getById(lessonId);
+        lesson.setStatus(originalLesson.getStatus());
+        lesson.setCourse(originalLesson.getCourse());
+        lessonRepository.save(lesson);
+        return "redirect:/manage-lessons/course" + courseId;
+    }
+
 
 }
