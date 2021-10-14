@@ -1,8 +1,10 @@
 package com.example.onlinelearning.service;
 
+import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.Lesson;
 import com.example.onlinelearning.entity.Quiz;
 import com.example.onlinelearning.entity.Topic;
+import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.LessonRepository;
 import com.example.onlinelearning.repository.QuizRepository;
 import com.example.onlinelearning.repository.TopicRepository;
@@ -22,17 +24,12 @@ public class LessonService {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     public int getNumberOfLessonsInCourseId(Integer courseId) {
-        int totalLessons = 0;
-
-        // Get all topics
-        List<Topic> topicList = topicRepository.findAllByCourse_Id(courseId);
-
-        for (Topic topic : topicList) {
-            totalLessons = topic.getLessonList().size();
-        }
-
-        return totalLessons;
+        Course currentCourse = courseRepository.getById(courseId);
+        return currentCourse.getLessonList().size();
 
     }
 
