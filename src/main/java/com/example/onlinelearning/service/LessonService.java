@@ -44,16 +44,16 @@ public class LessonService {
         return lessonRepository.findAll(pageable);
     }
 
-    public Page<Lesson> filterLesson(String searchInput, Integer topicId, Integer statusId, int currentPage){
+    public Page<Lesson> filterLesson(Integer courseId, String searchInput, Integer topicId, Integer statusId, int currentPage){
         Pageable pageable = PageRequest.of(currentPage - 1, 5);
         if (topicId == -1 && statusId == -1) {
-            return lessonRepository.findLessonByLessonNameContaining(searchInput, pageable);
+            return lessonRepository.findLessonByCourse_IdAndLessonNameContaining(courseId,searchInput, pageable);
         } else if (topicId == -1) {
-            return lessonRepository.findLessonByLessonNameContainingAndStatus_Id(searchInput, statusId, pageable);
+            return lessonRepository.findLessonByCourse_IdAndLessonNameContainingAndStatus_Id(courseId,searchInput, statusId, pageable);
         } else if (statusId == -1 ) {
-            return lessonRepository.findLessonByLessonNameContainingAndTopic_TopicId(searchInput, topicId, pageable);
+            return lessonRepository.findLessonByCourse_IdAndLessonNameContainingAndTopic_TopicId(courseId,searchInput, topicId, pageable);
         } else {
-            return lessonRepository.findLessonByLessonNameContainingAndStatus_IdAndTopic_TopicId(searchInput, topicId, statusId, pageable);
+            return lessonRepository.findLessonByCourse_IdAndLessonNameContainingAndStatus_IdAndTopic_TopicId(courseId,searchInput, topicId, statusId, pageable);
         }
     }
 }

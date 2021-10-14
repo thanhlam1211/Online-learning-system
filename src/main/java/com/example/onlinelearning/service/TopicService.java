@@ -16,5 +16,9 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
+    public List<Topic> findAllByCourse_Id(Integer courseId){
+        return  topicRepository.findAllByCourse_Id(courseId);
+    }
+
     public Topic getById(Integer id){return  topicRepository.getById(id);}
 }

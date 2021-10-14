@@ -24,10 +24,12 @@
                     <div class="col-md-10">
                         <div class="d-flex justify-content-end">
 <!--                            Chua truyen vao id-->
-                            <form th:action="@{/manage-lessons/course1}" class="row g-1" method="GET">
+                            <form th:action="@{/manage-lessons/course(currentCourseId)}" th:object="${currentCourseId}" class="row g-1" method="GET">
                                 <div class="col-auto">
                                     <input type="text" class="form-control" placeholder="Enter something..."
                                            style="height:auto;" name="search" th:value="${currentSearch}">
+<!--                                    Lỗi ở đây-->
+                                    <input type="hidden" name="id" th:value="${currentCourseId}">
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-select" name="category" style="height: auto;">
@@ -75,8 +77,6 @@
                             <td th:text="${lesson.lessonName}"></td>
                             <td th:text="${lesson.getOrder()}"></td>
                             <td th:text="${lesson.getTopic().topicName}" ></td>
-<!--                            <td th:text="${lesson.Order}"></td>-->
-<!--                            <td th:text="${lesson.topic.value}"></td>-->
                             <td th:text="${lesson.status.value}"></td>
                             <td><a class="link-detail" th:href="@{'/list_lesson_detail/'+${lesson.lessonId}}">Edit</a></td>
                         </tr>
@@ -88,16 +88,16 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                         <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                            <a class="page-link" th:href="@{'/manage-lessons/course1/' + ${currentPage - 1} + ${query}}">Previous</a>
+                            <a class="page-link" th:href="@{'/manage-lessons/course'+${currentCourseId} +'/' + ${currentPage - 1} + ${query}}">Previous</a>
                         </li>
                         <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
                             th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link"
-                                                                                    th:href="@{'/manage-lessons/course1/' + ${i} + ${query}}">[[${i}]]</a>
+                                                                                    th:href="@{'/manage-lessons/course'+${currentCourseId} +'/' + ${i} + ${query}}">[[${i}]]</a>
 <!--                                chưa fix truyền từng id-->
                         </li>
                         <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
                             <a class="page-link"
-                               th:href="@{'/manage-lessons/course1/' + ${currentPage + 1} + ${query}}">Next</a>
+                               th:href="@{'/manage-lessons/course' +${currentCourseId} +'/' + ${currentPage + 1} + ${query}}">Next</a>
                         </li>
                     </ul>
                 </nav>

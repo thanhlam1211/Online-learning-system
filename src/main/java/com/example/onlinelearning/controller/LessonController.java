@@ -55,7 +55,7 @@ public class LessonController {
                                          @PathVariable(name = "pageNumber") int currentPage) {
         User currentUser = userDetail.getUser();
         Page<Lesson> page;
-        page = lessonService.filterLesson(searchInput, topicId, statusId, currentPage);
+        page = lessonService.filterLesson(id, searchInput, topicId, statusId, currentPage);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Lesson> lessonList = page.getContent();
@@ -67,8 +67,9 @@ public class LessonController {
         model.addAttribute("currentPage", currentPage);
 
         model.addAttribute("query", "/?search=" + searchInput + "&topic=" + topicId + "&status=" + statusId);
-        model.addAttribute("topicList", topicService.findAll());
+        model.addAttribute("topicList", topicService.findAllByCourse_Id(id));
         model.addAttribute("statusList", statusService.findAll());
+        model.addAttribute("currentCourseId", id);
         model.addAttribute("currentTopicId", topicId);
         model.addAttribute("currentStatusId", statusId);
         model.addAttribute("currentSearch", searchInput);
