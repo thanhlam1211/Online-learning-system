@@ -20,7 +20,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="lesson" role="tabpanel" aria-labelledby="lesson-tab">
-                 <form th:action="@{'course/1/add/lesson'}" class="mt-3" method="POST">
+                 <form th:action="@{'course' + ${courseId} +'/add/lesson'}" class="mt-3" method="POST">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="lessonName" placeholder="Enter lesson name...">
@@ -48,7 +48,7 @@
                 </form>
             </div>
             <div class="tab-pane fade" id="topic" role="tabpanel" aria-labelledby="topic-tab">
-                <form th:action="@{'course/1/add/topic'}" class="mt-3" method="POST">
+                <form th:action="@{'course' + ${courseId} +'/add/topic'}" class="mt-3" method="POST">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" placeholder="Enter topic name..." name="topicName">

@@ -84,31 +84,32 @@ public class LessonController {
     }
 
     // ADD NEW LESSON MODAL
-    @GetMapping("/manage-lessons/course/{courseId}/add")
+    @GetMapping("/manage-lessons/course{courseId}/add")
     public String addNewLesson(Model model, @PathVariable(name = "courseId") Integer courseId) {
         List<Topic> topicList = topicService.findAllByCourse_Id(courseId);
         model.addAttribute("topicList", topicList);
+        model.addAttribute("courseId", courseId);
         return "add_lesson_modal";
     }
 
     // ADD NEW TOPIC
-    @PostMapping("/manage-lessons/course/{courseId}/add/topic")
+    @PostMapping("/manage-lessons/course{courseId}/add/topic")
     public String addTopic(Model model, @PathVariable(name = "courseId") Integer courseId, Topic topic) {
         Course currentCourse = courseService.getCourseById(courseId);
         topic.setCourse(currentCourse);
         topicRepository.save(topic);
-        return "redirect:/manage-lessons/course1";
+        return "redirect:/manage-lessons/course" + courseId;
     }
 
     // ADD NEW LESSON
-    @PostMapping("/manage-lessons/course/{courseId}/add/lesson")
+    @PostMapping("/manage-lessons/course{courseId}/add/lesson")
     public String addLesson(Model model, @PathVariable(name = "courseId") Integer courseId, Lesson lesson) {
         Course currentCourse = courseService.getCourseById(courseId);
         Status status = statusRepository.findByValue("ACTIVE");
         lesson.setCourse(currentCourse);
         lesson.setStatus(status);
         lessonRepository.save(lesson);
-        return "redirect:/manage-lessons/course1";
+        return "redirect:/manage-lessons/course" + courseId;
     }
 
 

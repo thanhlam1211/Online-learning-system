@@ -17,7 +17,7 @@
                 <h1 class="mb-4">Manage Subject Lesson</h1>
                 <div class="row">
                     <div class="col-md-2">
-                        <a class="btn btn-success link-detail" th:href="@{'/manage-lessons/course/1/add'}">
+                        <a class="btn btn-success link-detail" th:href="@{'/manage-lessons/course' + ${currentCourseId} + '/add'}">
                             Add New Lesson
                         </a>
                     </div>
