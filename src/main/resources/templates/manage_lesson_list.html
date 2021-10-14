@@ -24,15 +24,15 @@
                     <div class="col-md-10">
                         <div class="d-flex justify-content-end">
 <!--                            Chua truyen vao id-->
-                            <form th:action="@{/manage-lessons/course(currentCourseId)}" th:object="${currentCourseId}" class="row g-1" method="GET">
+                            <form th:action="@{'/manage-lessons/course'+${currentCourseId}}" th:object="${currentCourseId}" class="row g-1" method="GET">
                                 <div class="col-auto">
                                     <input type="text" class="form-control" placeholder="Enter something..."
                                            style="height:auto;" name="search" th:value="${currentSearch}">
 <!--                                    Lỗi ở đây-->
-                                    <input type="hidden" name="id" th:value="${currentCourseId}">
+<!--                                    <input type="hidden" name="currentCourseId" th:value="${currentCourseId}">-->
                                 </div>
                                 <div class="col-auto">
-                                    <select class="form-select" name="category" style="height: auto;">
+                                    <select class="form-select" name="topic" style="height: auto;">
                                         <option th:selected="(${currentTopicId == -1})" value="-1">All Topics
                                         </option>
                                         <th:block th:each="topic : ${topicList}">

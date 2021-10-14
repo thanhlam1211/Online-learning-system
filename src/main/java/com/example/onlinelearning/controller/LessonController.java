@@ -36,26 +36,26 @@ public class LessonController {
     private TopicService topicService;
 
     // SUBJECT Lesson DEFAULT
-    @GetMapping("/manage-lessons/course{id}")
+    @GetMapping("/manage-lessons/course{currentCourseId}")
     public String manageLessons(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
                                 @RequestParam(value = "search", defaultValue = "") String searchInput,
                                 @RequestParam(value = "topic", defaultValue = "-1") Integer topicId,
                                 @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
-                                @PathVariable("id") Integer id) {
-        return viewManageLessonsPage(userDetail, model, searchInput, topicId, statusId, id,1);
+                                @PathVariable("currentCourseId") Integer currentCourseId) {
+        return viewManageLessonsPage(userDetail, model, searchInput, topicId, statusId, currentCourseId,1);
     }
 
     // Subject Lesson Pagination
-    @GetMapping("/manage-lessons/course{id}/{pageNumber}")
+    @GetMapping("/manage-lessons/course{currentCourseId}/{pageNumber}")
     private String viewManageLessonsPage(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
                                          @RequestParam(value = "search", defaultValue = "") String searchInput,
                                          @RequestParam(value = "topic", defaultValue = "-1") Integer topicId,
                                          @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
-                                         @PathVariable("id") Integer id,
+                                         @PathVariable("currentCourseId") Integer currentCourseId,
                                          @PathVariable(name = "pageNumber") int currentPage) {
         User currentUser = userDetail.getUser();
         Page<Lesson> page;
-        page = lessonService.filterLesson(id, searchInput, topicId, statusId, currentPage);
+        page = lessonService.filterLesson(currentCourseId, searchInput, topicId, statusId, currentPage);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Lesson> lessonList = page.getContent();
@@ -67,9 +67,10 @@ public class LessonController {
         model.addAttribute("currentPage", currentPage);
 
         model.addAttribute("query", "/?search=" + searchInput + "&topic=" + topicId + "&status=" + statusId);
-        model.addAttribute("topicList", topicService.findAllByCourse_Id(id));
+//        http://localhost:8081/manage-lessons/course?search=tieng&currentCourseId=1&topic=1&status=1
+        model.addAttribute("topicList", topicService.findAllByCourse_Id(currentCourseId));
         model.addAttribute("statusList", statusService.findAll());
-        model.addAttribute("currentCourseId", id);
+        model.addAttribute("currentCourseId", currentCourseId);
         model.addAttribute("currentTopicId", topicId);
         model.addAttribute("currentStatusId", statusId);
         model.addAttribute("currentSearch", searchInput);
