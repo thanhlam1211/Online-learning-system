@@ -36,7 +36,6 @@ public class QuizController {
                            @RequestParam(value = "search", defaultValue = "") String searchInput,
                            @RequestParam(value = "type", defaultValue = "-1") Integer typeId,
                            @RequestParam(value = "level", defaultValue = "-1") Integer levelId) {
-        String keyword = null;
         return listQuizByPages(model, searchInput, typeId, levelId, 1);
     }
 
@@ -77,7 +76,7 @@ public class QuizController {
     @PostMapping("/updateQuiz")
     public String updateQuiz(@ModelAttribute("quiz") Quiz quiz, Model model){
         quizService.saveQuiz(quiz);
-        return "quiz";
+        return viewQuiz(model,"",-1,-1);
     }
 
 //    @PostMapping("/deleteQuiz/{id}")
