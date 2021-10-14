@@ -58,8 +58,8 @@
                 </div>
                 <!--            Button-->
                 <div class="row mt-5 mb-5">
-                    <button class="col-1 btn btn-primary" type="submit">Submit</button>
-                    <a onclick="goBack()" class="col-1 btn btn-primary">Back</a>
+                    <button class="col-1 btn btn-primary me-5" type="submit">Submit</button>
+                    <a th:href="@{/manage-courses}" class="col-1 btn btn-primary">Back</a>
                 </div>
             </div>
         </form>
@@ -109,12 +109,6 @@
         <p>This is price package tab</p>
     </div>
 </div>
-
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
 
 </body>
 </html>
