@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "question_bank")
 public class QuestionBank implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -45,11 +45,11 @@ public class QuestionBank implements Serializable {
     @Column
     private String answer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "levelId")
     private QuizLevel quizLevel;
 
@@ -59,7 +59,7 @@ public class QuestionBank implements Serializable {
             inverseJoinColumns =@JoinColumn(name = "dimension_id"))
     private Set<Dimension> dimensionList = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
 

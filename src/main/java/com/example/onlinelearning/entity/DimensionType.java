@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "dimension_type")
 public class DimensionType implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

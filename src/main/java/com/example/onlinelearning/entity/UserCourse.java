@@ -17,7 +17,7 @@ import java.util.Date;
 @Table(name = "user_course")
 public class UserCourse implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

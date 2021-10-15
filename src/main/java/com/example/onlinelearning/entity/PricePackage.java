@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "price_package")
 public class PricePackage implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

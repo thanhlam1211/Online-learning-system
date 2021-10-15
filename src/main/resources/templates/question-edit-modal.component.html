@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modalTitle"> Edit Question</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+<!-- course details start -->
+<form method="POST" th:action="@{/updateQuestion}">
+    <section class="course_details_area pt-30 pb-10">
+        <div class="container">
+            <input type="hidden" th:field="*{question.id}" readonly>
+            <label>Subject: </label>
+            <input type="text" class="form-control" th:field="*{question.course.title}" readonly>
+            <label>Question Content</label>
+            <textarea type="text" class="form-control" th:field="*{question.content}"></textarea>
+            <div class="left">
+                <div class="row g-3 align-items-center mt-1">
+                    <div class="col-auto">
+                        <label for="Option1" class="col-form-label">Option 1: </label>
+                    </div>
+                    <div class="col-auto">
+                        <input id="Option1" type="text" class="form-control" th:field="*{question.option1}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mt-1">
+                    <div class="col-auto">
+                        <label for="Option2" class="col-form-label">Option 2: </label>
+                    </div>
+                    <div class="col-auto">
+                        <input id="Option2" type="text" class="form-control" th:field="*{question.option2}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mt-1">
+                    <div class="col-auto">
+                        <label for="Option3" class="col-form-label">Option 3: </label>
+                    </div>
+                    <div class="col-auto">
+                        <input id="Option3" type="text" class="form-control" th:field="*{question.option3}">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mt-1">
+                    <div class="col-auto">
+                        <label for="Option4" class="col-form-label">Option 4: </label>
+                    </div>
+                    <div class="col-auto">
+                        <input id="Option4" type="text" class="form-control" th:field="*{question.option4}">
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="row g-3 align-items-center mt-1">
+                    <div class="col-auto">
+                        <label for="Answer" class="col-form-label text-success">Answer :  </label>
+                    </div>
+                    <span id='message'></span>
+                    <div class="col-auto">
+                        <input id="Answer" type="text" class="form-control" th:field="*{question.answer}" onkeyup='check();'>
+                    </div>
+                </div>
+            </div>
+            <label class="mt-1">Question Explanation: </label>
+            <textarea type="text" class="form-control mt-1" th:field="*{question.explanation}"></textarea>
+            <div class="row g-3 align-items-center">
+                <div class="col-3">
+                    <div class="col-auto">
+                        <label for="status" class="col-form-label">Status : </label>
+                    </div>
+                    <div class="col-auto">
+                        <select id="status" class="form-select" name="level" style="height: auto;" th:field="*{question.status}">
+                            <option value="-1">All Status</option>
+                            <th:block th:each="status : ${statusList}">
+                                <option th:value="${status.id}"
+                                        th:text="${status.value}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+               <div class="col-3">
+                   <div class="col-auto">
+                       <label for="status" class="col-form-label">Level : </label>
+                   </div>
+                   <div class="col-auto">
+                       <select id="level" class="form-select" name="level" style="height: auto;" th:field="*{question.quizLevel}">
+                           <option value="-1">All Level</option>
+                           <th:block th:each="level : ${levelList}">
+                               <option th:value="${level.id}"
+                                       th:text="${level.name}"></option>
+                           </th:block>
+                       </select>
+                   </div>
+               </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-footer">
+        <button type="submit" class="mr-2 btn btn-primary btn-block">
+            Update
+        </button>
+        <button type="button" class="btn btn-secondary close" data-dismiss="modal" data-bs-dismiss="modal">
+            Close
+        </button>
+    </div>
+</form>
+<!-- course details end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+
+</script>

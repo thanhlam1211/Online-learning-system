@@ -14,9 +14,9 @@
     <div class="d-flex flex justify-content-between">
         <div>
             <div class="col-sm-12">
-                <button type="button" class="btn btn-shadow btn-wide btn-success"><span
+                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail" th:href="@{/addQuestion}"><span
                         class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
-                </button>
+                </a>
             </div>
             <div class="mt-10 mb-10 col-sm-12">
                 <form th:action="@{/questionList/1}">
@@ -29,7 +29,7 @@
             </div>
 
         </div>
-        <div class="col-12 col-md-5 p-0 mb-3">
+        <div class="col-12 col-md-4 p-0 mb-3">
             <form th:action="@{/questionList/1}" class="row g-1" method="GET">
                 <div class="col-auto">
                     <select class="form-select" name="course" style="height: auto;" >
@@ -44,14 +44,6 @@
                         <option value="-1">All Dimension</option>
                         <th:block th:each="dimension : ${dimensionList}">
                             <option th:value="${dimension.id}" th:text="${dimension.name}"></option>
-                        </th:block>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select" name="level" style="height: auto;">
-                        <option value="-1">All Level</option>
-                        <th:block th:each="level : ${levelList}">
-                            <option th:value="${level.id}" th:text="${level.name}"></option>
                         </th:block>
                     </select>
                 </div>
@@ -86,7 +78,8 @@
             <tbody>
             <tr th:each="question : ${questionList}">
                 <th scope="row" th:text="${question.getId()}"></th>
-                <td><a href="" class="text-big" data-abc="true" th:text="${question.getContent()}"></a></td>
+                <td><a th:href="@{'/questionModal/' + ${question.getId()}}"
+                       class="text-big link-detail" data-abc="true" th:text="${question.getContent()}"></a></td>
                 <td th:text="${question.getCourse().getTitle()}"></td>
                 <td th:text="${question.getStatus().getValue()}"></td>
                 <td th:text="${question.getQuizLevel().getName()}"></td>
@@ -95,7 +88,7 @@
                 <td>
                     <a th:href="@{'/questionModal/' + ${question.getId()}}" class="btn btn-primary link-detail">Detail</a>
                     &nbsp;
-                    <a th:href="@{'/questionDetailModal/' + ${question.getId()}}" class="btn btn-danger link-detail">Edit</a>
+                    <a th:href="@{'/questionEditModal/' + ${question.getId()}}" class="btn btn-danger link-detail">Edit</a>
                 </td>
                 &nbsp;
             </tr>
@@ -162,7 +155,7 @@
 
 <th:block th:replace="fragments/footer :: footer">
 </th:block>
-<div class="modal" id="myModal" style="margin-top: 10%">
+<div class="modal" id="myModal" style="margin-top: 2%">
     <div class="modal-dialog">
         <div class="modal-content">
 

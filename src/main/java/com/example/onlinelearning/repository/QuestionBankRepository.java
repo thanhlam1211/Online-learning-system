@@ -15,7 +15,7 @@ public interface QuestionBankRepository extends JpaRepository<QuestionBank, Inte
     public Page<QuestionBank> findByContentContaining(String content, Pageable pageable);
     public QuestionBank getById(Integer id);
     public Page<QuestionBank> findQuestionBankByStatus_id(Integer status, Pageable pageable);
-//    public Page<QuestionBank> findByLevelId(Integer level, Pageable pageable);
+//    public Page<QuestionBank> findQuestionBankByLevel_id(Integer level, Pageable pageable);
     public Page<QuestionBank> findQuestionBankByCourse_id(Integer course, Pageable pageable);
     public Page<QuestionBank> findQuestionBankByStatus_idAndCourse_id(Integer status,Integer course, Pageable pageable);
 

@@ -75,4 +75,7 @@ public class QuestionService {
     public QuestionBank getQuestionById(Integer id) {
         return repository.getById(id);
     }
+    public void saveQuestion(QuestionBank questionBank) {
+        repository.saveAndFlush(questionBank);
+    }
 }
