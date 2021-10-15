@@ -44,11 +44,7 @@ public class Course implements Serializable {
     @CreatedDate
     private Date createdDate;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(name = "owner",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "courseList")
     private Set<User> userList = new HashSet<>();
 
     public void addUser(User user) {
@@ -58,6 +54,9 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<UserCourse> userCourseList = new HashSet<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<QuestionBank> questionBankList = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -65,6 +64,9 @@ public class Course implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private Status status;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizList;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "course_package",
@@ -100,11 +102,11 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Topic> topicList;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Quiz> quizList;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "course_dimension",
+            joinColumns =@JoinColumn(name = "course_id"),
+            inverseJoinColumns =@JoinColumn(name = "dimension_id"))
+    private Set<Dimension> dimensionList = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Lesson> lessonList;

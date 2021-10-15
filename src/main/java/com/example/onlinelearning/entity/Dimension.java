@@ -30,12 +30,14 @@ public class    Dimension implements Serializable {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "dimension", cascade = CascadeType.ALL)
-    private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private DimensionType dimensionType;
 
+    @ManyToMany(mappedBy = "dimensionList")
+    private Set<QuestionBank> questionBankList = new HashSet<>();
+
+    @ManyToMany(mappedBy = "dimensionList")
+    private Set<Course> courseList = new HashSet<>();
 
 }
