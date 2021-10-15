@@ -11,19 +11,61 @@
 
 
 <div class="container mt-100 py-5">
-    <div class="d-flex flex-wrap justify-content-between">
+    <div class="d-flex flex justify-content-between">
         <div>
-            <button type="button" class="btn btn-shadow btn-wide btn-primary"><span
-                    class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
-            </button>
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-shadow btn-wide btn-success"><span
+                        class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
+                </button>
+            </div>
+            <div class="mt-10 mb-10 col-sm-12">
+                <form th:action="@{/questionList/1}">
+                    <label>
+                        <input type="search" class="form-control" placeholder="Search..." name="keyword"
+                               th:value="${keyword}">
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
         </div>
-        <div class="col-12 col-md-3 p-0 mb-3">
-            <form th:action="@{/questionList/1}">
-                <label>
-                    <input type="search" class="form-control" placeholder="Search..." name="keyword"
-                           th:value="${keyword}">
-                </label>
-                <button type="submit" class="btn btn-primary">Search</button>
+        <div class="col-12 col-md-5 p-0 mb-3">
+            <form th:action="@{/questionList/1}" class="row g-1" method="GET">
+                <div class="col-auto">
+                    <select class="form-select" name="course" style="height: auto;" >
+                        <option value="-1">All Course</option>
+                        <th:block th:each="course : ${courseList}">
+                            <option th:value="${course.id}" th:text="${course.getTitle()}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" name="dimension" style="height: auto;">
+                        <option value="-1">All Dimension</option>
+                        <th:block th:each="dimension : ${dimensionList}">
+                            <option th:value="${dimension.id}" th:text="${dimension.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" name="level" style="height: auto;">
+                        <option value="-1">All Level</option>
+                        <th:block th:each="level : ${levelList}">
+                            <option th:value="${level.id}" th:text="${level.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" name="status" style="height: auto;">
+                        <option value="-1">All status</option>
+                        <th:block th:each="status : ${statusList}">
+                            <option th:value="${status.id}" th:text="${status.value}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
             </form>
         </div>
 
@@ -45,17 +87,15 @@
             <tr th:each="question : ${questionList}">
                 <th scope="row" th:text="${question.getId()}"></th>
                 <td><a href="" class="text-big" data-abc="true" th:text="${question.getContent()}"></a></td>
-                <td>Computer Science</td>
+                <td th:text="${question.getCourse().getTitle()}"></td>
                 <td th:text="${question.getStatus().getValue()}"></td>
                 <td th:text="${question.getQuizLevel().getName()}"></td>
-                <td>CS</td>
+                <td th:field="${question.dimensionList}"></td>
                 &nbsp;
                 <td>
                     <a th:href="@{'/questionModal/' + ${question.getId()}}" class="btn btn-primary link-detail">Detail</a>
                     &nbsp;
-                    <a class="btn btn-success">Edit</a>
-                    &nbsp;
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a th:href="@{'/questionDetailModal/' + ${question.getId()}}" class="btn btn-danger link-detail">Edit</a>
                 </td>
                 &nbsp;
             </tr>

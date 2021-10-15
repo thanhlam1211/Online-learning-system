@@ -22,7 +22,7 @@ import java.util.Set;
 @Table(name = "course")
 public class Course implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -49,6 +49,9 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<UserCourse> userCourseList = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<QuestionBank> questionBankList = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -95,7 +98,10 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Topic> topicList = new HashSet<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "course_dimension",
+            joinColumns =@JoinColumn(name = "course_id"),
+            inverseJoinColumns =@JoinColumn(name = "dimension_id"))
+    private Set<Dimension> dimensionList = new HashSet<>();
 
 }

@@ -50,8 +50,18 @@ public class QuestionBank implements Serializable {
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_level_id")
+    @JoinColumn(name = "levelId")
     private QuizLevel quizLevel;
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "question_dimension",
+            joinColumns =@JoinColumn(name = "question_id"),
+            inverseJoinColumns =@JoinColumn(name = "dimension_id"))
+    private Set<Dimension> dimensionList = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL)
     private Set<UserQuestionAnswer> userQuestionAnswerList = new HashSet<>();
@@ -59,7 +69,5 @@ public class QuestionBank implements Serializable {
     @ManyToMany(mappedBy = "questionBankList")
     private Set<Quiz> quizList = new HashSet<>();
 
-    @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL)
-    private Set<QuestionCourseDimension> questionCourseDimensionList = new HashSet<>();
 
 }
