@@ -99,11 +99,9 @@
                             <div class="form-group">
                                 <span for="addType" class="col-form-label">Type of dimension:</span>
                                 <select class="form-select" name="category" style="height: auto;">
-                                    <option th:selected="(${currentCategoryId == -1})" value="-1">All Categories
-                                    </option>
-                                    <th:block th:each="category : ${categoryList}">
-                                        <option th:value="${category.id}" th:text="${category.value}"
-                                                th:selected="(${currentCategoryId == category.id})"></option>
+                                    <option value="-1">All Type</option>
+                                    <th:block th:each="dimType : ${dimensionTypeList}">
+                                        <option th:value="${dimType.id}" th:text="${dimType.name}"></option>
                                     </th:block>
                                 </select>
                             </div>

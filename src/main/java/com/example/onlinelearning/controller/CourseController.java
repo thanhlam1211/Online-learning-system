@@ -38,6 +38,9 @@ public class CourseController {
     @Autowired
     private DimensionService dimensionService;
 
+    @Autowired
+    private DimensionTypeService dimensionTypeService;
+
     @GetMapping("/course")
     public String viewCourse(Model model,
                              @RequestParam(value = "search", defaultValue = "") String searchInput,
@@ -130,12 +133,15 @@ public class CourseController {
     public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
         List<Status> listStatus = statusRepository.findAll();
         List<Category> listCate = categoryService.findAll();
+        List<Dimension> dimensionList = dimensionService.getDimensionByCourseID(id);
+        List<DimensionType> dimensionTypeList = dimensionTypeService.getAllDimensionType();
 
         Course course = courseService.getCourseById(id);
         course.setFeatured(1);
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
-        model.addAttribute("dimensionList", dimensionService.getAllDimension());
+        model.addAttribute("dimensionList", dimensionList);
+        model.addAttribute("dimensionTypeList", dimensionTypeList);
         model.addAttribute("nCourse", course);
         return "test_layout";
     }
