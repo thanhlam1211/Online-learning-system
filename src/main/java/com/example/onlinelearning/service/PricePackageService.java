@@ -25,12 +25,12 @@ public class PricePackageService {
 //            pricePackage.getCourseList().remove(course);
             course.getPricePackageList().remove(pricePackage);
 //            pricePackageRepository.saveAndFlush(pricePackage);
-            courseRepository.saveAndFlush(course);
+            courseRepository.save(course);
         }else{
 //            pricePackage.getCourseList().add(course);
             course.getPricePackageList().add(pricePackage);
 //            pricePackageRepository.saveAndFlush(pricePackage);
-            courseRepository.saveAndFlush(course);
+            courseRepository.save(course);
         }
     }
 }
