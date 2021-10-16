@@ -4,7 +4,7 @@
             aria-label="Close"></button>
 </div>
 <!-- course details start -->
-<form th:object="${pricePackage}" method="POST" th:action="@{/save_pricePackage}">
+<form th:object="${pricePackage}" method="POST" th:action="@{/updated_pricePackage}">
     <section class="course_details_area pt-30 pb-10">
         <div class="container">
             <span class="col-form-label">Package ID</span>
@@ -19,6 +19,11 @@
             <input type="text" class="form-control" th:field="*{listPrice}">
             <span class="col-form-label">Sale Price</span>
             <input type="text" class="form-control" th:field="*{salePrice}">
+            <span class="col-form-label">Status</span>
+            <select th:field="*{status}" class="form-select" aria-label="Default select example">
+                <option th:value="1" th:text="Active"></option>
+                <option th:value="2" th:text="Inactive"></option>
+            </select>
             <span class="col-form-label">Description</span>
             <textarea class="form-control" th:field="*{text}"></textarea>
         </div>

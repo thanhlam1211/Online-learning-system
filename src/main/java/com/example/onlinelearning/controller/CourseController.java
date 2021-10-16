@@ -223,6 +223,12 @@ public class CourseController {
         pricePackageService.savePricePackage(pricePackage);
         return "redirect:/subject_detail/"+currentCourseId.toString();
     }
+    @PostMapping("/updated_pricePackage")
+    public String updatedPricePackage(@ModelAttribute("pricePackage") PricePackage pricePackage,
+                                   @ModelAttribute(name = "currentCourseId") Integer currentCourseId){
+        pricePackageService.savePricePackage(pricePackage);
+        return "redirect:/subject_detail/"+currentCourseId.toString();
+    }
     @GetMapping("/active_pricePackage/{packageId}/{currentCourseId}")
     public String activePricePackage(@PathVariable(name = "packageId") Integer packageId,
                                      @PathVariable(name = "currentCourseId") Integer currentCourseId) {
