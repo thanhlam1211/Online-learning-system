@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Table(name = "slide")
 public class Slide implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

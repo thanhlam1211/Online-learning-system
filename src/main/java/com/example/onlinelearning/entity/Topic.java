@@ -21,7 +21,8 @@ import java.util.Set;
 @Table(name = "topics")
 public class Topic implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer topicId;
 
     @Column

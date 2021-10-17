@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "lessons")
 public class Lesson implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer lessonId;
 
     @Column
@@ -40,6 +40,4 @@ public class Lesson implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
-
-
 }
