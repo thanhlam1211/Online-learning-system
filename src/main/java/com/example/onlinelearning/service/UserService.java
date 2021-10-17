@@ -1,6 +1,8 @@
 package com.example.onlinelearning.service;
 
+import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.Role;
+import com.example.onlinelearning.entity.Status;
 import com.example.onlinelearning.exception.UserNotFoundException;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -46,6 +49,8 @@ public class UserService {
         user.setPassword(encodedPassword);
 
         Role roleUser = roleRepo.findByName("ROLE_STUDENT");
+        Status statusUser = statusRepository.findByValue("INACTIVE");
+        user.setStatus(statusUser);
         user.addRole(roleUser);
 
         repository.save(user);
@@ -59,6 +64,7 @@ public class UserService {
         oldUser.setEmail(user.getEmail());
         oldUser.setPhone(user.getPhone());
         oldUser.setGender(user.getGender());
+        oldUser.setStatus(user.getStatus());
         oldUser.setRoleList(user.getRoleList());
 
         repository.save(oldUser);
@@ -177,11 +183,6 @@ public class UserService {
         return repository.findAll();
     }
 
-    //Delete user
-    public void deleteById(Integer id) {
-        this.repository.deleteById(id);
-    }
-
     //Update user
     public void update(User user) {
         repository.save(user);
@@ -191,6 +192,9 @@ public class UserService {
     public List<Role> getRoles() {
         return roleRepo.findAll();
     }
+
+    //Get status
+    public List<Status> getStatus() { return statusRepository.findAll(); }
 
     //Get user by keyword
     public List<User> findByKeyword(String keyword) {

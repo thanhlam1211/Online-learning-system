@@ -44,4 +44,9 @@ public class Status implements Serializable {
 
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     private Set<QuestionBank> questionBankList = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

@@ -22,6 +22,7 @@ import java.util.Set;
 public class Topic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer topicId;
 
     @Column
@@ -35,5 +36,5 @@ public class Topic implements Serializable {
     private Course course;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-    private Set<Lesson> lessonList = new HashSet<>();
+    private Set<Lesson> lessonList;
 }

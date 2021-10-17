@@ -63,6 +63,7 @@ public class QuestionBank implements Serializable {
     @JoinColumn(name = "course_id")
     private Course course;
 
+
     @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL)
     private Set<UserQuestionAnswer> userQuestionAnswerList = new HashSet<>();
 

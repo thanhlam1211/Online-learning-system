@@ -96,7 +96,10 @@ public class Course implements Serializable {
     }
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Topic> topicList = new HashSet<>();
+    private Set<Topic> topicList;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizList;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "course_dimension",

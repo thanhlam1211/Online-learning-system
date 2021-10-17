@@ -25,6 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public User findByResetPasswordToken(String token);
 
+
     @Query(value = "select * from users u where u.full_name like %:keyword% " +
             "or u.username like %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
