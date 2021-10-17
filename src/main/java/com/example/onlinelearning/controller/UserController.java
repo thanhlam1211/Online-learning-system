@@ -1,10 +1,12 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
+import com.example.onlinelearning.entity.Category;
 import com.example.onlinelearning.entity.Status;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
+import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.UserService;
 import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
@@ -40,9 +42,14 @@ public class UserController {
     @Autowired
     private StatusRepository statusRepository;
 
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private UserCourseService userCourseService;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {

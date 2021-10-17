@@ -18,47 +18,37 @@
                         class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
                 </a>
             </div>
-            <div class="mt-10 mb-10 col-sm-12">
-                <form th:action="@{/questionList/1}">
-                    <label>
-                        <input type="search" class="form-control" placeholder="Search..." name="keyword"
-                               th:value="${keyword}">
-                    </label>
-                    <button type="submit" class="btn btn-primary">Search</button>
+            <div class="mt-10 mb-10 col-12">
+                <form th:action="@{/questionList/1}" class="row g-1" method="GET">
+                    <div class="col-auto">
+                        <label>
+                            <input type="search" class="form-control" placeholder="Search..." name="keyword"
+                                   th:value="${keyword}">
+                        </label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="course" style="height: auto;">
+                            <option value="-1">All Course</option>
+                            <th:block th:each="course : ${courseList}">
+                                <option th:value="${course.id}" th:text="${course.getTitle()}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="status" style="height: auto;">
+                            <option value="-1">All status</option>
+                            <th:block th:each="status : ${statusList}">
+                                <option th:value="${status.id}" th:text="${status.value}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
                 </form>
             </div>
-
         </div>
         <div class="col-12 col-md-4 p-0 mb-3">
-            <form th:action="@{/questionList/1}" class="row g-1" method="GET">
-                <div class="col-auto">
-                    <select class="form-select" name="course" style="height: auto;" >
-                        <option value="-1">All Course</option>
-                        <th:block th:each="course : ${courseList}">
-                            <option th:value="${course.id}" th:text="${course.getTitle()}"></option>
-                        </th:block>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select" name="dimension" style="height: auto;">
-                        <option value="-1">All Dimension</option>
-                        <th:block th:each="dimension : ${dimensionList}">
-                            <option th:value="${dimension.id}" th:text="${dimension.name}"></option>
-                        </th:block>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select" name="status" style="height: auto;">
-                        <option value="-1">All status</option>
-                        <th:block th:each="status : ${statusList}">
-                            <option th:value="${status.id}" th:text="${status.value}"></option>
-                        </th:block>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Filter</button>
-                </div>
-            </form>
         </div>
 
     </div>
@@ -83,74 +73,34 @@
                 <td th:text="${question.getCourse().getTitle()}"></td>
                 <td th:text="${question.getStatus().getValue()}"></td>
                 <td th:text="${question.getQuizLevel().getName()}"></td>
-                <td th:field="${question.dimensionList}"></td>
+                <td th:value="${question.dimensionList}"></td>
                 &nbsp;
                 <td>
-                    <a th:href="@{'/questionModal/' + ${question.getId()}}" class="btn btn-primary link-detail">Detail</a>
+                    <a th:href="@{'/questionModal/' + ${question.getId()}}"
+                       class="btn btn-primary link-detail">Detail</a>
                     &nbsp;
-                    <a th:href="@{'/questionEditModal/' + ${question.getId()}}" class="btn btn-danger link-detail">Edit</a>
+                    <a th:href="@{'/questionEditModal/' + ${question.getId()}}"
+                       class="btn btn-danger link-detail">Edit</a>
                 </td>
                 &nbsp;
             </tr>
             </tbody>
         </table>
     </div>
-    <div class="text-center">
-        <div class="text-center">
-            <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
-        </div>
-        <nav class="pagination justify-content-center flex-wrap">
-            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                <a th:href="@{'/questionList/1' + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                   class="page-link">First</a>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{'/questionList/' + ${currentPage - 1} + ${query}}">Previous</a>
             </li>
-            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                <a th:href="@{'/questionList/'+${currentPage - 1} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                   class="page-link">Previous</a>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link"
+                                                                        th:href="@{'/questionList/' + ${i} + ${query}}">[[${i}]]</a>
             </li>
-
-            <th:block th:if="${totalPages <= 10}">
-                <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
-                    <a th:href="@{'/questionList/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                       class="page-link"> [[${i}]]</a>
-                </li>
-            </th:block>
-            <th:block th:if="${totalPages > 10}">
-                <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
-                    <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
-                        <a th:href="@{'/questionList/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                           class="page-link"> [[${i}]]</a>
-                    </li>
-                    <a th:href="@{'/questionList/4' + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                       class="page-link">...</a>
-                    <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
-                        <a th:href="@{'/questionList/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                           class="page-link"> [[${i}]]</a>
-                    </li>
-                </th:block>
-                <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
-                    <a th:href="@{'/questionList/'+${currentPage - 3} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                       class="page-link">...</a>
-                    <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
-                        <a th:href="@{'/questionList/'+${i} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                           class="page-link"> [[${i}]]</a>
-                    </li>
-                    <a th:href="@{'/questionList/'+${currentPage + 3} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                       class="page-link">...</a>
-                </th:block>
-            </th:block>
-
-
-            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                <a th:href="@{'/questionList/'+${currentPage + 1} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                   class="page-link">Next</a>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{'/questionList/' + ${currentPage + 1} + ${query}}">Next</a>
             </li>
-            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                <a th:href="@{'/questionList/'+${totalPages} + ${keyword != null ? '?keyword=' + keyword : ''}}"
-                   class="page-link">Last</a>
-            </li>
-        </nav>
-    </div>
+        </ul>
+    </nav>
 </div>
 
 <th:block th:replace="fragments/footer :: footer">
@@ -166,7 +116,7 @@
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
 <script type="text/javascript">
-    $(document).ready(function (){
+    $(document).ready(function () {
         $(".link-detail").on("click", function (e) {
             e.preventDefault();
             $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));

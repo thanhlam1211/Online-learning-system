@@ -39,22 +39,19 @@ public class QuestionController {
     @RequestMapping("/questionList")
     public String questionPage (Model model,
                                 @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
-                                @RequestParam(value = "dimension", defaultValue = "-1") Integer dimensionId,
-                                @RequestParam(value = "level", defaultValue = "-1") Integer levelId,
                                 @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
-        return listQuestionPage(model, 1, courseId, dimensionId, levelId, statusId, null);
+        return listQuestionPage(model, 1, courseId, statusId, "");
     }
 
     @GetMapping("/questionList/{pageNumber}")
     public String listQuestionPage(Model model,
                                    @PathVariable(name="pageNumber") int currentPage,
                                    @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
-                                   @RequestParam(value = "dimension", defaultValue = "-1") Integer dimensionId,
-                                   @RequestParam(value = "level", defaultValue = "-1") Integer levelId,
+
                                    @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
-                                   @Param("keyword") String keyword) {
+                                   @RequestParam(value = "keyword", defaultValue = "") String keyword ) {
         List<Category> categoryList = categoryService.getAll();
-        Page<QuestionBank> page = service.listAll(currentPage, keyword, courseId, dimensionId, levelId, statusId);
+        Page<QuestionBank> page = service.listAll(currentPage, keyword, courseId, statusId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
 
@@ -70,6 +67,7 @@ public class QuestionController {
         model.addAttribute("statusList", statusRepository.findAll());
         model.addAttribute("dimensionList", dimensionRepository.findAll());
         model.addAttribute("courseList", courseRepository.findAll());
+        model.addAttribute("query", "/?keyword=" + keyword + "&course=" + courseId + "&status=" + statusId);
 
         return "questionList";
     }
@@ -109,7 +107,7 @@ public class QuestionController {
         newQuestion.setStatus(questionBank.getStatus());
         newQuestion.setQuizLevel(questionBank.getQuizLevel());
         service.saveQuestion(newQuestion);
-        return listQuestionPage(model, 1, -1, -1, -1, -1, null);
+        return listQuestionPage(model, 1, -1, -1, "");
     }
 
     @GetMapping("/addQuestion")
@@ -120,6 +118,7 @@ public class QuestionController {
         modelAndView.addObject("statusList", statusRepository.findAll());
         modelAndView.addObject("levelList", levelRepository.findAll());
         modelAndView.addObject("courseList", courseRepository.findAll());
+        modelAndView.addObject("dimensionList", dimensionRepository.findAll());
         modelAndView.addObject("question", question);
         return modelAndView;
     }
@@ -127,6 +126,6 @@ public class QuestionController {
     @PostMapping("/addQuestion")
     public String processAddQuestion(@ModelAttribute("question") QuestionBank questionBank, Model model) {
         service.saveQuestion(questionBank);
-        return listQuestionPage(model, 1, -1, -1, -1, -1, null);
+        return listQuestionPage(model, 1, -1, -1, "");
     }
 }

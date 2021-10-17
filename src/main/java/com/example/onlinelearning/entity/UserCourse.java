@@ -26,6 +26,9 @@ public class UserCourse implements Serializable {
     @Column
     private Date endDate;
 
+    @Column
+    private int registrationStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -33,4 +36,8 @@ public class UserCourse implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pricePackage_id")
+    private PricePackage pricePackage;
 }
