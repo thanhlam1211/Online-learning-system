@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modalTitle">Add new Package</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+<!-- course details start -->
+<form th:object="${pricePackage}" method="POST" th:action="@{/save_pricePackage}">
+    <section class="course_details_area pt-30 pb-10">
+        <div class="container">
+            <span class="col-form-label">Package Name</span>
+            <input type="text" class="form-control" th:field="*{name}">
+            <span class="col-form-label">Duration</span>
+            <input type="text" class="form-control" th:field="*{duraion}">
+            <span class="col-form-label">Discount</span>
+            <input type="text" class="form-control" th:field="*{discount}">
+            <span class="col-form-label">List Price</span>
+            <input type="text" class="form-control" th:field="*{listPrice}">
+            <span class="col-form-label">Sale Price</span>
+            <input type="text" class="form-control" th:field="*{salePrice}">
+            <span class="col-form-label">Description</span>
+            <textarea class="form-control" th:field="*{text}"></textarea>
+        </div>
+    </section>
+    <input type="hidden" id="currentCourseId" name="currentCourseId" th:value="${currentCourseId}">
+    <div class="modal-footer">
+        <button type="submit" class="mr-2 btn btn-primary btn-block">
+            Add
+        </button>
+        <button type="button" class="btn btn-secondary close" data-dismiss="modal" data-bs-dismiss="modal">
+            Close
+        </button>
+    </div>
+</form>
+<!-- course details end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

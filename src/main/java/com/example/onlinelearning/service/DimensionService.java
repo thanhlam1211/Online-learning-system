@@ -12,6 +12,9 @@ public class DimensionService {
     @Autowired
     private DimensionRepository dimensionRepository;
 
+    public List<Dimension> getDimensionByCourseID(Integer course_id) {
+        return dimensionRepository.findDimensionsByCourseID(course_id);
+    }
     public List<Dimension> getAllDimension() {
         return dimensionRepository.findAll();
     }

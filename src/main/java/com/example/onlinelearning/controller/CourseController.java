@@ -2,6 +2,7 @@ package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.PricePackageRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
@@ -21,22 +22,22 @@ import java.util.List;
 public class CourseController {
     @Autowired
     private CourseService courseService;
-
     @Autowired
     private CategoryService categoryService;
-
     @Autowired
     private StatusService statusService;
-
     @Autowired
     private LessonService lessonService;
-
-
-    @Autowired
-    private StatusRepository statusRepository;
-
     @Autowired
     private DimensionService dimensionService;
+    @Autowired
+    private DimensionTypeService dimensionTypeService;
+    @Autowired
+    private PricePackageService pricePackageService;
+    @Autowired
+    private PricePackageRepository pricePackageRepository;
+    @Autowired
+    private StatusRepository statusRepository;
 
     @GetMapping("/course")
     public String viewCourse(Model model,
@@ -130,12 +131,16 @@ public class CourseController {
     public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
         List<Status> listStatus = statusRepository.findAll();
         List<Category> listCate = categoryService.findAll();
-
+        List<Dimension> dimensionList = dimensionService.getDimensionByCourseID(id);
+        List<DimensionType> dimensionTypeList = dimensionTypeService.getAllDimensionType();
+        List<PricePackage> pricePackageList = pricePackageRepository.findAll();
         Course course = courseService.getCourseById(id);
         course.setFeatured(1);
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
-        model.addAttribute("dimensionList", dimensionService.getAllDimension());
+        model.addAttribute("dimensionList", dimensionList);
+        model.addAttribute("pricePackageList", pricePackageList);
+        model.addAttribute("dimensionTypeList", dimensionTypeList);
         model.addAttribute("nCourse", course);
         return "test_layout";
     }
@@ -193,5 +198,42 @@ public class CourseController {
         model.addAttribute("currentSearch", searchInput);
         return "manage_course_list";
     }
-
+    //--------Price Package--------
+    @GetMapping("/add_pricePackage/{currentCourseId}")
+    public ModelAndView addPricePackage(@PathVariable(name = "currentCourseId") Integer currentCourseId) {
+        ModelAndView modelAndView = new ModelAndView("add_price_package");
+        PricePackage pricePackage = new PricePackage();
+        modelAndView.addObject("pricePackage", pricePackage);
+        modelAndView.addObject("currentCourseId", currentCourseId);
+        return modelAndView;
+    }
+    @GetMapping("/update_pricePackage/{packageId}/{currentCourseId}")
+    public ModelAndView updatepricePackage(@PathVariable(name = "packageId") Integer packageId,
+                                           @PathVariable(name = "currentCourseId") Integer currentCourseId) {
+        ModelAndView modelAndView = new ModelAndView("update_price_package");
+        PricePackage pricePackage = pricePackageRepository.getById(packageId);
+        modelAndView.addObject("currentCourseId", currentCourseId);
+        modelAndView.addObject("pricePackage", pricePackage);
+        return modelAndView;
+    }
+    @PostMapping("/save_pricePackage")
+    public String savepricePackage(@ModelAttribute("pricePackage") PricePackage pricePackage,
+                                         @ModelAttribute(name = "currentCourseId") Integer currentCourseId){
+        pricePackage.setStatus(statusRepository.getById(1));
+        pricePackageService.savePricePackage(pricePackage);
+        return "redirect:/subject_detail/"+currentCourseId.toString();
+    }
+    @PostMapping("/updated_pricePackage")
+    public String updatedPricePackage(@ModelAttribute("pricePackage") PricePackage pricePackage,
+                                   @ModelAttribute(name = "currentCourseId") Integer currentCourseId){
+        pricePackageService.savePricePackage(pricePackage);
+        return "redirect:/subject_detail/"+currentCourseId.toString();
+    }
+    @GetMapping("/active_pricePackage/{packageId}/{currentCourseId}")
+    public String activePricePackage(@PathVariable(name = "packageId") Integer packageId,
+                                     @PathVariable(name = "currentCourseId") Integer currentCourseId) {
+        pricePackageService.activePricePackage(packageId,currentCourseId);
+        return "redirect:/subject_detail/"+currentCourseId.toString();
+    }
+    //------Price Package End------
 }

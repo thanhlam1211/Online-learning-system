@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/layout.css">
     <title>Course layout</title>
 </head>
 <body>
+
+<!--TAB 1-->
 <div class="mytabs">
     <input type="radio" id="overviewtab" name="mytabs" checked="checked">
     <label for="overviewtab" style="margin-right: 10px;">Overview</label>
     <div class="tab">
         <form th:action="@{/course/save}" method="post" th:object="${nCourse}">
-            <input type="hidden" th:field="*{id}" name="id" />
+            <input type="hidden" th:field="*{id}" name="id"/>
             <div class="container">
                 <div class="row mb-5 mt-4">
                     <div class="col-8">
                         <div class="form-outline mb-4">
                             <h5 class="form-label" for="form3Example3">Subject Name</h5>
-                            <input type="text" th:field="*{title}" id="form3Example2" class="form-control" name="subject"/>
+                            <input type="text" th:field="*{title}" id="form3Example2" class="form-control"
+                                   name="subject"/>
                         </div>
                         <div class="form-outline mb-4">
                             <h5 class="form-label" for="form3Example3">Thumbnail URL</h5>
-                            <input type="text" th:value="*{thumbnail}" th:field="*{thumbnail}" id="thumbnailURL" class="form-control" name="thumbnail"/>
+                            <input type="text" th:value="*{thumbnail}" th:field="*{thumbnail}" id="thumbnailURL"
+                                   class="form-control" name="thumbnail"/>
                         </div>
                         <div class="form-outline mb-4">
                             <h5 class="form-label" for="form3Example3">Category</h5>
@@ -54,7 +59,8 @@
                 <!--            Description-->
                 <div class="form-outline mb-4">
                     <h5 class="form-label" for="form3Example3">Description</h5>
-                    <input type="text" th:field="*{description}" id="Description" class="form-control" name="description"/>
+                    <input type="text" th:field="*{description}" id="Description" class="form-control"
+                           name="description"/>
                 </div>
                 <!--            Button-->
                 <div class="row mt-5 mb-5">
@@ -64,11 +70,57 @@
             </div>
         </form>
     </div>
+    <!--END TAB 1-->
 
+    <!--TAB 2-->
     <input type="radio" id="dimensiontab" name="mytabs">
     <label for="dimensiontab" style="margin-right: 10px;">Dimension</label>
     <div class="tab">
-        <button type="button" class="btn btn-outline-success">Add new dimension</button>
+        <div class="container mt-5">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add new dimension
+            </button>
+            <!--MODAL-->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <span for="addName" class="col-form-label">Dimension name:</span>
+                                <input type="text" class="form-control" id="addName" name="name">
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <span for="addType" class="col-form-label">Type of dimension:</span>
+                                <select class="form-select" name="category" style="height: auto;">
+                                    <option value="-1">All Type</option>
+                                    <th:block th:each="dimType : ${dimensionTypeList}">
+                                        <option th:value="${dimType.id}" th:text="${dimType.name}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <span for="addDes" class="col-form-label">Description:</span>
+                                <textarea type="text" class="form-control" id="addDes" name="description"></textarea>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MODAL-->
+        </div>
         <hr style="height: 2px">
         <table class="table table-bordered">
             <thead style="background: #5c636a; color: #FFFFFF">
@@ -101,13 +153,65 @@
             </tbody>
         </table>
     </div>
+    <!--END TAB 2-->
 
+    <!--TAB 3-->
     <input type="radio" id="packagetab" name="mytabs">
     <label for="packagetab" style="margin-right: 10px;">Price package</label>
     <div class="tab">
-        <h2>Tab 3</h2>
-        <p>This is price package tab</p>
+        <table border="2" class="table table-hover table-bordered table-responsive">
+            <caption>List of package</caption>
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Package</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Discount</th>
+                <th scope="col">List Price</th>
+                <th scope="col">Sale Price</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="package : ${pricePackageList}">
+                <th scope="row" th:text="${package.getId()}">1</th>
+                <td th:text="${package.getName()}"></td>
+                <td th:text="${package.getDuraion()}"></td>
+                <td th:text="${package.getDiscount()+'%'}"></td>
+                <td th:text="${package.getListPrice()}"></td>
+                <td th:text="${package.getSalePrice()}"></td>
+                <td th:text="${package.getText()}"></td>
+                <td th:text="${package.getStatus()}"></td>
+                <td>
+                    <a class="link-detail" th:href="@{'/update_pricePackage/'+${package.getId()}+'/'+${nCourse.getId()}}">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a
+                       th:href="@{'/active_pricePackage/'+${package.getId()}+'/'+${nCourse.getId()}}"
+                       th:text="${package.getCourseList().contains(nCourse)}?'Deactive':'Active'">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="link-detail" th:href="@{'/add_pricePackage/'+${nCourse.getId()}}">
+                <button class="btn btn-success">Add new Package</button>
+            </a>
+        </div>
     </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <!--END TAB 3-->
 </div>
 
 <script>
@@ -115,6 +219,19 @@
         window.history.back();
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
 
+</script>
 </body>
 </html>
