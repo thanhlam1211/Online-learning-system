@@ -48,9 +48,6 @@ public class UserController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private UserCourseService userCourseService;
-
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
