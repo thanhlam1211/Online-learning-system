@@ -18,6 +18,18 @@ public class PricePackageService {
          pricePackageRepository.save(pricePackage);
     }
 
+    public void saveUpdatePricePackage(PricePackage pricePackage) {
+        pricePackageRepository.updatePricePackage(pricePackage.getDiscount(),
+                pricePackage.getDuraion(),
+                pricePackage.getListPrice(),
+                pricePackage.getName(),
+                pricePackage.getSalePrice(),
+                pricePackage.getText(),
+                pricePackage.getStatus().getId(),
+                pricePackage.getId()
+                );
+    }
+
     public void activePricePackage(Integer pricePackageId, Integer courseId){
         PricePackage pricePackage = pricePackageRepository.getById(pricePackageId);
         Course course =  courseRepository.getById(courseId);
