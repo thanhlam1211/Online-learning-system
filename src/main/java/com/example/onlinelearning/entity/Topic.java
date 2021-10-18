@@ -26,7 +26,7 @@ public class Topic implements Serializable {
 
     @Column
     private String topicName;
-
+  
     @Column(name = "topic_order")
     private int order;
 

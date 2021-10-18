@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Table(name = "user_question_answer")
 public class UserQuestionAnswer implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "user_choice")

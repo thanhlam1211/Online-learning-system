@@ -111,4 +111,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Lesson> lessonList;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizList;
+
 }

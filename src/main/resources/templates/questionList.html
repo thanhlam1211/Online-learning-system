@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Question List</title>
+    <th:block th:replace="fragments/meta_head :: meta_head">
+    </th:block>
+</head>
+<body>
+<div th:include="fragments/navbar:: home_navbar(${categoryList})"></div>
+
+
+<div class="container mt-100 py-5">
+    <div class="d-flex flex justify-content-between">
+        <div>
+            <div class="col-sm-12">
+                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail" th:href="@{/addQuestion}"><span
+                        class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
+                </a>
+            </div>
+            <div class="mt-10 mb-10 col-12">
+                <form th:action="@{/questionList/1}" class="row g-1" method="GET">
+                    <div class="col-auto">
+                        <label>
+                            <input type="search" class="form-control" placeholder="Search..." name="keyword"
+                                   th:value="${keyword}">
+                        </label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="course" style="height: auto;">
+                            <option value="-1">All Course</option>
+                            <th:block th:each="course : ${courseList}">
+                                <option th:value="${course.id}" th:text="${course.getTitle()}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="status" style="height: auto;">
+                            <option value="-1">All status</option>
+                            <th:block th:each="status : ${statusList}">
+                                <option th:value="${status.id}" th:text="${status.value}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0 mb-3">
+        </div>
+
+    </div>
+    <div class="card mb-3 no-gutters">
+        <table class="table no-gutters">
+            <thead>
+            <tr class="no-gutters">
+                <th scope="col"><a>No</a></th>
+                <th scope="col"><a>Question</a></th>
+                <th scope="col"><a>Subject</a></th>
+                <th scope="col"><a>Status</a></th>
+                <th scope="col"><a>Level</a></th>
+                <th scope="col"><a>Dimension</a></th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question : ${questionList}">
+                <th scope="row" th:text="${question.getId()}"></th>
+                <td><a th:href="@{'/questionModal/' + ${question.getId()}}"
+                       class="text-big link-detail" data-abc="true" th:text="${question.getContent()}"></a></td>
+                <td th:text="${question.getCourse().getTitle()}"></td>
+                <td th:text="${question.getStatus().getValue()}"></td>
+                <td th:text="${question.getQuizLevel().getName()}"></td>
+                <td th:value="${question.dimensionList}"></td>
+                &nbsp;
+                <td>
+                    <a th:href="@{'/questionModal/' + ${question.getId()}}"
+                       class="btn btn-primary link-detail">Detail</a>
+                    &nbsp;
+                    <a th:href="@{'/questionEditModal/' + ${question.getId()}}"
+                       class="btn btn-danger link-detail">Edit</a>
+                </td>
+                &nbsp;
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{'/questionList/' + ${currentPage - 1} + ${query}}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link"
+                                                                        th:href="@{'/questionList/' + ${i} + ${query}}">[[${i}]]</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{'/questionList/' + ${currentPage + 1} + ${query}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<th:block th:replace="fragments/footer :: footer">
+</th:block>
+<div class="modal" id="myModal" style="margin-top: 2%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+</body>
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>

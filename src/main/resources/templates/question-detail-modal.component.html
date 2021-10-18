@@ -1,0 +1,71 @@
+<div>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Question Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+    </div>
+
+    <!-- course details start -->
+    <section class="course_details_area pt-30 pb-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="course_dtls_left mb-30">
+                        <div class="cdl_top mb-30 row">
+                            <div class="cd_content pt-0">
+                                <span>Question: </span>
+                                <h3 class="title text-danger" th:text="${question.getContent()}"></h3>
+                                <!--                                <span th:text="${question.getAnswer()}"></span>-->
+                                <h5>Option: </h5>
+                                <div class="meta mt-2">
+                                    <div class="left ul-li">
+                                        <div class="old"
+                                             th:text="'1. ' + ${question.getOption1()}">
+                                        </div>
+                                        <div class=" old"
+                                             th:text="'2. ' +${question.getOption2()}">
+                                        </div>
+                                        <div class=" old"
+                                             th:text="'3. ' +${question.getOption3()}">
+                                        </div>
+                                        <div class=" old"
+                                             th:text="'4. ' +${question.getOption4()}">
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <span class="price text-success h5"
+                                              th:text="'Answer: ' + ${question.getAnswer()}">
+                                        </span>
+                                            <div th:text="'Explanation: ' + ${question.getExplanation()}">
+
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <!--                                <a class="btn btn-primary col-12" th:href=""> Enroll-->
+                                <!--                                    course </a>-->
+                            </div>
+                            <div class="cd_content pt-0">
+                                <div class="cd_content ">
+                                    <div class="right">
+                                        Status: <h5 th:text="${question.getStatus().getValue()}" class="text-success"></h5>
+                                    </div>
+                                    <div class="left">
+                                        Level: <h5 th:text="${question.getQuizLevel().getName()}"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

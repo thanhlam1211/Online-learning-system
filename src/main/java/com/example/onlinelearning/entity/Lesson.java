@@ -27,7 +27,7 @@ public class Lesson implements Serializable {
     @Column(name = "video_link")
     private String videoLinkId;
 
-    @Column(name = "html_content",columnDefinition = "text")
+    @Column(name = "html_content", columnDefinition = "text")
     private String htmlContent;
 
     @Column(name = "lesson_order")
