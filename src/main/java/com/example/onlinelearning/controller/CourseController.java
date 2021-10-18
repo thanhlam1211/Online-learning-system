@@ -160,14 +160,14 @@ public class CourseController {
     @GetMapping("/course/newDimension/{course_id}/{dim_id}")
     public String addDimensionForCourse(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
         dimensionService.addDimensionForCourse(course_id, dim_id);
-        return "redirect:/manage-courses";
+        return "redirect:/subject_detail/" + course_id;
     }
 
     //delete dimension of course
     @GetMapping("/delete/{course_id}/{dim_id}")
     public String deleteDimension(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
         dimensionService.deleteDimension(course_id, dim_id);
-        return "redirect:/manage-courses";
+        return "redirect:/subject_detail/" + course_id;
     }
 
     // Lesson list default
