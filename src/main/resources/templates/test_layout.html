@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/css/layout.css">
     <title>Course layout</title>
 </head>
@@ -77,47 +78,67 @@
     <label for="dimensiontab" style="margin-right: 10px;">Dimension</label>
     <div class="tab">
         <div class="container mt-5">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Add new dimension
             </button>
+            <p style="padding-left: 6px;">or add dimension for this course below</p>
+            <div class="btn-group">
+                <button style="margin-left: 8px;" type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dimension...
+                </button>
+                <ul class="dropdown-menu">
+                    <span class="chosen"></span>
+                    <th:block th:each="dim : ${dimensions}">
+                        <li>
+                            <a th:href="@{'/course/newDimension/' + ${nCourse.id} + '/' + ${dim.id}}" th:text="${dim.name}" class="dropdown-item"></a>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+
+
             <!--MODAL-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
+                <form th:action="@{/course/addDimension}" th:object="${dimension}" method="post">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
 
-                            <div class="form-group">
-                                <span for="addName" class="col-form-label">Dimension name:</span>
-                                <input type="text" class="form-control" id="addName" name="name">
+                                <div class="form-group">
+                                    <span for="inputName">Dimension name:</span>
+                                    <input type="text" th:field="*{name}" class="form-control" id="inputName">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="addType" class="col-form-label">Type of dimension:</span>
+                                    <select th:field="*{dimensionType}" class="form-select" name="category"
+                                            style="height: auto;">
+                                        <th:block th:each="dim : ${dimensionTypeList}">
+                                            <option th:text="${dim.name}" th:value="${dim.id}" name="dim_id"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputDes">Description</span>
+                                    <textarea type="text" th:field="*{description}" class="form-control"
+                                              id="inputDes"></textarea>
+                                </div>
+                                <hr>
                             </div>
-                            <hr>
-                            <div class="form-group">
-                                <span for="addType" class="col-form-label">Type of dimension:</span>
-                                <select class="form-select" name="category" style="height: auto;">
-                                    <option value="-1">All Type</option>
-                                    <th:block th:each="dimType : ${dimensionTypeList}">
-                                        <option th:value="${dimType.id}" th:text="${dimType.name}"></option>
-                                    </th:block>
-                                </select>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <hr>
-                            <div class="form-group">
-                                <span for="addDes" class="col-form-label">Description:</span>
-                                <textarea type="text" class="form-control" id="addDes" name="description"></textarea>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Understood</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <!--END MODAL-->
         </div>
@@ -146,8 +167,7 @@
                 <td th:text="${dim.dimensionType}"></td>
                 <td th:text="${dim.name}"></td>
                 <td>
-                    <a class="btn btn-secondary m-2">Edit</a>
-                    <a class="btn btn-danger">Delete</a>
+                    <a th:href="@{'/delete/' + ${nCourse.id} + '/' + ${dim.id}}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             </tbody>

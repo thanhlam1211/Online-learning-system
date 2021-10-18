@@ -2,18 +2,22 @@ package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.DimensionRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.client.support.InterceptingHttpAccessor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -31,6 +35,8 @@ public class CourseController {
     @Autowired
     private LessonService lessonService;
 
+    @Autowired
+    private DimensionRepository dimensionRepository;
 
     @Autowired
     private StatusRepository statusRepository;
@@ -135,15 +141,39 @@ public class CourseController {
         List<Category> listCate = categoryService.findAll();
         List<Dimension> dimensionList = dimensionService.getDimensionByCourseID(id);
         List<DimensionType> dimensionTypeList = dimensionTypeService.getAllDimensionType();
+        List<Dimension> dimensions = dimensionService.getAllDimension();
 
+        Dimension dimension = new Dimension();
         Course course = courseService.getCourseById(id);
         course.setFeatured(1);
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
         model.addAttribute("dimensionList", dimensionList);
         model.addAttribute("dimensionTypeList", dimensionTypeList);
+        model.addAttribute("dimensions", dimensions);
+        model.addAttribute("dimension", dimension);
         model.addAttribute("nCourse", course);
         return "test_layout";
+    }
+
+    //add a new dimension
+    @PostMapping("/course/addDimension")
+    public String addDimension(Dimension dimension) {
+        dimensionRepository.save(dimension);
+        return "redirect:/manage-courses";
+    }
+
+    @GetMapping("/course/newDimension/{course_id}/{dim_id}")
+    public String addDimensionForCourse(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
+        dimensionService.addDimensionForCourse(course_id, dim_id);
+        return "redirect:/manage-courses";
+    }
+
+    //delete dimension of course
+    @GetMapping("/delete/{course_id}/{dim_id}")
+    public String deleteDimension(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
+        dimensionService.deleteDimension(course_id, dim_id);
+        return "redirect:/manage-courses";
     }
 
     // Lesson list default
