@@ -58,17 +58,13 @@ public class CourseService {
     }
 
     public void saveCourseToDB(Course course, User user) {
-        Set<User> userList = new HashSet<>();
-        userList.add(user);
-        course.setUserList(userList);
         course.setFeatured(1);
-        course.addUser(user);
         Date currentDate  = new Date();
         course.setCreatedDate(currentDate);
-        //course.addUser(user);
-//        user.addCourse(course);
-        userRepository.save(user);
         courseRepository.save(course);
+
+        // Lưu course vào user
+        courseRepository.addCourseOwner(course.getId(), user.getId());
     }
 
     public List<Course> findAll() {
