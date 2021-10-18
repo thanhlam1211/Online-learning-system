@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "price_package")
 public class PricePackage implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -45,4 +45,8 @@ public class PricePackage implements Serializable {
 
     @ManyToMany(mappedBy = "pricePackageList")
     private Set<Course> courseList = new HashSet<>();
+
+    @OneToMany(mappedBy = "pricePackage", cascade =  CascadeType.ALL)
+    private Set<UserCourse> userCourseList = new HashSet<>();
+
 }

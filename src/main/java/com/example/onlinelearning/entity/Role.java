@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer role_id;
     @Column(name = "role_name")
     private String name;

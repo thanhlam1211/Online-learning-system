@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "quiz_type")
 public class QuizType implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

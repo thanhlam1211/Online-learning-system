@@ -28,4 +28,6 @@ public interface DimensionRepository extends JpaRepository<Dimension, Integer> {
     @Transactional
     @Query(value = "delete from course_dimension where course_id = ?1 and dimension_id = ?2", nativeQuery = true)
     public void deleteDimensionByCourseIdAndDimensionId(Integer course_id, Integer dim_id);
+
+
 }
