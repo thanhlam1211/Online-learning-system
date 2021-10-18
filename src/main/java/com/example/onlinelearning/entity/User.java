@@ -76,11 +76,10 @@ public class User implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "owner",
-               joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "course_id")
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<Course> courseList = new HashSet<>();
-
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

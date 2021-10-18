@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <title>Course layout</title>
+</head>
+<body>
+
+<!--TAB 1-->
+<div class="mytabs">
+    <input type="radio" id="overviewtab" name="mytabs" checked="checked">
+    <label for="overviewtab" style="margin-right: 10px;">Overview</label>
+    <div class="tab">
+        <form th:action="@{/course/save}" method="post" th:object="${nCourse}">
+            <input type="hidden" th:field="*{id}" name="id"/>
+            <div class="container">
+                <div class="row mb-5 mt-4">
+                    <div class="col-8">
+                        <div class="form-outline mb-4">
+                            <h5 class="form-label" for="form3Example3">Subject Name</h5>
+                            <input type="text" th:field="*{title}" id="form3Example2" class="form-control"
+                                   name="subject"/>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <h5 class="form-label" for="form3Example3">Thumbnail URL</h5>
+                            <input type="text" th:value="*{thumbnail}" th:field="*{thumbnail}" id="thumbnailURL"
+                                   class="form-control" name="thumbnail"/>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <h5 class="form-label" for="form3Example3">Category</h5>
+                            <select th:field="*{category}">
+                                <option th:each="p: ${listCate}" th:value="${p.id}" th:text="${p.value}"></option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col align-self-start form-outline mb-4">
+                                <h5 class="form-label" for="form3Example3">Featured Subject</h5>
+                                <input type="checkbox" checked id="form2Example2" name="featured" value="1"/>
+
+                            </div>
+                            <div class="col align-self-end form-outline mb-4">
+                                <h5 class="form-label" for="form3Example3">Status</h5>
+                                <select th:field="*{status}">
+                                    <option th:each="p: ${listStatus}" th:value="${p.id}" th:text="${p.value}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <p>Thumbnail Image</p>
+                        <img th:src="*{thumbnail}">
+                    </div>
+                </div>
+                <!--            Description-->
+                <div class="form-outline mb-4">
+                    <h5 class="form-label" for="form3Example3">Description</h5>
+                    <input type="text" th:field="*{description}" id="Description" class="form-control"
+                           name="description"/>
+                </div>
+                <!--            Button-->
+                <div class="row mt-5 mb-5">
+                    <button class="col-1 btn btn-primary" type="submit">Submit</button>
+                    <a onclick="goBack()" class="col-1 btn btn-primary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--END TAB 1-->
+
+    <!--TAB 2-->
+    <input type="radio" id="dimensiontab" name="mytabs">
+    <label for="dimensiontab" style="margin-right: 10px;">Dimension</label>
+    <div class="tab">
+        <div class="container mt-5">
+            <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add new dimension
+            </button>
+            <p style="padding-left: 6px;">or add dimension for this course below</p>
+            <div class="btn-group">
+                <button style="margin-left: 8px;" type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dimension...
+                </button>
+                <ul class="dropdown-menu">
+                    <span class="chosen"></span>
+                    <th:block th:each="dim : ${dimensions}">
+                        <li>
+                            <a th:href="@{'/course/newDimension/' + ${nCourse.id} + '/' + ${dim.id}}" th:text="${dim.name}" class="dropdown-item"></a>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+
+
+            <!--MODAL-->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <form th:action="@{/course/addDimension}" th:object="${dimension}" method="post">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <span for="inputName">Dimension name:</span>
+                                    <input type="text" th:field="*{name}" class="form-control" id="inputName">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="addType" class="col-form-label">Type of dimension:</span>
+                                    <select th:field="*{dimensionType}" class="form-select" name="category"
+                                            style="height: auto;">
+                                        <th:block th:each="dim : ${dimensionTypeList}">
+                                            <option th:text="${dim.name}" th:value="${dim.id}" name="dim_id"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputDes">Description</span>
+                                    <textarea type="text" th:field="*{description}" class="form-control"
+                                              id="inputDes"></textarea>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--END MODAL-->
+        </div>
+        <hr style="height: 2px">
+        <table class="table table-bordered">
+            <thead style="background: #5c636a; color: #FFFFFF">
+            <tr>
+                <th>
+                    #
+                    <i class="fas fa-user"></i>
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Dimension
+                </th>
+                <th style="width: 210px">
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dim : ${dimensionList}">
+                <td th:text="${dim.id}"></td>
+                <td th:text="${dim.dimensionType}"></td>
+                <td th:text="${dim.name}"></td>
+                <td>
+                    <a th:href="@{'/delete/' + ${nCourse.id} + '/' + ${dim.id}}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--END TAB 2-->
+
+    <!--TAB 3-->
+    <input type="radio" id="packagetab" name="mytabs">
+    <label for="packagetab" style="margin-right: 10px;">Price package</label>
+    <div class="tab">
+        <table border="2" class="table table-hover table-bordered table-responsive">
+            <caption>List of package</caption>
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Package</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Discount</th>
+                <th scope="col">List Price</th>
+                <th scope="col">Sale Price</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="package : ${pricePackageList}">
+                <th scope="row" th:text="${package.getId()}">1</th>
+                <td th:text="${package.getName()}"></td>
+                <td th:text="${package.getDuraion()}"></td>
+                <td th:text="${package.getDiscount()+'%'}"></td>
+                <td th:text="${package.getListPrice()}"></td>
+                <td th:text="${package.getSalePrice()}"></td>
+                <td th:text="${package.getText()}"></td>
+                <td th:text="${package.getStatus()}"></td>
+                <td>
+                    <a class="link-detail" th:href="@{'/update_pricePackage/'+${package.getId()}+'/'+${nCourse.getId()}}">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a
+                       th:href="@{'/active_pricePackage/'+${package.getId()}+'/'+${nCourse.getId()}}"
+                       th:text="${package.getCourseList().contains(nCourse)}?'Deactive':'Active'">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="link-detail" th:href="@{'/add_pricePackage/'+${nCourse.getId()}}">
+                <button class="btn btn-success">Add new Package</button>
+            </a>
+        </div>
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <!--END TAB 3-->
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+</body>
+</html>

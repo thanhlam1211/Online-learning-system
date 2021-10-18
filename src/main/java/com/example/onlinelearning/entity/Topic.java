@@ -22,12 +22,11 @@ import java.util.Set;
 public class Topic implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer topicId;
 
     @Column
     private String topicName;
-
+  
     @Column(name = "topic_order")
     private int order;
 

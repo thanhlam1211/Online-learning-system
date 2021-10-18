@@ -76,7 +76,6 @@ public class BlogController {
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("nextBaseURL", "/blog/category/" + categoryId + "/");
         model.addAttribute("query", "");
-
         model.addAttribute("pageTitle", "Category: " + categoryService.getById(categoryId).getValue());
 
 
@@ -104,7 +103,6 @@ public class BlogController {
         model.addAttribute("blogList", blogList);
         model.addAttribute("nextBaseURL", "/blog/search/");
         model.addAttribute("query", "/?query=" + query);
-
         model.addAttribute("pageTitle", "Search Results: '" + query + "'");
 
 

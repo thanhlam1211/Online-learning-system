@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Course List - G3Learn</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap bg-white">
+    <div th:include="fragments/navbar:: manage_course_navbar"></div>
+    <main class="container py-5">
+        <section class="courses_area pt-120 pb-120">
+            <div class="container">
+                <!--            Search and filter at first-->
+                <h1 class="mb-4">Manage Subject Lesson</h1>
+                <div class="row">
+                    <div class="col-md-2">
+                        <a class="btn btn-success link-detail"
+                           th:href="@{'/manage-lessons/course' + ${currentCourseId} + '/add'}">
+                            Add New Lesson
+                        </a>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="d-flex justify-content-end">
+                            <!--                            Chua truyen vao id-->
+                            <form th:action="@{'/manage-lessons/course'+${currentCourseId}}"
+                                  th:object="${currentCourseId}" class="row g-1" method="GET">
+                                <div class="col-auto">
+                                    <input type="text" class="form-control" placeholder="Enter something..."
+                                           style="height:auto;" name="search" th:value="${currentSearch}">
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="topic" style="height: auto;">
+                                        <option th:selected="(${currentTopicId == -1})" value="-1">All Topics
+                                        </option>
+                                        <th:block th:each="topic : ${topicList}">
+                                            <option th:value="${topic.topicId}" th:text="${topic.topicName}"
+                                                    th:selected="(${currentTopicId == topic.topicId})"></option>
+                                        </th:block>
+                                    </select>
+
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="status" style="height: auto;">
+                                        <option th:selected="(${currentStatusId == -1})" value="-1">All status</option>
+                                        <th:block th:each="status : ${statusList}">
+                                            <option th:value="${status.id}" th:text="${status.value}"
+                                                    th:selected="(${currentStatusId == status.id})"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- lesson detail start -->
+                <div class="mt-3">
+                    <table border="2" class="table table-hover table-bordered table-responsive">
+                        <thead class="table-primary">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Lesson</th>
+                            <th scope="col">Order</th>
+                            <th scope="col">Topic</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="lesson : ${lessonList}">
+                            <th scope="row" th:text="${lesson.lessonId}"></th>
+                            <td th:text="${lesson.lessonName}"></td>
+                            <td th:text="${lesson.getOrder()}"></td>
+                            <td th:text="${lesson.getTopic().topicName}"></td>
+                            <td th:text="${lesson.status.value}"></td>
+                            <td><a class="link-detail edit-detail"
+                                   th:href="@{'/manage-lessons/course' + ${currentCourseId} + '/edit/lesson/'+${lesson.lessonId}}">Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--            Phân trang-->
+                <!--                Chưa fix truyền từng id-->
+                <div class="row">
+                    <div class="col align-self-start">
+                        <a class="btn btn-success" th:href="@{/manage-courses}">Back</a>
+                    </div>
+                    <div class="row justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                                    <a class="page-link"
+                                       th:href="@{'/manage-lessons/course'+${currentCourseId} +'/' + ${currentPage - 1} + ${query}}">Previous</a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                    th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link"
+                                                                                            th:href="@{'/manage-lessons/course'+${currentCourseId} +'/' + ${i} + ${query}}">[[${i}]]</a>
+                                    <!--                                chưa fix truyền từng id-->
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                                    <a class="page-link"
+                                       th:href="@{'/manage-lessons/course' +${currentCourseId} +'/' + ${currentPage + 1} + ${query}}">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- courses end -->
+    </main>
+
+    <th:block th:replace="fragments/footer :: footer">
+
+    </th:block>
+
+</div>
+<!-- body wrap end -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+        $(".edit-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

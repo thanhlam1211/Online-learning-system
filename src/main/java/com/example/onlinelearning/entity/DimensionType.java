@@ -29,4 +29,9 @@ public class DimensionType implements Serializable {
 
     @OneToMany(mappedBy = "dimensionType", cascade = CascadeType.ALL)
     private Set<Dimension> dimensionList = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
