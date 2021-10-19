@@ -1,7 +1,6 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
-import com.example.onlinelearning.entity.Category;
 import com.example.onlinelearning.entity.Status;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
@@ -80,16 +79,22 @@ public class UserController {
         return "user_update";
     }
 
-    //Admin Site
+    //Admin Home
     @GetMapping("/admin_home")
-    public String viewAdminPage(Model model, String keyword) {
+    public String viewHomePage() {
+        return "Admin_Homepage";
+    }
+
+    //Admin Site
+    @GetMapping("/admin_user_list")
+    public String viewUserList(Model model, String keyword) {
         if(keyword != null) {
             model.addAttribute("userList", service.findByKeyword(keyword));
         }
         else {
             model.addAttribute("userList", service.getAllUsers());
         }
-        return "Admin_Homepage";
+        return "Admin_user_list";
     }
 
     //Save change for user (admin)
