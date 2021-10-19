@@ -196,4 +196,12 @@ public class UserController {
         return "my-registration";
     }
 
+    @GetMapping("/myCourse")
+    public String viewCourse(Model model) {
+        List<Category> categoryList = categoryService.getAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("myCourse", userCourseService.getListCourse());
+        return "my-course";
+    }
+
 }
