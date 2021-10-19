@@ -7,6 +7,7 @@ import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
+import com.example.onlinelearning.service.UserCourseService;
 import com.example.onlinelearning.service.UserService;
 import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
@@ -47,6 +48,9 @@ public class UserController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserCourseService userCourseService;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -183,4 +187,13 @@ public class UserController {
             return "change_password_form";
         }
     }
+
+    @GetMapping("/myRegistration")
+    public String viewRegistration(Model model) {
+        List<Category> categoryList = categoryService.getAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("courseRegister", userCourseService.getListCourse());
+        return "my-registration";
+    }
+
 }
