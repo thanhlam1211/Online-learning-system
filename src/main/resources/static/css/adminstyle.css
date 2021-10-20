@@ -82,6 +82,20 @@ i { margin: 0 7px; }
     text-decoration: none;
 }
 
+#subject_detail{
+    border-radius: 0px;
+    border: none;
+    text-align: left;
+    color: black;
+    background: #afd980;
+}
+
+#subject_detail:hover {
+    color: #64b3f4;
+    background: #fff;
+    text-decoration: none;
+}
+
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;

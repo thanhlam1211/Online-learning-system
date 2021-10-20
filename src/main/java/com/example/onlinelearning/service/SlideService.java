@@ -15,5 +15,7 @@ public class SlideService {
     public List<Slide> getAllEnabledSlides() {
         return slideRepository.findAllByStatusValue("ACTIVE");
     }
-
+    public List<Slide> getAllSlide() {
+        return slideRepository.findAll();
+    }
 }
