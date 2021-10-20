@@ -47,7 +47,6 @@ public class QuestionController {
     public String listQuestionPage(Model model,
                                    @PathVariable(name="pageNumber") int currentPage,
                                    @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
-
                                    @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
                                    @RequestParam(value = "keyword", defaultValue = "") String keyword ) {
         List<Category> categoryList = categoryService.getAll();

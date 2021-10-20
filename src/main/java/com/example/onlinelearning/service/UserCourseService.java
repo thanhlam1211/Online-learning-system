@@ -18,5 +18,8 @@ public class UserCourseService {
     public List<UserCourse> getListCourse() {
         return repository.findAll();
     }
+    public List<UserCourse> getListCourseByUserId(Integer id) {
+        return repository.findAllByUser_id(id);
+    }
 
 }

@@ -29,17 +29,17 @@
             <tr th:each="regis : ${courseRegister}">
                 <th scope="row" th:text="${regis.id}"></th>
                 <td><a th:href="@{'/course_detail/' + ${regis.course.getId()}}"
-                       class="text-big link-detail" data-abc="true" th:text="${regis.course.getTitle()}"></a></td>
+                       class="text-big" data-abc="true" th:text="${regis.course.getTitle()}"></a></td>
                 <td th:text="${regis.pricePackage.salePrice}"></td>
                 <td th:text="${regis.pricePackage.name}"></td>
                 <td th:text="${regis.startDate}"></td>
                 <td th:text="${regis.endDate}"></td>
                 <th:block th:if="${regis.registrationStatus == 1}">
-                    <td><a th:href="@{'/course_modal/' + ${regis.course.getId()}}" class="text-primary link-detail">Submitted</a>
+                    <td><a th:href="@{'/course_modal/' + ${regis.course.getId()}}" class="text-warning link-detail">Submitted</a>
                     </td>
                 </th:block>
                 <th:block th:if="${regis.registrationStatus == 2}">
-                    <td class="text-primary">Completed</td>
+                    <td class="text-success">Completed</td>
                 </th:block>
                 <th:block th:if="${regis.registrationStatus == 3}">
                     <td class="text-primary">Cancelled</td>

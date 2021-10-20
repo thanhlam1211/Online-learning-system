@@ -3,6 +3,7 @@ package com.example.onlinelearning.controller;
 import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.Category;
 import com.example.onlinelearning.entity.Status;
+import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
@@ -51,6 +52,9 @@ public class UserController {
 
     @Autowired
     private UserCourseService userCourseService;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -189,19 +193,31 @@ public class UserController {
     }
 
     @GetMapping("/myRegistration")
-    public String viewRegistration(Model model) {
+    public String viewRegistration(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
+        User user = userDetail.getUser();
         List<Category> categoryList = categoryService.getAll();
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("courseRegister", userCourseService.getListCourse());
+        model.addAttribute("courseRegister", userCourseService.getListCourseByUserId(user.getId()));
         return "my-registration";
     }
 
     @GetMapping("/myCourse")
-    public String viewCourse(Model model) {
+    public String viewCourse(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
+        User user = userDetail.getUser();
         List<Category> categoryList = categoryService.getAll();
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("myCourse", userCourseService.getListCourse());
+        model.addAttribute("myCourse", userCourseService.getListCourseByUserId(user.getId()));
         return "my-course";
     }
+
+    @GetMapping("/registrationList")
+    public String viewRegistrationList(Model model) {
+        List<Category> categoryList = categoryService.getAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("courseList", courseRepository.findAll());
+        model.addAttribute("courseRegister", userCourseService.getListCourse());
+        return "registration-list";
+    }
+
 
 }

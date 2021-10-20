@@ -29,6 +29,9 @@ public class UserCourse implements Serializable {
     @Column
     private int registrationStatus;
 
+    @Column
+    private Date registrationDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
