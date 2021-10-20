@@ -25,8 +25,8 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Total users active
                                 </div>
-<!--                                Number of total activec users here -->
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">41,131</div>
+                                <!--                                Number of total activec users here -->
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${size}"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col align-self-end">
-                        <a href="#">More info</a>
+                        <a th:href="@{/admin_user_list}">More info</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Total Course
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">132+</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeCourse}"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fab fa-leanpub fa-2x text-gray-300"></i>
@@ -70,7 +70,7 @@
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Total Students
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">23,329+</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeStudent}"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="col align-self-end">
-                        <a href="#">More info</a>
+                        <a th:href="@{/admin_user_list}">More info</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Total teachers
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">23,329+</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeTeacher}"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
@@ -99,94 +99,146 @@
                         </div>
                     </div>
                     <div class="col align-self-end">
-                        <a href="#">More info</a>
+                        <a th:href="@{/admin_user_list}">More info</a>
                     </div>
                 </div>
             </div>
 
-        <!-- Content Row -->
+            <!-- Content Row -->
 
-        <!--            End of total details-->
-        <!--            Start of graph of website-->
+            <!--            End of total details-->
+            <!--            Start of graph of website-->
 
-        <!-- Main row -->
-        <div class="row">
+            <!-- Main row -->
+            <div class="row">
 
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div
-                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                 aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                <!-- Area Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id=""
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
+                        <!-- Thay chart vào thẻ div này -->
+                        <div class="card-body">
+                            <div id="container">
+<!--                                <canvas id="myAreaChart"></canvas>-->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div
-                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                 aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                <!-- Pie Chart -->
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-4 pb-2">
-                            <canvas id="myPieChart"></canvas>
-                        </div>
-                        <div class="mt-4 text-center small">
+                        <!-- Thay chart vào thẻ div này -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4 pb-2">
+                                <canvas id="myPieChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-primary"></i> Direct
                                         </span>
-                            <span class="mr-2">
+                                <span class="mr-2">
                                             <i class="fas fa-circle text-success"></i> Social
                                         </span>
-                            <span class="mr-2">
+                                <span class="mr-2">
                                             <i class="fas fa-circle text-info"></i> Referral
                                         </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script th:inline="javascript">
+    $(function(){
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Organization'
+            },
+            subtitle: {
+                text: 'Details'
+            },
+            xAxis: {
+                categories: [[${name}]],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max:100,
+                title: {
+                    text: 'Age'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} K</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Name',
+                data: [[${age}]]
+            }]
+        });
+    });
+</script>
+
 </body>
 </html>

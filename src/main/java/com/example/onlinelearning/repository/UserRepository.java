@@ -25,6 +25,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public User findByResetPasswordToken(String token);
 
+    // Get user by roles
+    public List<User> getUserByRoleListEqualsAndStatus (int role, int Status);
+
+    @Query(value = "SELECT * from users inner join user_role on users.id = user_role.user_id " +
+            "WHERE role_id = ?1 and status_id = 1", nativeQuery = true)
+    List<User> findByRole(int role_id, int status);
 
     @Query(value = "select * from users u where u.full_name like %:keyword% " +
             "or u.username like %:keyword%", nativeQuery = true)

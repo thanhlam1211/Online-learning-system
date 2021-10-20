@@ -201,4 +201,8 @@ public class UserService {
         return repository.findByKeyword(keyword);
     }
 
+    // Get user by role
+    public List<User> getUserByRole(int role, int status){
+        return  repository.findByRole(role, status);
+    }
 }

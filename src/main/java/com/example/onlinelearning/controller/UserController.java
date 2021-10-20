@@ -1,11 +1,13 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
+import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.Status;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
+import com.example.onlinelearning.service.CourseService;
 import com.example.onlinelearning.service.UserService;
 import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
@@ -27,6 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @author Admin
  */
@@ -34,6 +38,9 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService service;
+
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -81,7 +88,27 @@ public class UserController {
 
     //Admin Home
     @GetMapping("/admin_home")
-    public String viewHomePage() {
+    public String viewHomePage(Model model) {
+        List<User> allUsers = service.getAllUsers();
+        List<User> studentAll = service.getUserByRole(3,1);
+        List<User> teacherAll = service.getUserByRole(2,1);
+        List<Course> allCourse = courseService.findAll();
+
+        System.out.println("All users size"+ allUsers.size());
+        System.out.println("All sizeStudent size"+ studentAll.size());
+        System.out.println("All sizeTeacher size"+ teacherAll.size());
+        System.out.println("All sizeCourse size"+ allCourse.size());
+
+        List<String> nameList= courseService.findAll().stream().map(x->x.getDateCreate()).collect(Collectors.toList());
+        List<Integer> ageList = courseService.findAll().stream().map(x->4).collect(Collectors.toList());
+        model.addAttribute("name", nameList);
+        model.addAttribute("age", ageList);
+
+        model.addAttribute("size", allUsers.size());
+        model.addAttribute("sizeStudent", studentAll.size());
+        model.addAttribute("sizeTeacher", teacherAll.size());
+        model.addAttribute("sizeCourse", allCourse.size());
+
         return "Admin_Homepage";
     }
 
