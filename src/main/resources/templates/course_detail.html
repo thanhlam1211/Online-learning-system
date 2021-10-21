@@ -10,7 +10,7 @@
 <div class="body_wrap">
     <div th:include="fragments/navbar:: home_navbar(${listCategory})"></div>
 
-    <main  class="container">
+    <main class="container">
         <!-- course details start -->
         <section class="course_details_area pt-120 pb-90">
             <div class="container">
@@ -40,9 +40,10 @@
                                         </div>
                                     </div>
                                     <div>
-<!--                                        controller to enroll the course-->
-<!--                                        change to a link-->
-                                        <a class="btn btn-primary col-12" th:href="@{'/lesson_view/'+${course.id}}"> Enroll course </a>
+                                        <!--                                        controller to enroll the course-->
+                                        <!--                                        change to a link-->
+                                        <a class="btn btn-primary col-12" th:href="@{'/lesson_view/'+${course.id}}">
+                                            Enroll course </a>
                                         <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
                                 </div>
@@ -427,33 +428,15 @@
                                                     <div th:text="${quiz.name}" class="acc-btn"></div>
                                                     <ul class="acc_body current">
                                                         <li>
-                                                            <a class="popup-video"
-                                                               href="https://www.youtube.com/watch?v=cRXm1p-CNyk"><i
-                                                                    class="fal fa-play"></i>Rorem ipsum dolor
-                                                                sit amet, consectetur adipisicing elitnon </a>
+                                                            <a>Duration</a>
                                                             <div class="acb_right">
-                                  <span class="title">
-                                    <a class="popup-video"
-                                       href="https://www.youtube.com/watch?v=cRXm1p-CNyk">Preview</a>
-                                  </span>
-                                                                <span class="acc-time">36min</span>
+                                                                <span th:text="${quiz.duration}+' min'" class="acc-time"></span>
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="fal fa-file-alt"></i>dolore eu
-                                                                fugiat nulla pariat cepteur sint oident</a>
+                                                            <a>Number of questions</a>
                                                             <div class="acb_right">
-                                                                <span class="title"><a href="#"> Download</a></span>
-                                                                <span class="time"> 8 Pages</span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <a class="popup-video"
-                                                               href="https://www.youtube.com/watch?v=cRXm1p-CNyk"><i
-                                                                    class="fal fa-play"></i>officia deserunt
-                                                                moyllit anim id est laborum iciatis unde omnis </a>
-                                                            <div class="acb_right">
-                                                                <span class="time">16min</span>
+                                                                <span th:text="${quiz.numberQuestion}+' quest'" class="acc-time"></span>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -466,7 +449,7 @@
                         </div>
                     </div>
 
-<!--                    Có thể thêm vò modal form trong course.html-->
+                    <!--                    Có thể thêm vò modal form trong course.html-->
                     <div class="col-lg-4">
                         <div class="course_dtls_right">
                             <div class="course_widget_wrap related_course mb-30">
@@ -480,8 +463,10 @@
                                         <div class="content">
                                             <h6><a th:href="@{'/course_detail/'+${course.getId()}}"
                                                    th:text="${course.title}"></a></h6>
-                                            <span class="new" th:text="'$' + ${course.minSalePrice().getSalePrice()}"></span>
-                                            <span class="old" th:text="'$' + ${course.minSalePrice().getListPrice()}"></span>
+                                            <span class="new"
+                                                  th:text="'$' + ${course.minSalePrice().getSalePrice()}"></span>
+                                            <span class="old"
+                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}"></span>
                                         </div>
                                     </li>
                                 </ul>
