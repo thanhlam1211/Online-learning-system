@@ -18,4 +18,8 @@ public class SlideService {
     public List<Slide> getAllSlide() {
         return slideRepository.findAll();
     }
+    public Slide save(Slide slide) {
+        slideRepository.save(slide);
+        return slide;
+    }
 }

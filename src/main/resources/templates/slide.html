@@ -16,7 +16,7 @@
             <!--MODAL-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <form th:action="@{/course/addSlide}" th:object="${slide}" method="post">
+                <form th:action="@{/addSlide}" th:object="${slide}" method="post" enctype="multipart/form-data">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -33,7 +33,7 @@
 
                                 <div class="form-group">
                                     <span for="inputImage">Image:</span>
-                                    <input type="text" th:field="*{imageUrl}" class="form-control" id="inputImage">
+                                    <input type="file" name="fileImage" id="fileImage" accept="image/jpeg, image/png"/>
                                 </div>
 
                                 <div class="form-group">
@@ -81,15 +81,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="slide : ${slideList}">
+        <tr th:each="slide : ${slideList}" style="text-align: center">
             <th scope="row" th:text="${slide.id}"></th>
             <td th:text="${slide.courseLink}"></td>
             <td th:text="${slide.description}"></td>
-            <td th:text="${slide.imageUrl}"></td>
+            <td>
+                <img th:src="@{${slide.slideImagePath}}" style="width: 100px;" />
+            </td>
             <td th:text="${slide.title}"></td>
             <td th:text="${slide.status.value}"></td>
-            <td><a th:href="" class="d-block text-center btn-sm btn-secondary">Edit Subject</a></td>
-            <td><a th:href="" class="d-block text-center btn-sm btn-primary">Edit Lessons</a></td>
+            <td><a href="" class="d-block text-center btn-sm btn-secondary">Details</a></td>
         </tr>
         </tbody>
     </table>

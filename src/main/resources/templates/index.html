@@ -28,7 +28,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item" th:each="slide, iter : ${slideList}"
                          th:classappend="${iter.first} ? 'active' : ''">
-                        <img th:src="${slide.imageUrl}" class="d-block w-100" alt="...">
+                        <img th:src="@{${slide.slideImagePath}}" class="d-block w-100" alt="...">
                         <div class="carousel-caption slide-text-box shadow-sm">
                             <h5 th:text="${slide.title}"></h5>
                             <p th:text="${slide.description}"></p>

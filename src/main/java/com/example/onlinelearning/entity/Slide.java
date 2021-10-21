@@ -34,4 +34,11 @@ public class Slide implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private Status status;
+
+    @Transient
+    public String getSlideImagePath() {
+        if (imageUrl == null || id == null) return null;
+
+        return "/slide-images/" + id + "/" + imageUrl;
+    }
 }

@@ -1,8 +1,12 @@
 package com.example.onlinelearning.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author Admin
@@ -17,5 +21,13 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login_success").setViewName("/login_success");
         registry.addViewController("/login_error").setViewName("/login_error");
         registry.addViewController("/logout_success").setViewName("/logout_success");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        Path slideUploadDir = Paths.get("./slide-images");
+        String slideUploadPath = slideUploadDir.toFile().getAbsolutePath();
+
+        registry.addResourceHandler("/slide-images/**").addResourceLocations("file:/" + slideUploadPath + "/");
     }
 }

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Homepage</title>
-    <!--    <link rel="stylesheet" href="css/style.css" th:src="@{/css/style.css}">-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -74,7 +73,7 @@
                 <a th:href="@{/slide}"><i class="fas fa-images"></i>Slide</a>
             </li>
             <li>
-                <a id="subject_detail" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <a id="subject_detail" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <i class="fas fa-book"></i>Subject detail
                 </a>
             </li>
@@ -85,20 +84,20 @@
     </nav>
 
     <!--MODAL-->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">ALERT</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">ALERT</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>This action will move out the admin site</p>
-                    <p>Are you sure to continue this action?</p>
+                    <p>This action will move you out of the admin site</p>
+                    <p>Are you sure want to continue this action?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a th:href="@{/manage-courses}" type="button" class="btn btn-warning">Understood</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No, sorry</button>
+                    <a th:href="@{/manage-courses}" type="button" class="btn btn-warning">I understood</a>
                 </div>
             </div>
         </div>
