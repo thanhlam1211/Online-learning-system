@@ -37,6 +37,8 @@ public class CourseController {
     private PricePackageService pricePackageService;
     @Autowired
     private PricePackageRepository pricePackageRepository;
+    @Autowired
+    private TopicService topicService;
 
 
     @GetMapping("/course")
@@ -70,9 +72,11 @@ public class CourseController {
     public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
+        List<Topic> topicList = topicService.findAllByCourse_IdAsc(id);
         modelAndView.addObject("newCourses", courseService.listAll(1, "",-1));
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course", course);
+        modelAndView.addObject("topicList", topicList);
         return modelAndView;
     }
 

@@ -7,8 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Admin
@@ -35,5 +35,16 @@ public class Topic implements Serializable {
     private Course course;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-    private Set<Lesson> lessonList;
+    private List<Lesson> lessonList;
+
+
+    public List<Lesson> getLessonList(){
+        Collections.sort(lessonList, new Comparator<Lesson>() {
+            @Override
+            public int compare(Lesson o1, Lesson o2) {
+                return o1.getOrder() > o2.getOrder() ? 1 : -1;
+            }
+        });
+        return lessonList;
+    }
 }

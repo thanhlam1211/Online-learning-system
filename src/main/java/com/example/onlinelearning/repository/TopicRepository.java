@@ -10,4 +10,5 @@ import java.util.List;
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
     public List<Topic> findAllByCourse_Id(Integer courseId);
     public List<Topic> findAll();
+    public List<Topic> findAllByCourse_IdOrderByOrder(Integer courseId);
 }

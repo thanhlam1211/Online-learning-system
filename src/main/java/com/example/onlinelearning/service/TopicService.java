@@ -20,5 +20,9 @@ public class TopicService {
         return  topicRepository.findAllByCourse_Id(courseId);
     }
 
+    public List<Topic> findAllByCourse_IdAsc(Integer courseId){
+        return  topicRepository.findAllByCourse_IdOrderByOrder(courseId);
+    }
+
     public Topic getById(Integer id){return  topicRepository.getById(id);}
 }

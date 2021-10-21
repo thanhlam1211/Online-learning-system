@@ -7,9 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Admin
@@ -66,7 +64,17 @@ public class Course implements Serializable {
     private Status status;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Quiz> quizList;
+    private List<Quiz> quizList;
+
+    public List<Quiz> getQuizList(){
+        Collections.sort(quizList, new Comparator<Quiz>() {
+            @Override
+            public int compare(Quiz o1, Quiz o2) {
+                return o1.getId() > o2.getId() ? 1 : -1;
+            }
+        });
+        return quizList;
+    }
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "course_package",

@@ -27,6 +27,10 @@ public class LessonService {
     @Autowired
     private CourseRepository courseRepository;
 
+    public List<Lesson> findLessonsByTopic_id(Integer id){
+        return lessonRepository.findByTopic_TopicIdOrderByOrder(id);
+    }
+
     public int getNumberOfLessonsInCourseId(Integer courseId) {
         Course currentCourse = courseRepository.getById(courseId);
         return currentCourse.getLessonList().size();
