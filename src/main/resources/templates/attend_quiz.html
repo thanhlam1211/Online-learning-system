@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modalTitle">Attemp Quiz</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+
+<!-- course details start -->
+<section class="course_details_area pt-30 pb-10">
+    <div class="container">
+        <div class="row">
+            <div class="p-5 col-6">
+                <h3 th:text="'Quiz - '+${quiz.duration}+' min'"></h3>
+                <h1 th:text="${quiz.name}"></h1>
+            </div>
+            <div class="p-5 col-6"></div>
+            <div class="p-5 col-6">
+                <h5 th:text="'Attemps remaining: '+${3 - quiz.getUserQuizList().size()}"></h5>
+                <h5>To pass: 80% or higher</h5>
+                <h5>Highest grade: 69%</h5>
+            </div>
+            <div class="p-5 col-6 text-end">
+                <h5><a class="text-primary" th:text="${3 - quiz.getUserQuizList().size()}>0?'Start Quiz':''"></a></h5>
+                <h5><a class="text-primary" th:text="${quiz.getUserQuizList().size()}!=0?'Review Last Attemp':''"></a></h5>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

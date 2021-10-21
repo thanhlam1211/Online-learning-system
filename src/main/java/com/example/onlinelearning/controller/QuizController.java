@@ -103,4 +103,12 @@ public class QuizController {
         quizService.saveQuiz(quiz);
         return courseController.viewCourseDetail(id);
     }
+
+    @GetMapping("/attend_quiz/{quiz_id}")
+    public ModelAndView attendQuiz(@PathVariable(name = "quiz_id") Integer quiz_id) {
+        ModelAndView modelAndView = new ModelAndView("attend_quiz");
+        Quiz quiz = quizService.getQuizById(quiz_id);
+        modelAndView.addObject("quiz", quiz);
+        return modelAndView;
+    }
 }
