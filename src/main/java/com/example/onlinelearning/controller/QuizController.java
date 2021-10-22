@@ -2,14 +2,19 @@ package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.Quiz;
+import com.example.onlinelearning.entity.User;
+import com.example.onlinelearning.entity.UserQuiz;
 import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.QuizLevelRepository;
 import com.example.onlinelearning.repository.QuizTypeRepository;
+import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.QuizService;
+import com.example.onlinelearning.service.UserQuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +35,9 @@ public class QuizController {
     private CategoryService categoryService;
     @Autowired
     private CourseController courseController;
+    @Autowired
+    private UserQuizService userQuizService;
+
     //Quiz
     @GetMapping("/quiz")
     public String viewQuiz(Model model,
@@ -98,16 +106,20 @@ public class QuizController {
     }
 
     @PostMapping("/saveQuiz")
-    public ModelAndView saveQuiz(@ModelAttribute("quiz") Quiz quiz, @ModelAttribute(name = "courseid") Integer id){
+    public String saveQuiz(@ModelAttribute("quiz") Quiz quiz,
+                                 @ModelAttribute(name = "courseid") Integer id){
         quiz.setCourse(courseRepository.getById(id));
         quizService.saveQuiz(quiz);
-        return courseController.viewCourseDetail(id);
+        return "redirect:/course_detail/"+id;
     }
 
     @GetMapping("/attend_quiz/{quiz_id}")
-    public ModelAndView attendQuiz(@PathVariable(name = "quiz_id") Integer quiz_id) {
+    public ModelAndView attendQuiz(@PathVariable(name = "quiz_id") Integer quiz_id, @AuthenticationPrincipal MyUserDetail userDetail) {
         ModelAndView modelAndView = new ModelAndView("attend_quiz");
+        User user = userDetail.getUser();
         Quiz quiz = quizService.getQuizById(quiz_id);
+        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
+        modelAndView.addObject("userQuiz", userQuiz);
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }

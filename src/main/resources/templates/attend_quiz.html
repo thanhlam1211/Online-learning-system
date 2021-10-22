@@ -14,13 +14,13 @@
             </div>
             <div class="p-5 col-6"></div>
             <div class="p-5 col-6">
-                <h5 th:text="'Attemps remaining: '+${3 - quiz.getUserQuizList().size()}"></h5>
+                <h5 th:text="'Attemps remaining: '+${3 - userQuiz.size()}"></h5>
                 <h5>To pass: 80% or higher</h5>
                 <h5>Highest grade: 69%</h5>
             </div>
             <div class="p-5 col-6 text-end">
-                <h5><a class="text-primary" th:text="${3 - quiz.getUserQuizList().size()}>0?'Start Quiz':''"></a></h5>
-                <h5><a class="text-primary" th:text="${quiz.getUserQuizList().size()}!=0?'Review Last Attemp':''"></a></h5>
+                <h5><a class="text-primary" th:text="${3 - userQuiz.size()}>0?'Start Quiz':''"></a></h5>
+                <h5><a class="text-primary" th:text="${userQuiz.size()}!=0?'Review Last Attemp':''"></a></h5>
             </div>
         </div>
 
