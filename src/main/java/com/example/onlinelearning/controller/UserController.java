@@ -88,7 +88,8 @@ public class UserController {
 
     //Admin Home
     @GetMapping("/admin_home")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
+        User user = myUserDetail.getUser();
         List<User> allUsers = service.getAllUsers();
         List<User> studentAll = service.getUserByRole(3,1);
         List<User> teacherAll = service.getUserByRole(2,1);
@@ -104,6 +105,7 @@ public class UserController {
         model.addAttribute("name", nameList);
         model.addAttribute("age", ageList);
 
+        model.addAttribute("user", user);
         model.addAttribute("size", allUsers.size());
         model.addAttribute("sizeStudent", studentAll.size());
         model.addAttribute("sizeTeacher", teacherAll.size());

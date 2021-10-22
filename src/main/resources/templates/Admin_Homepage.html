@@ -7,6 +7,9 @@
     <title>Admin Homepage</title>
 </head>
 <body>
+<div layout:fragment="user">
+    <h4><i class="fas fa-user"></i><span th:text="${user.username}"></span></h4>
+</div>
 <div layout:fragment="main_content">
     <!--    Dash board Code start here -->
     <div class="dashboard">
