@@ -1,15 +1,13 @@
 package com.example.onlinelearning.controller;
 
-import com.example.onlinelearning.entity.Course;
-import com.example.onlinelearning.entity.Quiz;
-import com.example.onlinelearning.entity.User;
-import com.example.onlinelearning.entity.UserQuiz;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.QuizLevelRepository;
 import com.example.onlinelearning.repository.QuizTypeRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.QuizService;
+import com.example.onlinelearning.service.UserQuestionAnswerService;
 import com.example.onlinelearning.service.UserQuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +35,8 @@ public class QuizController {
     private CourseController courseController;
     @Autowired
     private UserQuizService userQuizService;
-
+    @Autowired
+    private UserQuestionAnswerService userQuestionAnswerService;
     //Quiz
     @GetMapping("/quiz")
     public String viewQuiz(Model model,
@@ -138,12 +137,20 @@ public class QuizController {
         Quiz quiz = quizService.getQuizById(quiz_id);
         List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
         float highestMark = 0;
+        int lastId = 0;
+        UserQuiz lastUserQuiz = new UserQuiz();
         for (UserQuiz uq: userQuiz) {
             if(uq.getMark()>=highestMark){
                 highestMark=uq.getMark();
             }
+            if(uq.getId()>=lastId){
+                lastUserQuiz=uq;
+            }
         }
-        modelAndView.addObject("userQuiz", userQuiz);
+        List<UserQuestionAnswer> userQuestionAnswer = userQuestionAnswerService.getUserQuestionAnswersByUserQuizOrderById(lastUserQuiz.getId());
+
+        modelAndView.addObject("lastUserQuiz", lastUserQuiz);
+        modelAndView.addObject("userQuestionAnswer", userQuestionAnswer);
         modelAndView.addObject("highestMark", highestMark);
         modelAndView.addObject("quiz", quiz);
         return modelAndView;

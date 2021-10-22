@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UserQuestionAnswerRepository extends JpaRepository<UserQuestionAnswer,Integer> {
-    public List<UserQuestionAnswer> getUserQuestionAnswersByUserQuizOrderById(Integer userquiz_id);
+    public List<UserQuestionAnswer> getUserQuestionAnswersByUserQuiz_IdOrderById(Integer userQuiz_id);
 }
