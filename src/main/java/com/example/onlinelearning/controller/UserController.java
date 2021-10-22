@@ -8,6 +8,7 @@ import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.CourseService;
+import com.example.onlinelearning.service.DashBoardService;
 import com.example.onlinelearning.service.UserService;
 import com.example.onlinelearning.entity.Role;
 import com.example.onlinelearning.entity.User;
@@ -16,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -53,6 +56,9 @@ public class UserController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private DashBoardService dashBoardService;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -88,21 +94,15 @@ public class UserController {
 
     //Admin Home
     @GetMapping("/admin_home")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model, ModelMap modelMap) {
         List<User> allUsers = service.getAllUsers();
         List<User> studentAll = service.getUserByRole(3,1);
         List<User> teacherAll = service.getUserByRole(2,1);
         List<Course> allCourse = courseService.findAll();
 
-        System.out.println("All users size"+ allUsers.size());
-        System.out.println("All sizeStudent size"+ studentAll.size());
-        System.out.println("All sizeTeacher size"+ teacherAll.size());
-        System.out.println("All sizeCourse size"+ allCourse.size());
-
-        List<String> nameList= courseService.findAll().stream().map(x->x.getDateCreate()).collect(Collectors.toList());
-        List<Integer> ageList = courseService.findAll().stream().map(x->4).collect(Collectors.toList());
-        model.addAttribute("name", nameList);
-        model.addAttribute("age", ageList);
+        //dashBoard - pie chart
+        //List<List<Map<Object, Object>>> canvasjsDataList = dashBoardService.getCanvasjsDataList();
+        //modelMap.addAttribute("dataPointsList", canvasjsDataList);
 
         model.addAttribute("size", allUsers.size());
         model.addAttribute("sizeStudent", studentAll.size());
