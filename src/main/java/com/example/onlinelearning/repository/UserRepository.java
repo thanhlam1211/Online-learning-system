@@ -1,5 +1,6 @@
 package com.example.onlinelearning.repository;
 
+import com.example.onlinelearning.entity.CountCourse;
 import com.example.onlinelearning.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +36,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "select * from users u where u.full_name like %:keyword% " +
             "or u.username like %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
+
+    @Query(value = "SELECT t1.id, t1.[value], (t2.num_course) FROM category t1 LEFT OUTER JOIN (SELECT category_id, COUNT(category_id) AS num_course FROM course GROUP BY category_id) t2 ON t1.id = t2.category_id", nativeQuery = true)
+    List<CountCourse> countCourseByCategory();
 }
