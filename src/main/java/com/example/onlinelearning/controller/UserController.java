@@ -94,12 +94,8 @@ public class UserController {
 
     //Admin Home
     @GetMapping("/admin_home")
-<<<<<<< HEAD
-    public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
+    public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model, ModelMap modelMap) {
         User user = myUserDetail.getUser();
-=======
-    public String viewHomePage(Model model, ModelMap modelMap) {
->>>>>>> 4b88d42bebc27fbe20e4e26e2865920e37c8c88c
         List<User> allUsers = service.getAllUsers();
         List<User> studentAll = service.getUserByRole(3,1);
         List<User> teacherAll = service.getUserByRole(2,1);
