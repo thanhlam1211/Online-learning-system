@@ -119,7 +119,32 @@ public class QuizController {
         User user = userDetail.getUser();
         Quiz quiz = quizService.getQuizById(quiz_id);
         List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
+        float highestMark = 0;
+        for (UserQuiz uq: userQuiz) {
+            if(uq.getMark()>=highestMark){
+                highestMark=uq.getMark();
+            }
+        }
         modelAndView.addObject("userQuiz", userQuiz);
+        modelAndView.addObject("highestMark", highestMark);
+        modelAndView.addObject("quiz", quiz);
+        return modelAndView;
+    }
+
+    @GetMapping("/quiz_review/{quiz_id}")
+    public ModelAndView reviewQuiz(@PathVariable(name = "quiz_id") Integer quiz_id, @AuthenticationPrincipal MyUserDetail userDetail) {
+        ModelAndView modelAndView = new ModelAndView("quiz_review");
+        User user = userDetail.getUser();
+        Quiz quiz = quizService.getQuizById(quiz_id);
+        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
+        float highestMark = 0;
+        for (UserQuiz uq: userQuiz) {
+            if(uq.getMark()>=highestMark){
+                highestMark=uq.getMark();
+            }
+        }
+        modelAndView.addObject("userQuiz", userQuiz);
+        modelAndView.addObject("highestMark", highestMark);
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }

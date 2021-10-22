@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Edulan - Education HTML Template</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div id="thetop"></div>
+    <div id="backtotop">
+        <a href="#" id="scroll">
+            <i class="fal fa-arrow-up"></i>
+            <i class="fal fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- header start -->
+    <div th:include="fragments/navbar:: home_navbar(${listCategory})"></div>
+    <!-- header start -->
+
+    <main>
+        <!-- courses start -->
+        <section class="courses_area pt-120 pb-120">
+            <div class="container">
+                <div class="row">
+                    <h1>Hello</h1>
+                </div>
+            </div>
+        </section>
+        <!-- courses end -->
+    </main>
+    <th:block th:replace="fragments/footer :: footer"></th:block>
+</div>
+<!-- body wrap end -->
+</body>
+<!-- jquery include -->
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>
