@@ -1,16 +1,17 @@
 package com.example.onlinelearning.service;
 
 import com.example.onlinelearning.config.Utility;
-import com.example.onlinelearning.entity.Role;
-import com.example.onlinelearning.entity.Status;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.exception.UserNotFoundException;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
+import com.example.onlinelearning.repository.UserCourseRepository;
 import com.example.onlinelearning.repository.UserRepository;
-import com.example.onlinelearning.entity.AuthenticationProvider;
-import com.example.onlinelearning.entity.User;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -201,4 +202,10 @@ public class UserService {
         return repository.findByKeyword(keyword);
     }
 
+    public User getUserByEmail(String email) {
+        if(!email.equals("")){
+            return repository.getUserByEmailContaining(email);
+        }
+        return null;
+    }
 }

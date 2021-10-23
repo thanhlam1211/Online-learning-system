@@ -1,8 +1,7 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
-import com.example.onlinelearning.entity.Category;
-import com.example.onlinelearning.entity.Status;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
@@ -10,9 +9,8 @@ import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.UserCourseService;
 import com.example.onlinelearning.service.UserService;
-import com.example.onlinelearning.entity.Role;
-import com.example.onlinelearning.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -210,14 +208,34 @@ public class UserController {
         return "my-course";
     }
 
-    @GetMapping("/registrationList")
-    public String viewRegistrationList(Model model) {
-        List<Category> categoryList = categoryService.getAll();
-        model.addAttribute("categoryList", categoryList);
-        model.addAttribute("courseList", courseRepository.findAll());
-        model.addAttribute("courseRegister", userCourseService.getListCourse());
-        return "registration-list";
+    @RequestMapping("/registrationList")
+    public String RegistrationListPage(Model model,
+                                       @RequestParam(value = "course", defaultValue = "-1") Integer courseId) {
+        return viewRegistrationList(model, 1, courseId, "");
     }
 
+    @GetMapping("/registrationList/{pageNumber}")
+    public String viewRegistrationList(Model model,
+                                       @PathVariable(name="pageNumber") int currentPage,
+                                       @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
+                                       @RequestParam(value = "keyword", defaultValue = "") String keyword ) {
+        List<Category> categoryList = categoryService.getAll();
+
+
+        Page<UserCourse> page = userCourseService.listAll(currentPage, keyword, courseId);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<UserCourse> courseList = page.getContent();
+
+        model.addAttribute("totalItems",totalItems);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("courseList", courseRepository.findAll());
+        model.addAttribute("courseRegister", courseList);
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("query", "/?keyword=" + keyword + "&course=" + courseId);
+        return "registration-list";
+    }
 
 }

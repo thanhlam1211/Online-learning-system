@@ -21,7 +21,7 @@
                         <input type="text" class="form-control" placeholder="Find by email" style="height:auto;" name="keyword">
                     </div>
                     <div class="col-auto">
-                        <select class="form-select" name="level" style="height: auto;">
+                        <select class="form-select" name="course" style="height: auto;">
                             <option value="-1">All course</option>
                             <th:block th:each="course : ${courseList}">
                                 <option th:value="${course.id}" th:text="${course.title}" ></option>
@@ -44,18 +44,18 @@
         </div>
     </div>
     <div class="card mb-3 no-gutters">
-        <table class="table no-gutters">
+        <table class="table no-gutters" id="table">
             <thead>
             <tr class="no-gutters">
                 <th scope="col"><a>ID</a></th>
                 <th scope="col"><a>Email</a></th>
-                <th scope="col">Registration time</th>
+                <th scope="col"><a>Registration time</a></th>
                 <th scope="col">Course</th>
                 <th scope="col"><a>Package</a></th>
                 <th scope="col"><a>Total cost</a></th>
-                <th scope="col">Status</th>
-                <th scope="col">Valid form</th>
-                <th scope="col">Valid to</th>
+                <th scope="col"><a>Status</a></th>
+                <th scope="col"><a>Valid form</a></th>
+                <th scope="col"><a>Valid to</a></th>
                 <th scope="col">Last updated</th>
                 <th scope="col">Action</th>
             </tr>
@@ -82,14 +82,27 @@
                 <td th:text="${course.startDate}"></td>
                 <td th:text="${course.endDate}"></td>
                 <td></td>
-                <td><a th:href="@{'/registrationDetail' + ${course.id}}" class="text-primary">Detail</a></td>
+                <td><a th:href="@{'/registrationDetail' + ${course.id}}" class="text-primary link-detail">Detail</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 
 </div>
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{'/registrationList/' + ${currentPage - 1} + ${query}}">Previous</a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+            th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link"
+                                                                    th:href="@{'/registrationList/' + ${i} + ${query}}">[[${i}]]</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+            <a class="page-link" th:href="@{'/registrationList/' + ${currentPage + 1} + ${query}}">Next</a>
+        </li>
+    </ul>
+</nav>
 <th:block th:replace="fragments/footer :: footer">
 </th:block>
 <div class="modal" id="myModal">
