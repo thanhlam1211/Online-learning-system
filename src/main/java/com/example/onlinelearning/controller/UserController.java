@@ -1,8 +1,8 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
-import com.example.onlinelearning.entity.Course;
-import com.example.onlinelearning.entity.Status;
+import com.example.onlinelearning.entity.*;
+import com.example.onlinelearning.repository.DashBoardRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
@@ -10,9 +10,9 @@ import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.CourseService;
 import com.example.onlinelearning.service.DashBoardService;
 import com.example.onlinelearning.service.UserService;
-import com.example.onlinelearning.entity.Role;
-import com.example.onlinelearning.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -60,6 +60,9 @@ public class UserController {
     @Autowired
     private DashBoardService dashBoardService;
 
+    @Autowired
+    private DashBoardRepository dashBoardRepository;
+
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -92,9 +95,15 @@ public class UserController {
         return "user_update";
     }
 
+    @RequestMapping("/piechartdata")
+    public ResponseEntity<?> getDataForPiechart(){
+        List<CountCourse> piechartData = dashBoardRepository.countCourseByCategory();
+        return new ResponseEntity<>(piechartData, HttpStatus.OK);
+    }
+
     //Admin Home
     @GetMapping("/admin_home")
-    public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model, ModelMap modelMap) {
+    public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
         User user = myUserDetail.getUser();
         List<User> allUsers = service.getAllUsers();
         List<User> studentAll = service.getUserByRole(3,1);
@@ -106,6 +115,19 @@ public class UserController {
         //modelMap.addAttribute("dataPointsList", canvasjsDataList);
 
         model.addAttribute("user", user);
+        // Get list of course and count
+        List<CountCourse> pieChart = dashBoardRepository.countCourseByCategory();
+
+        model.addAttribute("pass", 50);
+        model.addAttribute("fail", 50);
+
+//        model.addAttribute("java", 48);
+//        model.addAttribute("Net", 12);
+//        model.addAttribute("python", 9);
+//        model.addAttribute("Rpa", 21);
+//        model.addAttribute("MainFrame", 10);
+
+        model.addAttribute("pieChart",pieChart);
         model.addAttribute("size", allUsers.size());
         model.addAttribute("sizeStudent", studentAll.size());
         model.addAttribute("sizeTeacher", teacherAll.size());

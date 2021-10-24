@@ -2,11 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout_admin/admin_layout}">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Homepage</title>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+
 </head>
 <body>
+
 <div layout:fragment="user">
     <h4><i class="fas fa-user"></i><span th:text="${user.username}"></span></h4>
 </div>
@@ -120,9 +124,8 @@
                     <div class="card shadow mb-4">
                         <!-- Thay chart vào thẻ div này -->
                         <div class="card-body">
-                            <div id="container">
-                                <!--                                <canvas id="myAreaChart"></canvas>-->
-                            </div>
+<!--                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>-->
+                            <div id="container" style="height: 400px"></div>
                         </div>
                     </div>
                 </div>
@@ -133,8 +136,11 @@
                         <!-- Thay chart vào thẻ div này -->
                         <div class="card-body">
                             <div class="chart-pie pt-4 pb-2">
-                                <!--                                <canvas id="myPieChart"></canvas>-->
-                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<!--                                <div id="container" style="height: 400px"></div>-->
+                                <div th:each="data : ${pieChart}">
+                                    <th th:text="${data.getCatName()}"> Cat Name</th>
+                                    <th th:text="${data.getCatCount()}">Cat Count</th>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,53 +149,6 @@
         </div>
     </div>
 </div>
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!--<script type="text/javascript">-->
-<!--    window.onload = function() {-->
-
-<!--        var dps = [[]];-->
-<!--        var chart = new CanvasJS.Chart("chartContainer", {-->
-<!--            exportEnabled: true,-->
-<!--            animationEnabled: true,-->
-<!--            theme: "light2", // "light1", "dark1", "dark2"-->
-<!--            title: {-->
-<!--                text: "Visitor Demographics of a Website"-->
-<!--            },-->
-<!--            subtitles: [{-->
-<!--                text: "Age Groups of Visitors"-->
-<!--            }],-->
-<!--            data: [{-->
-<!--                type: "pie",-->
-<!--                yValueFormatString: "#,##0\"%\"",-->
-<!--                indexLabel: "{label} - {y}",-->
-<!--                dataPoints: dps[0]-->
-<!--            }]-->
-<!--        });-->
-
-<!--        var yValue;-->
-<!--        var label;-->
-
-<!--        <c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">-->
-<!--            <c:forEach items="${dataPoints}" var="dataPoint">-->
-<!--                yValue = parseFloat("${dataPoint.y}");-->
-<!--                label = "${dataPoint.label}";-->
-<!--                dps[parseInt("${loop.index}")].push({-->
-<!--                label : label,-->
-<!--                y : yValue,-->
-<!--            });-->
-<!--            </c:forEach>-->
-<!--        </c:forEach>-->
-
-<!--        chart.render();-->
-
-<!--    }-->
-<!--</script>-->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 </body>
 </html>
