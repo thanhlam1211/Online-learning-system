@@ -3,6 +3,7 @@ package com.example.onlinelearning.controller;
 import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.PricePackageRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import javax.mail.MessagingException;
@@ -53,6 +55,9 @@ public class UserController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private PricePackageRepository pricePackageRepository;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -238,4 +243,32 @@ public class UserController {
         return "registration-list";
     }
 
+    @GetMapping("/registrationDetail/{id}")
+    public ModelAndView viewRegistration(@PathVariable(name = "id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("registration-detail-modal.component");
+        UserCourse userCourse = userCourseService.getUserCourseById(id);
+        modelAndView.addObject("courseList", courseRepository.findAll());
+        modelAndView.addObject("pricePackage", pricePackageRepository.findAll());
+        modelAndView.addObject("userCourse", userCourse);
+        return modelAndView;
+    }
+    @PostMapping("/updateRegistration")
+    public String updateRegistration(@AuthenticationPrincipal MyUserDetail userDetail,
+                                     @ModelAttribute("userCourse") UserCourse userCourse,
+                                     Model model) {
+        User user = userDetail.getUser();
+        Integer userCourseId = userCourse.getId();
+        UserCourse userCourseOld = userCourseService.getUserCourseById(userCourseId);
+        userCourseOld.setId(userCourse.getId());
+        userCourseOld.setStartDate(userCourse.getStartDate());
+        userCourseOld.setEndDate(userCourse.getEndDate());
+        userCourseOld.setRegistrationDate(userCourse.getRegistrationDate());
+        userCourseOld.setRegistrationStatus(userCourse.getRegistrationStatus());
+        userCourseOld.setUser(userCourse.getUser());
+        userCourseOld.setCourse(userCourse.getCourse());
+        userCourseOld.setPricePackage(userCourse.getPricePackage());
+        userCourseOld.setLastModifiedBy(user.getFullName());
+        userCourseService.save(userCourseOld);
+        return viewRegistrationList(model, 1, -1, "");
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.onlinelearning.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +18,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_course")
 public class UserCourse implements Serializable {
     @Id
@@ -24,18 +25,21 @@ public class UserCourse implements Serializable {
     private Integer id;
 
     @Column
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date startDate;
 
     @Column
+//    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date endDate;
 
     @Column
     private int registrationStatus;
 
     @Column
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date registrationDate;
 
-    @LastModifiedBy
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
 

@@ -12,6 +12,7 @@ import java.util.List;
  * @author Admin
  */
 public interface UserCourseRepository extends JpaRepository<UserCourse, Integer> {
+    public UserCourse getUserCourseById(Integer id);
     public List<UserCourse> findAllByUser_id(Integer id);
     public Page<UserCourse> findUserCourseByUser_id(Integer userId, Pageable pageable);
     public Page<UserCourse> findUserCourseByCourse_id(Integer courseId, Pageable pageable);

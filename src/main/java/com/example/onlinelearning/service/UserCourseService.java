@@ -31,6 +31,9 @@ public class UserCourseService {
     public List<UserCourse> getListCourseByUserId(Integer id) {
         return userCourseRepository.findAllByUser_id(id);
     }
+    public UserCourse getUserCourseById(Integer id){
+        return userCourseRepository.getUserCourseById(id);
+    }
 
     public Page<UserCourse> listAll (int pageNumber, String keyword, Integer courseId) throws NullPointerException{
         Pageable pageable = PageRequest.of(pageNumber - 1, 5);
@@ -59,5 +62,9 @@ public class UserCourseService {
             return userCourseRepository.findUserCourseByCourse_id(courseId, pageable);
         }
         return userCourseRepository.findAll(pageable);
+    }
+
+    public void save(UserCourse userCourseOld) {
+        userCourseRepository.save(userCourseOld);
     }
 }

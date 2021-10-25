@@ -18,18 +18,22 @@
                     <div class="d-flex justify-content-end">
                         <form th:action="@{/questionList/1}" class="row g-1" method="GET">
                             <div class="col-auto">
-                                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail" th:href="@{/addQuestion}"><span
-                                        class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
+                                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail"
+                                   th:href="@{/addQuestion}"><span
+                                        class="btn-icon-wrapper pr-2 opacity-7"> <i
+                                        class="fa fa-plus fa-w-20"></i> </span> New question
                                 </a>
                             </div>
+                            <a></a>
                             <div class="col-auto">
-                                <input type="text" class="form-control" placeholder="Find question" style="height:auto;" name="keyword" th:value="${keyword}">
+                                <input type="text" class="form-control" placeholder="Find question" style="height:auto;"
+                                       name="keyword" th:value="${keyword}">
                             </div>
                             <div class="col-auto">
                                 <select class="form-select" name="course" style="height: auto;">
                                     <option value="-1">All course</option>
                                     <th:block th:each="course : ${courseList}">
-                                        <option th:value="${course.id}" th:text="${course.title}" ></option>
+                                        <option th:value="${course.id}" th:text="${course.title}"></option>
                                     </th:block>
                                 </select>
                             </div>
