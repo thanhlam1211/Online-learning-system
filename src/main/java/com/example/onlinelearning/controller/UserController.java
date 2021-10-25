@@ -2,6 +2,7 @@ package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.*;
+import com.example.onlinelearning.repository.BarChartRepository;
 import com.example.onlinelearning.repository.DashBoardRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
@@ -21,6 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -62,6 +65,9 @@ public class UserController {
 
     @Autowired
     private DashBoardRepository dashBoardRepository;
+
+    @Autowired
+    private BarChartRepository barChartRepository;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -114,7 +120,20 @@ public class UserController {
         model.addAttribute("user", user);
         // Get list of course and count
         List<CountCourse> pieChart = dashBoardRepository.countCourseByCategory();
+        List<BarChart> barCharts = barChartRepository.countCourseByTag();
 
+        Map<String, Integer> surveyMap = new LinkedHashMap<>();
+        int max = 0;
+        // Draw barchart
+        for(int i = 0; i<barCharts.size();i++){
+            if(barCharts.get(i).getCountCourse() > max){
+                max = barCharts.get(i).getCountCourse();
+            }
+            surveyMap.put(barCharts.get(i).getTagName(), barCharts.get(i).getCountCourse());
+        }
+
+        model.addAttribute("max", max);
+        model.addAttribute("surveyMap", surveyMap);
         model.addAttribute("pieChart",pieChart);
         model.addAttribute("size", allUsers.size());
         model.addAttribute("sizeStudent", studentAll.size());

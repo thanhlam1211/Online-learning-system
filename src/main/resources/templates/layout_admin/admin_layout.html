@@ -132,6 +132,51 @@
 <script src="js/script.js"></script>
 
 <script th:inline="javascript">
+    $(function(){
+        Highcharts.chart('barChartContainer', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Dimension Tag Of All Course'
+            },
+            subtitle: {
+                text: 'Number of course by Tag'
+            },
+            xAxis: {
+                categories: [[${surveyMap.keySet()}]],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max:[[${sizeCourse}]],
+                title: {
+                    text: 'Number of course [max]'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="padding:0"><b>{point.y}</b> </td>'
+                    + '<td style="color:{series.color};padding:0">related course </td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Course',
+                data: [[${surveyMap.values()}]]
+            }]
+        });
+    });
+</script>
+
+<script th:inline="javascript">
 
     // this simply wraps the code in a function
     // that waits for the DOM to be ready:
