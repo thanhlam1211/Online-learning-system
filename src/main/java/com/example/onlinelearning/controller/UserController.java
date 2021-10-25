@@ -105,21 +105,15 @@ public class UserController {
     @GetMapping("/admin_home")
     public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
         User user = myUserDetail.getUser();
+        // Get list of number of users
         List<User> allUsers = service.getAllUsers();
         List<User> studentAll = service.getUserByRole(3,1);
         List<User> teacherAll = service.getUserByRole(2,1);
         List<Course> allCourse = courseService.findAll();
 
-        //dashBoard - pie chart
-        //List<List<Map<Object, Object>>> canvasjsDataList = dashBoardService.getCanvasjsDataList();
-        //modelMap.addAttribute("dataPointsList", canvasjsDataList);
-
         model.addAttribute("user", user);
         // Get list of course and count
         List<CountCourse> pieChart = dashBoardRepository.countCourseByCategory();
-
-        model.addAttribute("pass", 50);
-        model.addAttribute("fail", 50);
 
         model.addAttribute("pieChart",pieChart);
         model.addAttribute("size", allUsers.size());

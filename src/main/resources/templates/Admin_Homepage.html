@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Homepage</title>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 
 </head>
 <body>
@@ -23,94 +23,95 @@
         </div>
         <!--        Content row-->
         <div class="row">
-            <!-- Total users active -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Total users active
+            <div class="row">
+                <!-- Total users active -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total users active
+                                    </div>
+                                    <!--                                Number of total activec users here -->
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${size}"></div>
                                 </div>
-                                <!--                                Number of total activec users here -->
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${size}"></div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                <div class="col-auto">
+                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col align-self-end">
-                        <a th:href="@{/admin_user_list}">More info</a>
+                        <div class="col align-self-end">
+                            <a th:href="@{/admin_user_list}">More info</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Total courses in website -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Total Course
+                <!-- Total courses in website -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Total Course
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeCourse}"></div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeCourse}"></div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fab fa-leanpub fa-2x text-gray-300"></i>
+                                <div class="col-auto">
+                                    <i class="fab fa-leanpub fa-2x text-gray-300"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col align-self-end">
-                        <a href="#">More info</a>
+                        <div class="col align-self-end">
+                            <a href="#">More info</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Total Students -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Total Students
+                <!-- Total Students -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                        Total Students
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeStudent}"></div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeStudent}"></div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                </div>
                             </div>
                         </div>
+                        <div class="col align-self-end">
+                            <a th:href="@{/admin_user_list}">More info</a>
+                        </div>
                     </div>
-                    <div class="col align-self-end">
-                        <a th:href="@{/admin_user_list}">More info</a>
+                </div>
+                <!-- Total teachers active -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Total teachers
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeTeacher}"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col align-self-end">
+                            <a th:href="@{/admin_user_list}">More info</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Total teachers active -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Total teachers
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${sizeTeacher}"></div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col align-self-end">
-                        <a th:href="@{/admin_user_list}">More info</a>
-                    </div>
-                </div>
-            </div>
-
             <!-- Content Row -->
 
             <!--            End of total details-->
@@ -119,29 +120,28 @@
             <!-- Main row -->
             <div class="row">
 
-                <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7">
+                <!-- Pie Chart -->
+                <div class="col-xl-7 col-lg-6">
                     <div class="card shadow mb-4">
                         <!-- Thay chart vào thẻ div này -->
                         <div class="card-body">
-<!--                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>-->
-                            <div id="container" style="height: 400px"></div>
+                            <!--                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>-->
+<!--                            <div id="container" style="height: 400px"></div>-->
                         </div>
                     </div>
                 </div>
 
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
+                <!-- Other data Chart -->
+                <div class="col-xl-5 col-lg-6">
                     <div class="card shadow mb-4">
                         <!-- Thay chart vào thẻ div này -->
                         <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-<!--                                <div id="container" style="height: 400px"></div>-->
-                                <div th:each="data : ${pieChart}">
-                                    <th th:text="${data.getCatName()}"> Cat Name</th>
-                                    <th th:text="${data.getCatCount()}">Cat Count</th>
-                                </div>
-                            </div>
+                            <div id="container" style="height: 400px"></div>
+
+                            <!--                            <div th:each="data : ${pieChart}">-->
+<!--                                <th th:text="${data.getCatName()}"> Cat Name</th>-->
+<!--                                <th th:text="${data.getCatCount()}">Cat Count</th>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
