@@ -121,12 +121,6 @@ public class UserController {
         model.addAttribute("pass", 50);
         model.addAttribute("fail", 50);
 
-//        model.addAttribute("java", 48);
-//        model.addAttribute("Net", 12);
-//        model.addAttribute("python", 9);
-//        model.addAttribute("Rpa", 21);
-//        model.addAttribute("MainFrame", 10);
-
         model.addAttribute("pieChart",pieChart);
         model.addAttribute("size", allUsers.size());
         model.addAttribute("sizeStudent", studentAll.size());

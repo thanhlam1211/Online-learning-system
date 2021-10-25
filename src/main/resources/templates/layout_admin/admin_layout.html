@@ -132,38 +132,65 @@
 <script src="js/script.js"></script>
 
 <script th:inline="javascript">
-    Highcharts.chart('container', {
-        chart : {
-            type : 'pie',
-            options3d : {
-                enabled : true,
-                alpha : 50,
-                beta : 0
-            }
-        },
-        title : {
-            text : 'Result Status'
-        },
-        tooltip : {
-            pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions : {
-            pie : {
-                allowPointSelect : true,
-                cursor : 'pointer',
-                depth : 35,
-                dataLabels : {
-                    enabled : true,
-                    format : '{point.name}'
-                }
-            }
-        },
-        series : [ {
-            type : 'pie',
-            name : 'Ratio',
-            data : [ [ 'Success', [[${pass}]] ], [ 'Failure', [[${fail}]] ]  ]
-        } ]
-    });
+
+    // this simply wraps the code in a function
+    // that waits for the DOM to be ready:
+    (function () {
+
+        // this is populated by Thymeleaf:
+        var pieChartData = /*[[${pieChart}]]*/ [];
+
+        var series = [];
+        var data = [];
+
+        for (var i = 0; i < pieChartData.length; i++) {
+            var object = {};
+            object.name = pieChartData[i].catName.toUpperCase();
+            object.y = pieChartData[i].catCount;
+            data.push(object);
+        }
+        var seriesObject = {
+            name: 'All course available',
+            colorByPoint: true,
+            data: data
+        };
+        series.push(seriesObject);
+        drawPieChart(series);
+
+        // draw the pie chart:
+        function drawPieChart(series) {
+            Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'My piechart first'
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<strong>' + this.key + ': </strong>' + this.y;
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y}'
+                        }
+                    }
+                },
+                // use the series data defined earlier:
+                series: series
+            });
+        }
+
+    })();
+
 </script>
 
 </body>
