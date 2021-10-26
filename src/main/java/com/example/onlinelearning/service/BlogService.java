@@ -1,6 +1,7 @@
 package com.example.onlinelearning.service;
 
 import com.example.onlinelearning.entity.Blog;
+import com.example.onlinelearning.entity.Slide;
 import com.example.onlinelearning.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,15 @@ import java.util.List;
 public class BlogService {
     @Autowired
     private BlogRepository blogRepository;
+
+    public List<Blog> findAll() {
+        return blogRepository.findAll();
+    }
+
+    public Blog save(Blog blog) {
+        blogRepository.save(blog);
+        return blog;
+    }
 
     public List<Blog> getFeaturedBlogs() {
         return blogRepository.findAllByFeaturedEquals(1);

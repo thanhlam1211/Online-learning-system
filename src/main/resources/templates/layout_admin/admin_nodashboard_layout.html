@@ -74,6 +74,9 @@
         <a th:href="@{/slide}"><i class="fas fa-images"></i>Slide</a>
       </li>
       <li>
+        <a th:href="@{/admin_blog}"><i class="fas fa-pager"></i>Blog</a>
+      </li>
+      <li>
         <a id="subject_detail" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
           <i class="fas fa-book"></i>Subject detail
         </a>
@@ -83,6 +86,27 @@
       </li>
     </ul>
   </nav>
+
+  <!--MODAL-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ALERT</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>This action will move you out of the admin site</p>
+          <p>Are you sure want to continue this action?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No, sorry</button>
+          <a th:href="@{/manage-courses}" type="button" class="btn btn-warning">I understood</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--END MODAL-->
 
   <div id="content" layout:fragment="content">
     <h1>This is homepage</h1>

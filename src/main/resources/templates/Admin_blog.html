@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout_admin/admin_nodashboard_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add new slide
+            </button>
+            <!--MODAL-->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <form th:action="@{/addBlog}" th:object="${blog}" method="post" enctype="multipart/form-data">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">New blog</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <span for="inputName">Brief:</span>
+                                    <input type="text" th:field="*{brief}" class="form-control" id="inputBrief">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputName">Content:</span>
+                                    <textarea type="text" th:field="*{content}" class="form-control" id="inputContent"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputName">Feature:</span>
+                                    <input type="text" th:field="*{featured}" class="form-control" id="inputFeature">
+                                </div>
+
+                                <!--image file input-->
+                                <div class="form-group">
+                                    <span for="inputImage">Thumbnail:</span>
+                                    <input type="file" name="fileImage" id="fileImage" accept="image/jpeg, image/png"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputDescription">Title:</span>
+                                    <input type="text" th:field="*{title}" class="form-control" id="inputTitle">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputDescription">Author account (Default):</span>
+                                    <input type="text" th:field="*{user}" th:text="${currUser.username}" th:value="${currUser.id}" class="form-control" id="inputUser" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputCourseLink">Category:</span>
+                                    <select th:field="*{category}" class="form-select" name="category"
+                                            style="height: auto;">
+                                        <th:block th:each="cate : ${categoryList}">
+                                            <option th:text="${cate.value}" th:value="${cate.id}" name="cate_id"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="addType" class="col-form-label">Status:</span>
+                                    <select th:field="*{status}" class="form-select" name="status"
+                                            style="height: auto;">
+                                        <th:block th:each="status : ${statusList}">
+                                            <option th:text="${status.value}" th:value="${status.id}" name="status_id"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--END MODAL-->
+        </div>
+    </div>
+
+    <table class="table mt-3">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">ID</th>
+            <th scope="col">Brief</th>
+            <th scope="col">Content</th>
+            <th scope="col">Featured</th>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Title</th>
+            <th scope="col">Account</th>
+            <th colspan="2" scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="blog : ${blogList}" style="text-align: center">
+            <th scope="row" th:text="${blog.id}"></th>
+            <td th:text="${blog.brief}"></td>
+            <td th:text="${blog.content}"></td>
+            <td th:text="${blog.featured}"></td>
+            <td>
+                <img th:src="@{${blog.blogImagePath}}" style="width: 100px;" />
+            </td>
+            <td th:text="${blog.title}"></td>
+            <td th:text="${blog.user.username}"></td>
+            <td><a href="#" class="d-block text-center btn-sm btn-secondary">Details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

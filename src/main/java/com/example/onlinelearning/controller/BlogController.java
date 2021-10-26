@@ -1,18 +1,26 @@
 package com.example.onlinelearning.controller;
 
-import com.example.onlinelearning.entity.Blog;
-import com.example.onlinelearning.entity.Category;
-import com.example.onlinelearning.repository.BlogRepository;
+import com.example.onlinelearning.entity.*;
+import com.example.onlinelearning.repository.StatusRepository;
+import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.BlogService;
 import com.example.onlinelearning.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
@@ -21,6 +29,49 @@ public class BlogController {
     private BlogService blogService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private StatusRepository statusRepository;
+
+    @GetMapping("/admin_blog")
+    public String viewAdminBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
+        User user = myUserDetail.getUser();
+        List<Blog> blogList = blogService.findAll();
+        List<Status> statusList = statusRepository.findAll();
+        List<Category> categoryList = categoryService.getAll();
+        Blog blog = new Blog();
+
+        model.addAttribute("currUser", user);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("blog", blog);
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("blogList", blogList);
+        return "Admin_blog";
+    }
+
+    @PostMapping("/addBlog")
+    public String saveBlog(@ModelAttribute(name = "blog") Blog blog,
+                            @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        blog.setThumbnail(fileName);
+        Blog savedBlog = blogService.save(blog);
+
+        String uploadDir = "./blog-images/" + savedBlog.getId();
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath , StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
+        }
+
+        return "redirect:/admin_blog";
+    }
 
     @GetMapping("/blog/{id}")
     public String viewBlogDetail(@PathVariable(name = "id") Integer id, Model model) {
