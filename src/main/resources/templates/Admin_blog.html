@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-2">
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Add new slide
+                Add new blog
             </button>
             <!--MODAL-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -53,8 +53,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <span for="inputDescription">Author account (Default):</span>
-                                    <input type="text" th:field="*{user}" th:text="${currUser.username}" th:value="${currUser.id}" class="form-control" id="inputUser" readonly>
+                                    <span for="inputAuthor">Author account (Default):</span>
+                                    <select th:field="*{user}" class="form-select" name="category"
+                                            style="height: auto;">
+                                        <th:block>
+                                            <option th:text="${currUser.username}" th:value="${currUser.id}" name="cate_id"></option>
+                                        </th:block>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -113,7 +118,7 @@
             </td>
             <td th:text="${blog.title}"></td>
             <td th:text="${blog.user.username}"></td>
-            <td><a href="#" class="d-block text-center btn-sm btn-secondary">Details</a></td>
+            <td><a th:href="@{/blog/details/{id}(id=${blog.id})}" class="d-block text-center btn-sm btn-secondary">Details</a></td>
         </tr>
         </tbody>
     </table>

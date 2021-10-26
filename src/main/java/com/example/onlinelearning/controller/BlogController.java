@@ -82,6 +82,49 @@ public class BlogController {
         return "blogDetail";
     }
 
+    @GetMapping("/blog/details/{id}")
+    public String viewBlogEditForm(@PathVariable("id") Integer id,
+                                   @AuthenticationPrincipal MyUserDetail myUserDetail,
+                                   Model model) {
+        User user = myUserDetail.getUser();
+        Blog blog = blogService.getBlogById(id);
+        List<Category> categoryList = categoryService.getAll();
+        List<Status> statusList = statusRepository.findAll();
+
+        model.addAttribute("currUser", user);
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("blog", blog);
+        model.addAttribute("categoryList", categoryList);
+        return "Admin_blog_edit";
+    }
+
+    @PostMapping("/blog/update/{id}")
+    public String updateSlide(@PathVariable("id") Integer id,
+                              @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+        Blog blog = blogService.getBlogById(id);
+
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        blog.setThumbnail(fileName);
+
+        String uploadDir = "./blog-images/" + blog.getId();
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath ,StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
+        }
+
+        blogService.save(blog);
+        return "redirect:/admin_blog";
+    }
+
     @GetMapping("blog/all")
     public String viewAllBlogsHome(Model model) {
         return viewAllBlogs(model, 1);
