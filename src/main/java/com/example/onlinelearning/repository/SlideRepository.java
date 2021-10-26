@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Integer> {
     public List<Slide> findAllByStatusValue(String status);
+    public Slide getSlideById(Integer id);
 }

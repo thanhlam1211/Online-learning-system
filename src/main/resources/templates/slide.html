@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout_admin/admin_layout}">
+      layout:decorate="~{layout_admin/admin_nodashboard_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Slide</title>
 </head>
 <body>
-<div layout:fragment="main_content">
+<div layout:fragment="content">
     <div class="row">
         <div class="col-md-2">
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -90,7 +90,7 @@
             </td>
             <td th:text="${slide.title}"></td>
             <td th:text="${slide.status.value}"></td>
-            <td><a href="" class="d-block text-center btn-sm btn-secondary">Details</a></td>
+            <td><a th:href="@{/slide/details/{id}(id=${slide.id})}" class="d-block text-center btn-sm btn-secondary">Details</a></td>
         </tr>
         </tbody>
     </table>

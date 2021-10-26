@@ -22,4 +22,7 @@ public class SlideService {
         slideRepository.save(slide);
         return slide;
     }
+    public Slide getSlideByID(int id) {
+        return slideRepository.getSlideById(id);
+    }
 }

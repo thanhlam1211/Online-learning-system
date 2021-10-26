@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -67,6 +64,43 @@ public class SlideController {
             throw new IOException("Could not save uploaded file: " + fileName);
         }
 
+        return "redirect:/slide";
+    }
+
+    @GetMapping("/slide/details/{id}")
+    public String viewEditForm(@PathVariable("id") Integer id, Model model) {
+        Slide slide = slideService.getSlideByID(id);
+        List<Status> statusList = statusRepository.findAll();
+
+        model.addAttribute("slide", slide);
+        model.addAttribute("statusList", statusList);
+        return "Admin_slide_edit";
+    }
+
+    @PostMapping("/slide/update/{id}")
+    public String updateSlide(@PathVariable("id") Integer id,
+                              @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+        Slide slide = slideService.getSlideByID(id);
+
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        slide.setImageUrl(fileName);
+
+        String uploadDir = "./slide-images/" + slide.getId();
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath ,StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
+        }
+
+        slideService.save(slide);
         return "redirect:/slide";
     }
 }

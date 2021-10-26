@@ -29,7 +29,7 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String viewHome(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
+    public String viewHome(Model model) {
         List<Category> categoryList = categoryService.getAll();
         List<Slide> slideList = slideService.getAllEnabledSlides();
         HashMap<Category, List<Course>> allCategoryFeaturedCourse = courseService.getAllCategoryFeaturedCourse();
