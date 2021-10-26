@@ -19,10 +19,12 @@
             <input type="text" class="form-control" th:field="*{userCourse.registrationDate}" readonly>
             <label>Total cost:</label>
             <input type="text" class="form-control" th:field="${userCourse.pricePackage.salePrice}" readonly>
-            <label>Valid from:</label>
-            <input type="text" class="form-control" th:field="*{userCourse.startDate}" readonly>
-            <label>Valid to:</label>
-            <input type="date" class="form-control col-6" th:field="*{userCourse.endDate}" >
+            <div class="col-6">
+                <label>Valid from:</label>
+                <input type="date" class="form-control" th:field="*{userCourse.startDate}">
+                <label>Valid to:</label>
+                <input type="date" class="form-control col-6" th:field="*{userCourse.endDate}" >
+            </div>
             <div class="left">
                 <div class="col-6">
                     <div class="col-auto">
