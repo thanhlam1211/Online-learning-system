@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Admin
  */
@@ -17,6 +19,5 @@ public interface QuestionBankRepository extends JpaRepository<QuestionBank, Inte
     public Page<QuestionBank> findQuestionBankByStatus_id(Integer status, Pageable pageable);
     public Page<QuestionBank> findQuestionBankByCourse_id(Integer course, Pageable pageable);
     public Page<QuestionBank> findQuestionBankByStatus_idAndCourse_id(Integer status,Integer course, Pageable pageable);
-
 
 }
