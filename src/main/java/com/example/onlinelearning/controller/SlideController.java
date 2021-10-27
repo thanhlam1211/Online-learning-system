@@ -32,13 +32,17 @@ public class SlideController {
     private SlideRepository slideRepository;
 
     @GetMapping("/slide")
-    public String slideList(Model model) {
+    public String slideList(Model model, String keyword) {
         List<Status> statusList = statusRepository.findAll();
         Slide slide = new Slide();
 
         model.addAttribute("statusList", statusList);
         model.addAttribute("slide", slide);
-        model.addAttribute("slideList", slideService.getAllSlide());
+        if (keyword != null) {
+            model.addAttribute("slideList", slideService.findByKeyword(keyword));
+        } else {
+            model.addAttribute("slideList", slideService.getAllSlide());
+        }
         return "slide";
     }
 

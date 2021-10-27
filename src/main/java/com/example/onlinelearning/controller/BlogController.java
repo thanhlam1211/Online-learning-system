@@ -5,6 +5,7 @@ import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.BlogService;
 import com.example.onlinelearning.service.CategoryService;
+import com.example.onlinelearning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -31,20 +32,30 @@ public class BlogController {
     private CategoryService categoryService;
     @Autowired
     private StatusRepository statusRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/admin_blog")
-    public String viewAdminBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
+    public String viewAdminBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model, String keyword) {
         User user = myUserDetail.getUser();
         List<Blog> blogList = blogService.findAll();
         List<Status> statusList = statusRepository.findAll();
         List<Category> categoryList = categoryService.getAll();
+        List<User> users = userService.findByAdmin();
         Blog blog = new Blog();
 
         model.addAttribute("currUser", user);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
         model.addAttribute("statusList", statusList);
-        model.addAttribute("blogList", blogList);
+        model.addAttribute("adminList", users);
+
+        if (keyword != null) {
+            model.addAttribute("blogList", blogService.findByKeyword(keyword));
+        } else {
+            model.addAttribute("blogList", blogList);
+        }
+
         return "Admin_blog";
     }
 
@@ -123,6 +134,32 @@ public class BlogController {
 
         blogService.save(blog);
         return "redirect:/admin_blog";
+    }
+
+    @GetMapping("/blog/filter/{id}")
+    public String blogFilter(@PathVariable("id") int id,
+                             @AuthenticationPrincipal MyUserDetail myUserDetail,
+                             String keyword,
+                             Model model){
+        List<Blog> blogs = blogService.findByAuthor(id);
+        User user = myUserDetail.getUser();
+        List<Status> statusList = statusRepository.findAll();
+        List<Category> categoryList = categoryService.getAll();
+        List<User> users = userService.findByAdmin();
+        Blog blog = new Blog();
+
+        model.addAttribute("currUser", user);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("blog", blog);
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("adminList", users);
+
+        if (keyword != null) {
+            model.addAttribute("blogList", blogService.findByKeyword(keyword));
+        } else {
+            model.addAttribute("blogList", blogs);
+        }
+        return "Admin_blog";
     }
 
     @GetMapping("blog/all")

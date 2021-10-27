@@ -10,9 +10,43 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-2">
-            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
                 Add new blog
             </button>
+
+            <!--Search by title-->
+            <div id="block1">
+                <form th:action="@{/admin_blog}" method="get"
+                      style="margin-top: 10px; width: 200px">
+                    <div class="input-group rounded">
+                        <input class="form-control rounded" id="txtSearch" placeholder="Search..." type="search"
+                               name="keyword" aria-label="Search"
+                               aria-describedby="search-addon"/>
+                        <button class="input-group-text border-0" type="submit"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+
+                <!--Filter by author-->
+                <div class="btn-group" id="block2">
+                    <button style="width: 150px; margin-top: 10px; text-align: left"
+                            type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Filter with...
+                    </button>
+                    <ul class="dropdown-menu">
+                        <span class="chosen"></span>
+                        <th:block th:each="admin : ${adminList}">
+                            <li>
+                                <a th:href="@{'/blog/filter/' + ${admin.id}}" th:text="${admin.username}"
+                                   class="dropdown-item"></a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+
             <!--MODAL-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -33,7 +67,8 @@
 
                                 <div class="form-group">
                                     <span for="inputName">Content:</span>
-                                    <textarea type="text" th:field="*{content}" class="form-control" id="inputContent"></textarea>
+                                    <textarea type="text" th:field="*{content}" class="form-control"
+                                              id="inputContent"></textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -57,7 +92,8 @@
                                     <select th:field="*{user}" class="form-select" name="category"
                                             style="height: auto;">
                                         <th:block>
-                                            <option th:text="${currUser.username}" th:value="${currUser.id}" name="cate_id"></option>
+                                            <option th:text="${currUser.username}" th:value="${currUser.id}"
+                                                    name="cate_id"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -67,7 +103,8 @@
                                     <select th:field="*{category}" class="form-select" name="category"
                                             style="height: auto;">
                                         <th:block th:each="cate : ${categoryList}">
-                                            <option th:text="${cate.value}" th:value="${cate.id}" name="cate_id"></option>
+                                            <option th:text="${cate.value}" th:value="${cate.id}"
+                                                    name="cate_id"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -77,7 +114,8 @@
                                     <select th:field="*{status}" class="form-select" name="status"
                                             style="height: auto;">
                                         <th:block th:each="status : ${statusList}">
-                                            <option th:text="${status.value}" th:value="${status.id}" name="status_id"></option>
+                                            <option th:text="${status.value}" th:value="${status.id}"
+                                                    name="status_id"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -114,11 +152,12 @@
             <td th:text="${blog.content}"></td>
             <td th:text="${blog.featured}"></td>
             <td>
-                <img th:src="@{${blog.blogImagePath}}" style="width: 100px;" />
+                <img th:src="@{${blog.blogImagePath}}" style="width: 100px;"/>
             </td>
             <td th:text="${blog.title}"></td>
             <td th:text="${blog.user.username}"></td>
-            <td><a th:href="@{/blog/details/{id}(id=${blog.id})}" class="d-block text-center btn-sm btn-secondary">Details</a></td>
+            <td><a th:href="@{/blog/details/{id}(id=${blog.id})}" class="d-block text-center btn-sm btn-secondary">Details</a>
+            </td>
         </tr>
         </tbody>
     </table>

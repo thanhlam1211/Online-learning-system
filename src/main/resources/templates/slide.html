@@ -13,6 +13,21 @@
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Add new slide
             </button>
+
+            <!--Search with title-->
+            <div id="block1">
+                <form th:action="@{/slide}" method="get"
+                      style="margin-top: 10px; width: 200px">
+                    <div class="input-group rounded">
+                        <input class="form-control rounded" id="txtSearch" placeholder="Search..." type="search"
+                               name="keyword" aria-label="Search"
+                               aria-describedby="search-addon"/>
+                        <button class="input-group-text border-0" type="submit"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+
             <!--MODAL-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                  aria-labelledby="staticBackdropLabel" aria-hidden="true">

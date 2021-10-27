@@ -33,6 +33,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "WHERE role_id = ?1 and status_id = 1", nativeQuery = true)
     List<User> findByRole(int role_id, int status);
 
+    @Query(value = "select * from users inner join user_role on users.id = user_role.user_id where role_id = 1", nativeQuery = true)
+    List<User> findByAdmin();
+
     @Query(value = "select * from users u where u.full_name like %:keyword% " +
             "or u.username like %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);

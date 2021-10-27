@@ -1,5 +1,6 @@
 package com.example.onlinelearning.service;
 
+import com.example.onlinelearning.entity.Blog;
 import com.example.onlinelearning.entity.Slide;
 import com.example.onlinelearning.repository.SlideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class SlideService {
     public List<Slide> getAllSlide() {
         return slideRepository.findAll();
     }
+
+    public List<Slide> findByKeyword(String keyword) {
+        return slideRepository.findByKeyword(keyword);
+    }
+
     public Slide save(Slide slide) {
         slideRepository.save(slide);
         return slide;

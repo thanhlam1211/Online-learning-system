@@ -21,6 +21,14 @@ public class BlogService {
         return blogRepository.findAll();
     }
 
+    public List<Blog> findByKeyword(String keyword) {
+        return blogRepository.findByKeyword(keyword);
+    }
+
+    public List<Blog> findByAuthor(int id) {
+        return blogRepository.findByAuthor(id);
+    }
+
     public Blog save(Blog blog) {
         blogRepository.save(blog);
         return blog;
