@@ -55,8 +55,7 @@
                     <li class="nav-item dropdown pt-1 me-3">
                         <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://pbs.twimg.com/profile_images/453956388851445761/8BKnRUXg.png" width="35px"
-                                 height="35px" class="rounded-circle">
+                            <img th:src="@{${user.avaterPath}}" style="width: 35px;" />
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>

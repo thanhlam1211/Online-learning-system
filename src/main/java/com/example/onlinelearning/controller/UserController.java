@@ -19,10 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.mail.MessagingException;
@@ -194,30 +196,37 @@ public class UserController {
     }
 
     @PostMapping("/user_home/update/{id}")
-    public String userUpdate(@RequestParam("file") MultipartFile file,
+    public String userUpdate(@RequestParam("fileImage") MultipartFile multipartFile,
                              @AuthenticationPrincipal MyUserDetail userDetail,
                              @ModelAttribute("user") User user,
-                             Model model) {
+                             Model model) throws IOException{
         //save user
         User existUser = userDetail.getUser();
-        Path path = Paths.get("uploads/");
-        if(file.isEmpty()) {
-            return "user_home";
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        existUser.setAvatar(fileName);
+
+        String uploadDir = "./avatar/" + existUser.getId();
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
         }
-        try{
-            InputStream inputStream = file.getInputStream();
-            Files.copy(inputStream, path.resolve(Objects.requireNonNull(file.getOriginalFilename())), StandardCopyOption.REPLACE_EXISTING);
-            existUser.setAvatar(file.getOriginalFilename().toLowerCase());
-        }catch (Exception e) {
-            e.printStackTrace();
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath ,StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
         }
+
         existUser.setFullName(user.getFullName());
         existUser.setGender(user.getGender());
         existUser.setPhone(user.getPhone());
 
         service.updateUser(existUser);
         model.addAttribute("user", existUser);
-        return "user_home";
+        return "redirect:/user_home";
     }
 
     @GetMapping("/user_home/changePass")
