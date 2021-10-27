@@ -194,6 +194,7 @@ public class QuizController {
             // Add to cookie
             Cookie currentUserQuizCookie = new Cookie("currentUserQuizId", currentUserQuiz.getId().toString());
             currentUserQuizCookie.setMaxAge(9999999);
+            currentUserQuizCookie.setPath("/");
             response.addCookie(currentUserQuizCookie);
         } else {
             // Get existed UserQuiz
@@ -248,6 +249,7 @@ public class QuizController {
         // Delete Cookie
         Cookie currentUserQuizCookie = new Cookie("currentUserQuizId", null);
         currentUserQuizCookie.setMaxAge(0);
+        currentUserQuizCookie.setPath("/");
         response.addCookie(currentUserQuizCookie);
 
         return "redirect:/review-quiz-result";
