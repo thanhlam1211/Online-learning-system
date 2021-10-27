@@ -67,6 +67,16 @@ public class QuestionBank implements Serializable {
     @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL)
     private Set<UserQuestionAnswer> userQuestionAnswerList = new HashSet<>();
 
+    public String getUserQuestionAnswer_userChoice(int user_quiz_id){
+        String answer = "";
+        for (UserQuestionAnswer userQuestionAnswer: userQuestionAnswerList) {
+            if(userQuestionAnswer.getUserQuiz().getId()==user_quiz_id){
+                answer = userQuestionAnswer.getUserChoice();
+            }
+        }
+        return answer;
+    }
+
     @ManyToMany(mappedBy = "questionBankList")
     private Set<Quiz> quizList = new HashSet<>();
 
