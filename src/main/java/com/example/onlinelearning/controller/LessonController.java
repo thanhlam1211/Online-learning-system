@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Controller
@@ -129,6 +130,18 @@ public class LessonController {
         lesson.setCourse(originalLesson.getCourse());
         lessonRepository.save(lesson);
         return "redirect:/manage-lessons/course" + courseId;
+    }
+
+    // LESSON VIEW
+    // Mode: Learning
+    @GetMapping("/course/{courseId}/lesson/{lessonId}")
+    public String lessonView(Model model, @PathVariable(name = "courseId") Integer courseId) {
+        // Get courseContent sorted by 'Order' field
+        LinkedHashMap<Topic, List<Lesson>> courseContent = lessonService.getCourseContentByCourseId(courseId);
+
+        // Assign to Model
+        model.addAttribute("courseContent", courseContent);
+        return "lesson";
     }
 
 

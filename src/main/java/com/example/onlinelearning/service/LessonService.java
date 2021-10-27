@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -56,5 +57,20 @@ public class LessonService {
         } else {
             return lessonRepository.findLessonByCourse_IdAndLessonNameContainingAndStatus_IdAndTopic_TopicId(courseId,searchInput, topicId, statusId, pageable);
         }
+    }
+
+    public LinkedHashMap<Topic, List<Lesson>> getCourseContentByCourseId(Integer courseId) {
+        LinkedHashMap<Topic, List<Lesson>> courseContent = new LinkedHashMap<>();
+
+        // Get all topics order by Order
+        List<Topic> topicList = topicRepository.findAllByCourse_IdOrderByOrder(courseId);
+
+        // Get all lessons for each topic
+        for (Topic topic : topicList) {
+            courseContent.put(topic, lessonRepository.findByTopic_TopicIdOrderByOrder(topic.getTopicId()));
+        }
+
+        return courseContent;
+
     }
 }

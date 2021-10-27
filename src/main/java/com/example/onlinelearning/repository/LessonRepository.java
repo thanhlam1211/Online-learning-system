@@ -27,4 +27,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     public Page<Lesson> findLessonByCourse_IdAndLessonNameContainingAndTopic_TopicId(Integer courseId, String title, Integer topicId, Pageable pageable);
 
     public List<Lesson> findByTopic_TopicIdOrderByOrder(Integer topic_topicId);
+
 }
