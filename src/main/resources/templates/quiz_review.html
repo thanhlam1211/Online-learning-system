@@ -18,22 +18,28 @@
             </div>
             <div class="pl-50">
                 <div class="mt-3" th:each="question:${quiz.getQuestionBankList()}">
-                    <h6 th:text="'Question: '+${question.content}"></h6>
+                    <h5 th:text="'Question: '+${question.content}"></h5>
                     <div>
-                        <input class="form-check-input" type="radio" disabled>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option1} ">
                         <label class="form-check-label text-dark" th:text="${question.option1}"></label>
                         <br>
-                        <input class="form-check-input" type="radio" disabled>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option2}">
                         <label class="form-check-label text-dark" th:text="${question.option2}"></label>
                         <br>
-                        <input class="form-check-input" type="radio" disabled>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option3}">
                         <label class="form-check-label text-dark" th:text="${question.option3}"></label>
                         <br>
-                        <input class="form-check-input" type="radio" disabled>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option4}">
                         <label class="form-check-label text-dark" th:text="${question.option4}"></label>
                         <br>
-                        <div class="bg-success bg-gradient m-3 p-2">
+                        <div th:class="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId()) == question.getAnswer()}?'bg-success bg-gradient m-3 p-2':'bg-danger bg-gradient m-3 p-2'">
                             <h6 class="text-light" th:text="'Answer: ' + ${question.getAnswer()}"></h6>
+                            <h6 class="text-light"
+                                th:text="'Your answer: ' + ${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())}"></h6>
                             <h6 class="text-light" th:text="'Explain: ' + ${question.getExplanation()}"></h6>
                         </div>
                     </div>

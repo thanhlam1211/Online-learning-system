@@ -156,9 +156,8 @@ public class QuizController {
             }
         }
         List<UserQuestionAnswer> userQuestionAnswer = userQuestionAnswerService.getUserQuestionAnswersByUserQuizOrderById(lastUserQuiz.getId());
-
         modelAndView.addObject("lastUserQuiz", lastUserQuiz);
-        modelAndView.addObject("userQuestionAnswer", userQuestionAnswer);
+//        modelAndView.addObject("userQuestionAnswer", userQuestionAnswer);
         modelAndView.addObject("highestMark", highestMark);
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
