@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 4</title>
+    <title th:text="${currentLesson.lessonName}"></title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -25,28 +25,31 @@
     <!-- Sidebar Holder -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
+            <h3>G3Learn</h3>
         </div>
 
         <ul class="list-unstyled components">
-            <p>PRJ301 - Learn Java Web</p>
-            <li th:each="item, iter : ${courseContent}">
-                <a th:href="'#topic' + ${item.key.topicId}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" th:text="${item.key.topicName}"></a>
-                <ul class="collapse list-unstyled" th:id="'topic' + ${item.key.topicId}">
-                    <li th:each="lesson : ${item.value}">
-                        <a href="#" th:text="${lesson.lessonName}"></a>
-                    </li>
-                </ul>
+            <p th:text="${currentCourse.title}"></p>
+            <li th:each="item, iter : ${courseContent}" th:classappend="${currentTopicId == item.key.topicId ? 'active' : ''}">
+                <a th:href="'#topic' + ${item.key.topicId}" data-toggle="collapse" aria-expanded="false" th:classappend="${item.value.size() > 0 ? 'dropdown-toggle' : ''}" th:text="${item.key.topicName}"></a>
+                <th:block th:if="${item.value.size() > 0}">
+                    <ul class="collapse list-unstyled" th:id="'topic' + ${item.key.topicId}" th:classappend="${currentTopicId == item.key.topicId ? 'show' : ''}">
+                        <li th:each="lesson : ${item.value}">
+                            <a th:href="'/learning/course/' + ${currentCourse.id} + '/lesson/' + ${lesson.lessonId}" th:text="${lesson.lessonName}" th:classappend="${lessonId == lesson.lessonId ? 'lesson-selected' : ''}"></a>
+                        </li>
+                    </ul>
+                </th:block>
+
             </li>
 
         </ul>
 
         <ul class="list-unstyled CTAs">
             <li>
-                <a href="#" class="download">Next Lesson</a>
+                <a th:href="'/learning/course/' + ${currentCourse.id} + '/lesson/' + ${nextLessonId}" class="download" th:classappend="${nextLessonId == -1 ? 'd-none' : ''}">Next Lesson</a>
             </li>
             <li>
-                <a href="#" class="article">Previous Lesson</a>
+                <a th:href="'/learning/course/' + ${currentCourse.id} + '/lesson/' + ${previousLessonId}" class="article" th:classappend="${previousLessonId == -1 ? 'd-none' : ''}">Previous Lesson</a>
             </li>
         </ul>
     </nav>
@@ -69,40 +72,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="#">Logout</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
-        <h2>Collapsible Sidebar Using Bootstrap 4</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-        <div class="line"></div>
-
-        <h2>Lorem Ipsum Dolor</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <th:block th:if="${lessonId == -1}">
+            <h2>There are no lesson!</h2>
+        </th:block>
+        <h2 th:text="${currentLesson.getLessonName()}"></h2>
+        <p th:text="${currentLesson.getHtmlContent()}"></p>
+        <iframe width="750" height="415" th:src="${embedLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         <div class="line"></div>
-
-        <h2>Lorem Ipsum Dolor</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-        <div class="line"></div>
-
-        <h3>Lorem Ipsum Dolor</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
 </div>
 

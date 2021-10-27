@@ -133,14 +133,57 @@ public class LessonController {
     }
 
     // LESSON VIEW
+    // Mode: Learning Default
+    @GetMapping("/learning/course/{courseId}")
+    public String lessonViewDefault(Model model, @PathVariable(name = "courseId") Integer courseId) {
+        // Get first lessonId
+        Integer firstLessonId = lessonService.getFirstLessonId(courseId);
+        return lessonView(model, courseId, firstLessonId);
+    }
+
+    // LESSON VIEW
     // Mode: Learning
-    @GetMapping("/course/{courseId}/lesson/{lessonId}")
-    public String lessonView(Model model, @PathVariable(name = "courseId") Integer courseId) {
+    @GetMapping("/learning/course/{courseId}/lesson/{lessonId}")
+    public String lessonView(Model model, @PathVariable(name = "courseId") Integer courseId, @PathVariable(name = "lessonId") Integer lessonId) {
         // Get courseContent sorted by 'Order' field
         LinkedHashMap<Topic, List<Lesson>> courseContent = lessonService.getCourseContentByCourseId(courseId);
 
+        // Get currentCourse
+        Course currentCourse = courseService.getCourseById(courseId);
+
+        // Get currentLesson
+        Lesson currentLesson = new Lesson();
+        if (lessonId != -1) {
+           currentLesson = lessonRepository.getById(lessonId);
+        }
+
+        // Get youtube embed link
+        String embedLink = "";
+        try {
+            String[] parts = currentLesson.getVideoLinkId().split("\\?v=");
+             embedLink = "https://www.youtube.com/embed/" + parts[1];
+        } catch (Exception e) {}
+
+        // Get current topicId
+        Integer currentTopicId = -1;
+        if (lessonId != -1) {
+            currentTopicId = currentLesson.getTopic().getTopicId();
+        }
+
+        // Next lessonId
+        Integer nextLessonId = lessonService.getNextLessonId(lessonId, courseContent);
+        // Previous lessonId
+        Integer previousLessonId = lessonService.getPreviousLessonId(lessonId, courseContent);
+
         // Assign to Model
+        model.addAttribute("lessonId", lessonId);
+        model.addAttribute("nextLessonId", nextLessonId);
+        model.addAttribute("previousLessonId", previousLessonId);
+        model.addAttribute("currentCourse", currentCourse);
+        model.addAttribute("embedLink", embedLink);
         model.addAttribute("courseContent", courseContent);
+        model.addAttribute("currentLesson", currentLesson);
+        model.addAttribute("currentTopicId", currentTopicId);
         return "lesson";
     }
 

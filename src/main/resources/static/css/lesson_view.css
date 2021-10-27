@@ -222,3 +222,8 @@ a.article, a.article:hover {
     }
 
 }
+
+.lesson-selected {
+    color: #7386D5;
+    background: #fff;
+}

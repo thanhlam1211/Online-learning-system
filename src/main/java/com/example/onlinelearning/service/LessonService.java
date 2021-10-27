@@ -73,4 +73,45 @@ public class LessonService {
         return courseContent;
 
     }
+
+    public Integer getFirstLessonId(Integer courseId) {
+        // Get all topics order by Order
+        List<Topic> topicList = topicRepository.findAllByCourse_IdOrderByOrder(courseId);
+
+        // Return first LessonId
+        for (Topic topic : topicList) {
+            List<Lesson> currentLessonList = lessonRepository.findByTopic_TopicIdOrderByOrder(topic.getTopicId());
+            if (!currentLessonList.isEmpty()) return currentLessonList.get(0).getLessonId();
+        }
+
+        return -1;
+    }
+
+    public Integer getNextLessonId(Integer currentLessonId, LinkedHashMap<Topic, List<Lesson>> courseContent) {
+        boolean flag = false;
+        for (Topic topic : courseContent.keySet()) {
+            for (Lesson lesson : courseContent.get(topic)) {
+                if (flag) return lesson.getLessonId();
+                if (lesson.getLessonId() == currentLessonId) flag = true;
+
+            }
+        }
+        return -1;
+    }
+
+    public Integer getPreviousLessonId(Integer currentLessonId, LinkedHashMap<Topic, List<Lesson>> courseContent) {
+        Lesson temp = new Lesson();
+        temp.setLessonId(-1);
+        for (Topic topic : courseContent.keySet()) {
+            for (Lesson lesson : courseContent.get(topic)) {
+                if (lesson.getLessonId() != currentLessonId) {
+                    temp = lesson;
+                } else {
+                    return temp.getLessonId();
+                }
+
+            }
+        }
+        return -1;
+    }
 }
