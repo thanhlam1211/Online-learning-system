@@ -210,6 +210,7 @@ public class QuizController {
         Long timeLeft = 60 * currentQuiz.getDuration() - TimeUnit.MILLISECONDS.toSeconds(diff);
 
         model.addAttribute("timeLeft", timeLeft);
+        model.addAttribute("currentQuiz", currentQuiz);
         model.addAttribute("currentUserQuiz", currentUserQuiz);
         model.addAttribute("questionList", questionList);
         return "quiz_handle";

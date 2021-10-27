@@ -19,14 +19,14 @@
     <div th:include="fragments/navbar:: manage_course_navbar"></div>
 
     <main class="container py-5">
-        <h1 class="mb-4">Quiz Title</h1>
-        <span>Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, exercitationem inventore ipsam laudantium nemo nostrum quae! Iure possimus quis sequi.</span><br>
-        <span>Quiz level: Easier than Easy</span><br>
-        <span>Quiz Type: No type</span><br>
-        <span>Number of questions: 20</span><br>
+        <h1 class="mb-4" th:text="${currentQuiz.name}"></h1>
+        <span th:text="${currentQuiz.description}"></span><br>
+        Quiz level: <span th:text="${currentQuiz.quizLevel.name}"></span><br>
+        Quiz Type: <span th:text="${currentQuiz.quizType.name}"></span><br>
+        Number of questions: <span th:text="${currentQuiz.numberQuestion}"></span><br>
         <div class="row">
             <div class="col">
-                <span>80% or higher to pass</span>
+                <span th:text="${#numbers.formatDecimal(currentQuiz.passRate * 100, 1, 2)} + '%'"></span> or higher to pass
             </div>
             <div class="col text-end">
                 Time left: <span id="time-left" class="fs-3 fw-bold"></span>
@@ -71,6 +71,24 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Time is up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Time is up. Your quiz will be automatically submitted!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -101,8 +119,11 @@
     }
 
     function SubmitFunction(){
-        alert("Time is up! Auto submitting...")
-        document.getElementById('submit-form').submit();
+        $('#exampleModal').modal('toggle');
+        setTimeout(function(){
+            document.getElementById('submit-form').submit();
+        }, 3000)
+
 
     }
     CountDown([[${timeLeft}]],div);
