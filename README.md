@@ -16,14 +16,3 @@ Please make sure to update tests as appropriate.
 ## License
 Not have lincense yet.
 
-Update comments
-
-
-update
-
-Bootstrap
-Fontawesome
-Javascript
-Change
-Update more commit
-jQuery
