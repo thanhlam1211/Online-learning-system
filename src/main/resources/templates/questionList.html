@@ -16,20 +16,48 @@
             <div class="row mb-20 right">
                 <div class="col-12">
                     <div class="d-flex justify-content-end">
+                        <!--                        Import Excel file-->
+                        <!--                        Import file modal-->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/importFile}" method="post" enctype="multipart/form-data">
+                                            <input type="file" th:name="file"/>
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                        End modal-->
                         <form th:action="@{/questionList/1}" class="row g-1" method="GET">
                             <div class="col-auto">
-                                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail" th:href="@{/addQuestion}"><span
-                                        class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
+                                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail"
+                                   th:href="@{/addQuestion}"><span
+                                        class="btn-icon-wrapper pr-2 opacity-7"> <i
+                                        class="fa fa-plus fa-w-20"></i> </span> New question
                                 </a>
                             </div>
                             <div class="col-auto">
-                                <input type="text" class="form-control" placeholder="Find question" style="height:auto;" name="keyword" th:value="${keyword}">
+                                <input type="text" class="form-control" placeholder="Find question" style="height:auto;"
+                                       name="keyword" th:value="${keyword}">
                             </div>
                             <div class="col-auto">
                                 <select class="form-select" name="course" style="height: auto;">
                                     <option value="-1">All course</option>
                                     <th:block th:each="course : ${courseList}">
-                                        <option th:value="${course.id}" th:text="${course.title}" ></option>
+                                        <option th:value="${course.id}" th:text="${course.title}"></option>
                                     </th:block>
                                 </select>
                             </div>
@@ -45,6 +73,9 @@
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>
                         </form>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" style="color: white;margin-left: 3px;height: 38px;">Import file
+                        </button>
                     </div>
                 </div>
             </div>
