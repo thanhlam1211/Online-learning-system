@@ -23,3 +23,4 @@ update
 
 Bootstrap
 Fontawesome
+Javascript
