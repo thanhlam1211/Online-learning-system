@@ -96,6 +96,7 @@ public class UserController {
         return "user_home";
     }
 
+    // Trung Đức code phần này, edit thông tin người dùng
     @GetMapping("/user_home/update")
     public String viewUserEdit(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         User user = userDetail.getUser();
@@ -103,13 +104,14 @@ public class UserController {
         return "user_update";
     }
 
+    // Trung Đức code phần này, piechart
     @RequestMapping("/piechartdata")
     public ResponseEntity<?> getDataForPiechart(){
         List<CountCourse> piechartData = dashBoardRepository.countCourseByCategory();
         return new ResponseEntity<>(piechartData, HttpStatus.OK);
     }
 
-    //Admin Home
+    //Admin Home Trung Đức code
     @GetMapping("/admin_home")
     public String viewHomePage(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model) {
         User user = myUserDetail.getUser();
@@ -134,6 +136,7 @@ public class UserController {
             surveyMap.put(barCharts.get(i).getTagName(), barCharts.get(i).getCountCourse());
         }
 
+        // Pass attribute to view
         model.addAttribute("max", max);
         model.addAttribute("surveyMap", surveyMap);
         model.addAttribute("pieChart",pieChart);
@@ -195,6 +198,7 @@ public class UserController {
         return "redirect:/admin_home";
     }
 
+    // Trung đức làm phần này, sửa đổi thông tin người dùng
     @PostMapping("/user_home/update/{id}")
     public String userUpdate(@RequestParam("fileImage") MultipartFile multipartFile,
                              @AuthenticationPrincipal MyUserDetail userDetail,
@@ -229,6 +233,7 @@ public class UserController {
         return "redirect:/user_home";
     }
 
+    // Trung Đức làm phần này, đổi mật khẩu
     @GetMapping("/user_home/changePass")
     public String changePass(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         User user = userDetail.getUser();
@@ -236,6 +241,7 @@ public class UserController {
         return "change_password_form";
     }
 
+    // Trung Đức làm phần này, đổi mật khẩu
     @PostMapping("/user_home/change_password")
     public String changePassWord(@AuthenticationPrincipal MyUserDetail userDetail, Model model
             , @RequestParam("oldPassWord") String oldPassword, @RequestParam("newPassWord") String newPassword

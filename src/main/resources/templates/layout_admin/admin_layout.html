@@ -58,7 +58,6 @@
         </div>
     </nav>
 </div>
-
 <div class="wrapper fixed-left">
     <nav id="sidebar">
         <div class="sidebar-header" id="username" layout:fragment="user">
@@ -67,6 +66,7 @@
 
         <ul class="list-unstyled components">
             <li>
+                <!--Trung Đức code phần này-->
                 <a th:href="@{/admin_home}"><i class="fas fa-home"></i>Dashboard</a>
             </li>
             <li>
@@ -134,6 +134,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script src="js/script.js"></script>
 
+<!--Trung Đức code phần này-->
+
 <script th:inline="javascript">
     $(function(){
         Highcharts.chart('barChartContainer', {
@@ -178,6 +180,7 @@
         });
     });
 </script>
+<!--Trung Đức code phần này-->
 
 <script th:inline="javascript">
 
