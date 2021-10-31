@@ -1018,7 +1018,7 @@ input:focus, textarea:focus {
 	right: 25px;
 	line-height: 1;
 	font-size: 14px;
-	content: "\e61a";
+	/*content: "\e61a";*/
 	position: absolute;
 	font-family: 'themify';
 	transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -1028,7 +1028,7 @@ input:focus, textarea:focus {
 	-ms-transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .cc_wrap .accordion_box .block.active-block .acc-btn::before {
-	content: "\e622";
+	/*content: "\e622";*/
 	transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	-ms-transform: rotate(180deg);

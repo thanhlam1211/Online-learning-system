@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Edulan - Education HTML Template</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+</head>
+<body>
+<div class="body_wrap p-lg-5">
+    <a class="m-5" th:href="@{'/course_detail/'+${quiz.course.id}}">
+        <button class="btn btn-primary">Back</button>
+    </a>
+    <main>
+        <div class="container pl-50">
+            <div>
+                <h3 th:text="'Quiz - '+${quiz.duration}+' min'"></h3>
+                <h1 th:text="${quiz.name}"></h1>
+                <p th:text="'This attempt grade: ' + ${lastUserQuiz.getMark()} + '%'"></p>
+            </div>
+            <div class="pl-50">
+                <div class="mt-3" th:each="question:${quiz.getQuestionBankList()}">
+                    <h5 th:text="'Question: '+${question.content}"></h5>
+                    <div>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option1} ">
+                        <label class="form-check-label text-dark" th:text="${question.option1}"></label>
+                        <br>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option2}">
+                        <label class="form-check-label text-dark" th:text="${question.option2}"></label>
+                        <br>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option3}">
+                        <label class="form-check-label text-dark" th:text="${question.option3}"></label>
+                        <br>
+                        <input class="form-check-input" type="radio" disabled
+                               th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option4}">
+                        <label class="form-check-label text-dark" th:text="${question.option4}"></label>
+                        <br>
+                        <div th:class="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId()) == question.getAnswer()}?'bg-success bg-gradient m-3 p-2':'bg-danger bg-gradient m-3 p-2'">
+                            <h6 class="text-light" th:text="'Answer: ' + ${question.getAnswer()}"></h6>
+                            <h6 class="text-light"
+                                th:text="'Your answer: ' + ${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())}"></h6>
+                            <h6 class="text-light" th:text="'Explain: ' + ${question.getExplanation()}"></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+<!-- jquery include -->
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>

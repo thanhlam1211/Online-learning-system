@@ -1,0 +1,133 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Course List - G3Learn</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+    <style>
+        @media screen and (min-width: 676px) {
+            .modal-dialog {
+                max-width: 700px; /* New width for default modal */
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap bg-white">
+    <div th:include="fragments/navbar:: manage_course_navbar"></div>
+
+    <main class="container py-5">
+        <h1 class="mb-4" th:text="${currentQuiz.name}"></h1>
+        <span th:text="${currentQuiz.description}"></span><br>
+        Quiz level: <span th:text="${currentQuiz.quizLevel.name}"></span><br>
+        Quiz Type: <span th:text="${currentQuiz.quizType.name}"></span><br>
+        Number of questions: <span th:text="${currentQuiz.numberQuestion}"></span><br>
+        <div class="row">
+            <div class="col">
+                <span th:text="${#numbers.formatDecimal(currentQuiz.passRate * 100, 1, 2)} + '%'"></span> or higher to pass
+            </div>
+            <div class="col text-end">
+                Time left: <span id="time-left" class="fs-3 fw-bold"></span>
+            </div>
+        </div>
+        <hr>
+        <form th:action="'/quiz-handle/' + ${quizId} + '/submit'" method="post" id="submit-form">
+        <div class="question-box mb-3" th:each="question, iter : ${questionList}">
+            <h3 class="question-content" th:text="'Question ' + ${iter.count} + ': ' + ${question.content}"></h3>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'q' + ${question.id}" th:id="'q' + ${question.id} + '-1'" th:value="${question.option1}" style="padding: 0;">
+                <label class="form-check-label" th:for="'q' + ${question.id} + '-1'" th:text="' ' + ${question.option1}">
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'q' + ${question.id}" th:id="'q' + ${question.id} + '-2'" th:value="${question.option2}" style="padding: 0;">
+                <label class="form-check-label" th:for="'q' + ${question.id} + '-2'" th:text="' ' + ${question.option2}">
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'q' + ${question.id}" th:id="'q' + ${question.id} + '-3'" th:value="${question.option3}" style="padding: 0;">
+                <label class="form-check-label" th:for="'q' + ${question.id} + '-3'" th:text="' ' + ${question.option3}">
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'q' + ${question.id}" th:id="'q' + ${question.id} + '-4'" th:value="${question.option4}" style="padding: 0;">
+                <label class="form-check-label" th:for="'q' + ${question.id} + '-4'" th:text="' ' + ${question.option4}">
+                </label>
+            </div>
+        </div>
+            <input type="hidden" name="currentUserQuizId" th:value="${currentUserQuiz.id}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+
+    </main>
+
+    <th:block th:replace="fragments/footer :: footer">
+
+    </th:block>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Time is up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Time is up. Your quiz will be automatically submitted!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+    var div = document.getElementById('time-left');
+
+    function CountDown(duration, display) {
+
+        var timer = duration, minutes, seconds;
+
+        var interVal=  setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.innerHTML ="<b>" + minutes + "m : " + seconds + "s" + "</b>";
+            if (timer > 0) {
+                --timer;
+            }else{
+                clearInterval(interVal)
+                SubmitFunction();
+            }
+
+        },1000);
+
+    }
+
+    function SubmitFunction(){
+        $('#exampleModal').modal('toggle');
+        setTimeout(function(){
+            document.getElementById('submit-form').submit();
+        }, 3000)
+
+
+    }
+    CountDown([[${timeLeft}]],div);
+</script>
+</body>
+
+</html>

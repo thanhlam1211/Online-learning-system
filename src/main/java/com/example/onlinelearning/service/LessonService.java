@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -26,6 +27,10 @@ public class LessonService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    public List<Lesson> findLessonsByTopic_id(Integer id){
+        return lessonRepository.findByTopic_TopicIdOrderByOrder(id);
+    }
 
     public int getNumberOfLessonsInCourseId(Integer courseId) {
         Course currentCourse = courseRepository.getById(courseId);
@@ -52,5 +57,61 @@ public class LessonService {
         } else {
             return lessonRepository.findLessonByCourse_IdAndLessonNameContainingAndStatus_IdAndTopic_TopicId(courseId,searchInput, topicId, statusId, pageable);
         }
+    }
+
+    public LinkedHashMap<Topic, List<Lesson>> getCourseContentByCourseId(Integer courseId) {
+        LinkedHashMap<Topic, List<Lesson>> courseContent = new LinkedHashMap<>();
+
+        // Get all topics order by Order
+        List<Topic> topicList = topicRepository.findAllByCourse_IdOrderByOrder(courseId);
+
+        // Get all lessons for each topic
+        for (Topic topic : topicList) {
+            courseContent.put(topic, lessonRepository.findByTopic_TopicIdOrderByOrder(topic.getTopicId()));
+        }
+
+        return courseContent;
+
+    }
+
+    public Integer getFirstLessonId(Integer courseId) {
+        // Get all topics order by Order
+        List<Topic> topicList = topicRepository.findAllByCourse_IdOrderByOrder(courseId);
+
+        // Return first LessonId
+        for (Topic topic : topicList) {
+            List<Lesson> currentLessonList = lessonRepository.findByTopic_TopicIdOrderByOrder(topic.getTopicId());
+            if (!currentLessonList.isEmpty()) return currentLessonList.get(0).getLessonId();
+        }
+
+        return -1;
+    }
+
+    public Integer getNextLessonId(Integer currentLessonId, LinkedHashMap<Topic, List<Lesson>> courseContent) {
+        boolean flag = false;
+        for (Topic topic : courseContent.keySet()) {
+            for (Lesson lesson : courseContent.get(topic)) {
+                if (flag) return lesson.getLessonId();
+                if (lesson.getLessonId() == currentLessonId) flag = true;
+
+            }
+        }
+        return -1;
+    }
+
+    public Integer getPreviousLessonId(Integer currentLessonId, LinkedHashMap<Topic, List<Lesson>> courseContent) {
+        Lesson temp = new Lesson();
+        temp.setLessonId(-1);
+        for (Topic topic : courseContent.keySet()) {
+            for (Lesson lesson : courseContent.get(topic)) {
+                if (lesson.getLessonId() != currentLessonId) {
+                    temp = lesson;
+                } else {
+                    return temp.getLessonId();
+                }
+
+            }
+        }
+        return -1;
     }
 }

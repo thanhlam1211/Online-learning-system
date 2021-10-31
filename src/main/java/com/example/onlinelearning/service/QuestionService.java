@@ -6,16 +6,22 @@ package com.example.onlinelearning.service;
 
 import com.example.onlinelearning.entity.QuestionBank;
 import com.example.onlinelearning.repository.QuestionBankRepository;
+import com.example.onlinelearning.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class QuestionService {
     @Autowired
     private QuestionBankRepository repository;
+    @Autowired
+    private QuizRepository quizRepository;
 
     public Page<QuestionBank> listAll(int pageNumber, String keyword, Integer courseId, Integer statusId ) {
         Pageable pageable = PageRequest.of(pageNumber - 1, 2);
@@ -45,5 +51,9 @@ public class QuestionService {
     }
     public void saveQuestion(QuestionBank questionBank) {
         repository.saveAndFlush(questionBank);
+    }
+
+    public Set<QuestionBank> getAllQuestionsOfQuizId(Integer quizId) {
+        return quizRepository.getById(quizId).getQuestionBankList();
     }
 }
