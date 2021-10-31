@@ -202,6 +202,16 @@ public class UserService {
         return repository.findByKeyword(keyword);
     }
 
+    //Get user admin role
+    public List<User> findByAdmin() {
+        return repository.findByAdmin();
+    }
+
+    // Get user by role
+    public List<User> getUserByRole(int role, int status){
+        return  repository.findByRole(role, status);
+    }
+  
     public User getUserByEmail(String email) {
         if(!email.equals("")){
             return repository.getUserByEmailContaining(email);

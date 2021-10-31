@@ -46,6 +46,13 @@ public class Blog implements Serializable {
     @JoinColumn(name ="status_id")
     private Status status;
 
+    @Transient
+    public String getBlogImagePath() {
+        if (thumbnail == null || id == null) return null;
+
+        return "/blog-images/" + id + "/" + thumbnail;
+    }
+
 }
 
 

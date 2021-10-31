@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout_admin/admin_nodashboard_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Slide form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="home-cotent">
+        <section id="main">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="card" style="margin-top: 33px">
+                        <h5 class="card-header">EDIT SLIDE</h5>
+                        <form th:action="@{/slide/update/{id}(id=${slide.id})}" th:object="${slide}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="form-group col-md-2">
+                                    <label for="id">ID</label>
+                                    <input type="text" th:field="*{id}" class="form-control" id="id" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="inputTitle">Title</label>
+                                <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="inputLink">Course link</label>
+                                <input type="text" class="form-control" id="inputLink" th:field="*{courseLink}">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="inputDes">Description</label>
+                                <input type="text" class="form-control" id="inputDes" th:field="*{description}">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="fileImage">Image:</label>
+                                <input type="file" name="fileImage" id="fileImage" accept="image/jpeg, image/png"/>
+                            </div>
+
+                            <div class="form-group" style="margin-left: 15px">
+                                <label>Status</label>
+                                <th:block th:each="status : ${statusList}">
+                                    <input type="radio" th:field="*{status}"
+                                           th:value="${status.id}"
+                                           th:text="${status.value}" class="m-2"/>
+                                </th:block>
+                            </div>
+
+                            <a th:href="@{/slide}" style="margin-bottom: 10px;margin-left: 10px;"
+                               type="submit" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" style="margin-bottom: 10px" class="btn btn-primary">Save</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</div>
+</body>
+</html>

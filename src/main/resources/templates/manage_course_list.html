@@ -72,7 +72,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course : ${courseList}">
+            <tr th:each="course : ${courseList}" style="text-align: center">
                 <th scope="row" th:text="${course.id}"></th>
                 <td th:text="${course.title}"></td>
                 <td th:text="${course.category.value}"></td>
