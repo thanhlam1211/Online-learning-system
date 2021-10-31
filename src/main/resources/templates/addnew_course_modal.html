@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h2 class="modal-title" id="modalTitle">ADD NEW COURSE</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+
+<!-- Add new course start -->
+<div class="container">
+    <div class="col-md-12">
+        <form th:action="@{/addnew_course}" method="POST">
+            <!-- Name of the course -->
+            <div class="form-outline mb-4">
+                <h5 class="form-label" for="form3Example3">Title</h5>
+                <input type="text" id="form3Example2" class="form-control" name="title"/>
+            </div>
+            <!-- Description input -->
+            <div class="form-outline mb-4">
+                <h5 class="form-label" for="form3Example3">Description</h5>
+                <input type="text" id="form3Example3" class="form-control" name="description"/>
+            </div>
+
+            <!-- Short Description input -->
+            <div class="form-outline mb-4">
+                <h5 class="form-label" for="form3Example4">Short Description</h5>
+                <input type="text" id="form3Example4" class="form-control" name="shortDescription"/>
+            </div>
+
+            <!-- Thumbnail image input -->
+            <div class="form-outline mb-4">
+                <h5 class="form-label" for="form4Example1">Thumbnail URL</h5>
+                <input type="text" id="form4Example1" class="form-control" name="thumbnail"/>
+            </div>
+
+            <!--    Drop down list to choose the category-->
+            <div class="form-outline mb-4">
+                <h5 class="form-label">Choose Category</h5>
+                <select name="category">
+                    <option th:each="cate: ${listCate}" th:value="${cate.id}" th:text="${cate.value}">
+                    </option>
+                </select>
+            </div>
+
+            <!--    Drop down list to choose the status-->
+            <div class="form-outline mb-4">
+                <h5 class="form-label">Choose Status</h5>
+                <select name="status">
+                    <option th:each="sta: ${listStatus}" th:value="${sta.id}" th:text="${sta.value}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+            <button type="button" class="btn btn-primary btn-block mb-4" data-dismiss="modal">Close</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

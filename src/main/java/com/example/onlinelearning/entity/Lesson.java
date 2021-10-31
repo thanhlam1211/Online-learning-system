@@ -21,7 +21,7 @@ public class Lesson implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer lessonId;
 
-    @Column
+    @Column(name = "lesson_name")
     private String lessonName;
 
     @Column(name = "video_link")
@@ -40,4 +40,9 @@ public class Lesson implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
 }

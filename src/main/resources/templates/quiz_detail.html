@@ -1,0 +1,57 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modalTitle">Quiz Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+<!-- course details start -->
+<form th:object="${quiz}" method="POST" th:action="@{/updateQuiz}">
+    <section class="course_details_area pt-30 pb-10">
+        <div class="container">
+            <label>ID</label>
+            <input type="text" class="form-control" th:field="*{id}" readonly>
+            <label>Name</label>
+            <input type="text" class="form-control" th:field="*{name}">
+            <label>Course</label>
+            <input type="text" class="form-control" th:field="*{course}">
+            <label>Total questions</label>
+            <input type="text" class="form-control" th:field="*{numberQuestion}">
+            <div class="row">
+                <div class="col-6">
+                    <label>Level</label>
+                    <select th:field="*{quizLevel}" class="form-select" aria-label="Default select example">
+                        <option th:each="lv :${listQuizLevel}" th:value="${lv.id}" th:text="${lv.name}"></option>
+                    </select>
+                    <label>Pass rate</label>
+                    <input type="text" class="form-control" th:field="*{passRate}">
+                </div>
+                <div class="col-6">
+                    <label>Duration</label>
+                    <input type="text" class="form-control" th:field="*{duration}">
+                    <label>Type</label>
+                    <select th:field="*{quizType}" class="form-select" aria-label="Default select example">
+                        <option th:each="type :${listQuizType}" th:value="${type.id}" th:text="${type.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <label>Quiz description</label>
+            <textarea class="form-control" th:field="*{description}"></textarea>
+        </div>
+    </section>
+
+    <div class="modal-footer">
+        <button type="submit" class="mr-2 btn btn-primary btn-block">
+            Save
+        </button>
+<!--        <a  th:href="@{'/deleteQuiz/'+${quiz.id}}">-->
+<!--            <button type="submit" class="mr-2 btn btn-danger btn-block">-->
+<!--                Delete-->
+<!--            </button>-->
+<!--        </a>-->
+        <button type="button" class="btn btn-secondary close" data-dismiss="modal" data-bs-dismiss="modal">
+            Close
+        </button>
+    </div>
+</form>
+<!-- course details end -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

@@ -17,7 +17,6 @@
                 <div class="col-12">
                     <div class="d-flex justify-content-end">
                         <!--                        Import Excel file-->
-                        <!--                        Import file modal-->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog">
@@ -41,6 +40,7 @@
                             </div>
                         </div>
                         <!--                        End modal-->
+                      
                         <form th:action="@{/questionList/1}" class="row g-1" method="GET">
                             <div class="col-auto">
                                 <a type="button" class="btn btn-shadow btn-wide btn-success link-detail"
@@ -49,6 +49,7 @@
                                         class="fa fa-plus fa-w-20"></i> </span> New question
                                 </a>
                             </div>
+
                             <div class="col-auto">
                                 <input type="text" class="form-control" placeholder="Find question" style="height:auto;"
                                        name="keyword" th:value="${keyword}">
@@ -73,9 +74,11 @@
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>
                         </form>
+
                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal" style="color: white;margin-left: 3px;height: 38px;">Import file
                         </button>
+                      
                     </div>
                 </div>
             </div>

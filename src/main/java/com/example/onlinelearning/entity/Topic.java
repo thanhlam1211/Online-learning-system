@@ -20,14 +20,17 @@ import java.util.Set;
 @Entity
 @Table(name = "topics")
 public class Topic implements Serializable {
+    public Set<Lesson> getLessonList() {
+        return lessonList;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer topicId;
 
     @Column
     private String topicName;
-
+  
     @Column(name = "topic_order")
     private int order;
 

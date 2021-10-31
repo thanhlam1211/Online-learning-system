@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Question List</title>
+    <th:block th:replace="fragments/meta_head :: meta_head">
+    </th:block>
+</head>
+<body>
+<div th:include="fragments/navbar:: home_navbar(${categoryList})"></div>
+
+<section class="courses_area pt-120 pb-120">
+    <div class="container">
+        <div class="row grid mt-3">
+            <h2 class="mb-20">My Course</h2>
+            <div th:each="myCourse : ${myCourse}"
+                 class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat4 cat5">
+                <div class="course_single mb-30">
+                    <div class="c_thumb">
+                        <img th:src="${myCourse.course.thumbnail}" alt="">
+                    </div>
+                    <div class="course_content">
+                        <div class="c_head">
+                            <span class="cat" th:text="${myCourse.course.category.value}"></span>
+                            <span class="price"
+                                  th:text="'Only: $' + ${myCourse.course.minSalePrice().getSalePrice()}"></span>
+                        </div>
+                        <a th:href="@{'/course_detail/'+${myCourse.course.getId()}}">
+                            <h3 class="title" th:text="${myCourse.course.title}"></h3>
+                        </a>
+                        <br>
+                        <span class="cat" th:text="${myCourse.course.shortDescription}"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <!--                                modify the button to see the detail_modal-->
+                        <a class="btn btn-primary" th:href="@{'/lesson_view/'+${myCourse.course.getId()}}">
+                            Go to Course
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:replace="fragments/footer :: footer">
+</th:block>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+</body>
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>

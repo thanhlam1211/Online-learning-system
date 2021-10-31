@@ -1,0 +1,174 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Quiz List</title>
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+</head>
+<body>
+<!-- body wrap start -->
+<div class="body_wrap">
+    <div th:include="fragments/navbar:: home_navbar(${listCategory})"></div>
+    <main>
+        <!-- courses start -->
+        <section class="courses_area pt-120 pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end">
+                            <form th:action="@{/quiz}" class="row g-1" method="GET">
+                                <div class="col-auto">
+                                    <input type="text" class="form-control" placeholder="Find Quiz" style="height:auto;" name="search" th:value="${currentSearch}">
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="level" style="height: auto;">
+                                        <option th:selected="(${currentLevel == -1})" value="-1">All Level</option>
+                                        <th:block th:each="level : ${listQuizLevel}">
+                                            <option th:value="${level.id}" th:text="${level.name}" th:selected="(${currentLevel == level.id})"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="type" style="height: auto;">
+                                        <option th:selected="(${currentType == -1})" value="-1">All Type</option>
+                                        <th:block th:each="type : ${listQuizType}">
+                                            <option th:value="${type.id}" th:text="${type.name}" th:selected="(${currentType == type.id})"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <table border="2" class="table table-hover table-bordered table-responsive">
+                        <caption>List of quizes</caption>
+                        <thead class="table-primary">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Course</th>
+                            <th scope="col">Quiz Name</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Total questions</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Pass rate</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="quiz : ${listQuiz}">
+                            <th scope="row" th:text="${quiz.getId()}">1</th>
+                            <td th:text="${quiz.getCourse().getTitle()}"></td>
+                            <td th:text="${quiz.getName()}"></td>
+                            <td th:text="${quiz.getQuizLevel().getName()}"></td>
+                            <td th:text="${quiz.getDescription()}"></td>
+                            <td th:text="${quiz.getNumberQuestion()}"></td>
+                            <td th:text="${quiz.getDuration()}"></td>
+                            <td th:text="${quiz.getPassRate()}"></td>
+                            <td th:text="${quiz.getQuizType().getName()}"></td>
+                            <td><a class="link-detail" th:href="@{'/quiz_detail/'+${quiz.getId()}}">Details</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="text-center">
+                    <div class="text-center">
+                        <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+                    </div>
+                    <nav class="pagination justify-content-center flex-wrap">
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                            <a th:href="@{'/quiz/1' + ${query}}"
+                               class="page-link">First</a>
+                        </li>
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                            <a th:href="@{'/quiz/'+${currentPage - 1} + ${query}}"
+                               class="page-link">Previous</a>
+                        </li>
+
+                        <th:block th:if="${totalPages <= 10}">
+                            <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+                                <a th:href="@{'/quiz/'+${i} + ${query}}"
+                                   class="page-link"> [[${i}]]</a>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${totalPages > 10}">
+                            <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+                                <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+                                    <a th:href="@{'/quiz/'+${i} + ${query}}"
+                                       class="page-link"> [[${i}]]</a>
+                                </li>
+                                <a th:href="@{'/quiz/4' + ${query}}"
+                                   class="page-link">...</a>
+                                <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+                                    <a th:href="@{'/quiz/'+${i} + ${query}}"
+                                       class="page-link"> [[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+                                <a th:href="@{'/quiz/'+${currentPage - 3} + ${query}}"
+                                   class="page-link">...</a>
+                                <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
+                                    <a th:href="@{'/quiz/'+${i} + ${query}}"
+                                       class="page-link"> [[${i}]]</a>
+                                </li>
+                                <a th:href="@{'/quiz/'+${currentPage + 3} + ${query}}"
+                                   class="page-link">...</a>
+                            </th:block>
+                        </th:block>
+
+
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:href="@{'/quiz/'+${currentPage + 1} + ${query}}"
+                               class="page-link">Next</a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:href="@{'/quiz/'+${totalPages} + ${query}}"
+                               class="page-link">Last</a>
+                        </li>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <!-- courses end -->
+
+    </main>
+
+    <th:block th:replace="fragments/footer :: footer">
+
+    </th:block>
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- body wrap end -->
+
+<!-- jquery include -->
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+            $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
+        });
+    });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
