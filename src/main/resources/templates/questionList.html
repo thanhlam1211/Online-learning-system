@@ -13,44 +13,46 @@
 <div class="container mt-100 py-5">
     <div class="d-flex flex justify-content-between">
         <div>
-            <div class="col-sm-12">
-                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail" th:href="@{/addQuestion}"><span
-                        class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New question
-                </a>
-            </div>
-            <div class="mt-10 mb-10 col-12">
-                <form th:action="@{/questionList/1}" class="row g-1" method="GET">
-                    <div class="col-auto">
-                        <label>
-                            <input type="search" class="form-control" placeholder="Search..." name="keyword"
-                                   th:value="${keyword}">
-                        </label>
+            <div class="row mb-20 right">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end">
+                        <form th:action="@{/questionList/1}" class="row g-1" method="GET">
+                            <div class="col-auto">
+                                <a type="button" class="btn btn-shadow btn-wide btn-success link-detail"
+                                   th:href="@{/addQuestion}"><span
+                                        class="btn-icon-wrapper pr-2 opacity-7"> <i
+                                        class="fa fa-plus fa-w-20"></i> </span> New question
+                                </a>
+                            </div>
+                            <a></a>
+                            <div class="col-auto">
+                                <input type="text" class="form-control" placeholder="Find question" style="height:auto;"
+                                       name="keyword" th:value="${keyword}">
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" name="course" style="height: auto;">
+                                    <option value="-1">All course</option>
+                                    <th:block th:each="course : ${courseList}">
+                                        <option th:value="${course.id}" th:text="${course.title}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" name="status" style="height: auto;">
+                                    <option value="-1">All status</option>
+                                    <th:block th:each="status : ${statusList}">
+                                        <option th:value="${status.id}" th:text="${status.value}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-auto">
-                        <select class="form-select" name="course" style="height: auto;">
-                            <option value="-1">All Course</option>
-                            <th:block th:each="course : ${courseList}">
-                                <option th:value="${course.id}" th:text="${course.getTitle()}"></option>
-                            </th:block>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" name="status" style="height: auto;">
-                            <option value="-1">All status</option>
-                            <th:block th:each="status : ${statusList}">
-                                <option th:value="${status.id}" th:text="${status.value}"></option>
-                            </th:block>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Filter</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-md-4 p-0 mb-3">
-        </div>
-
     </div>
     <div class="card mb-3 no-gutters">
         <table class="table no-gutters">

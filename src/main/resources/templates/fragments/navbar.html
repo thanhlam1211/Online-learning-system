@@ -38,7 +38,7 @@
                     <li class="nav-item pt-1 me-1">
                         <a class="nav-link" th:href="@{/blog/all}">Blogs</a>
                     </li>
-                    <li class="nav-item pt-1 me-1">
+                    <li class="nav-item pt-1 me-1" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
                         <a class="nav-link" th:href="@{/quiz}">Quizes</a>
                     </li>
                     <li class="nav-item">
@@ -60,7 +60,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                            <li><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myCourse}">My Course</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/questionList}">Question Bank</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/registrationList}">Registration List</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin_home}">Admin homepage</a></li>
                         </ul>
                     </li>
                 </div>
@@ -111,7 +115,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                            <li><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myCourse}">My Course</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/questionList}">Question Bank</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/registrationList}">Registration List</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin_home}">Admin homepage</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

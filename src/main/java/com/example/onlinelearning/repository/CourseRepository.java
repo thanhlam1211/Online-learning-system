@@ -26,7 +26,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     public Page<Course> findCourseByTitleContainingAndCategory_IdAndStatus_IdAndUserListContains(String title, Integer categoryId, Integer statusId, User user, Pageable pageable);
     public Page<Course> findCourseByTitleContainingAndCategory_IdAndUserListContains(String title, Integer categoryId, User user, Pageable pageable);
     public Page<Course> findCourseByTitleContainingAndStatus_IdAndUserListContains(String title, Integer statusId, User user, Pageable pageable);
-
+    public Course getCourseByTitleContaining(String title);
 
     @Modifying
     @Transactional
