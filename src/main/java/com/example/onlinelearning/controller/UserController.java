@@ -4,6 +4,8 @@ import com.example.onlinelearning.config.Utility;
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.BarChartRepository;
 import com.example.onlinelearning.repository.DashBoardRepository;
+import com.example.onlinelearning.repository.CourseRepository;
+import com.example.onlinelearning.repository.PricePackageRepository;
 import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
@@ -14,6 +16,10 @@ import com.example.onlinelearning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.example.onlinelearning.service.UserCourseService;
+import com.example.onlinelearning.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +28,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -70,6 +77,15 @@ public class UserController {
 
     @Autowired
     private BarChartRepository barChartRepository;
+    
+    @Autowired
+    private UserCourseService userCourseService;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private PricePackageRepository pricePackageRepository;
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -260,5 +276,82 @@ public class UserController {
             model.addAttribute("msg","Incorrect password");
             return "change_password_form";
         }
+    }
+
+    @GetMapping("/myRegistration")
+    public String viewRegistration(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
+        User user = userDetail.getUser();
+        List<Category> categoryList = categoryService.getAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("courseRegister", userCourseService.getListCourseByUserId(user.getId()));
+        return "my-registration";
+    }
+
+    @GetMapping("/myCourse")
+    public String viewCourse(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
+        User user = userDetail.getUser();
+        List<Category> categoryList = categoryService.getAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("myCourse", userCourseService.getListCourseByUserId(user.getId()));
+        return "my-course";
+    }
+
+    @RequestMapping("/registrationList")
+    public String RegistrationListPage(Model model,
+                                       @RequestParam(value = "course", defaultValue = "-1") Integer courseId) {
+        return viewRegistrationList(model, 1, courseId, "");
+    }
+
+    @GetMapping("/registrationList/{pageNumber}")
+    public String viewRegistrationList(Model model,
+                                       @PathVariable(name="pageNumber") int currentPage,
+                                       @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
+                                       @RequestParam(value = "keyword", defaultValue = "") String keyword ) {
+        List<Category> categoryList = categoryService.getAll();
+
+
+        Page<UserCourse> page = userCourseService.listAll(currentPage, keyword, courseId);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<UserCourse> courseList = page.getContent();
+
+        model.addAttribute("totalItems",totalItems);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("courseList", courseRepository.findAll());
+        model.addAttribute("courseRegister", courseList);
+        model.addAttribute("currentPage",currentPage);
+        model.addAttribute("query", "/?keyword=" + keyword + "&course=" + courseId);
+        return "registration-list";
+    }
+
+    @GetMapping("/registrationDetail/{id}")
+    public ModelAndView viewRegistration(@PathVariable(name = "id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("registration-detail-modal.component");
+        UserCourse userCourse = userCourseService.getUserCourseById(id);
+        modelAndView.addObject("courseList", courseRepository.findAll());
+        modelAndView.addObject("pricePackage", pricePackageRepository.findAll());
+        modelAndView.addObject("userCourse", userCourse);
+        return modelAndView;
+    }
+    @PostMapping("/updateRegistration")
+    public String updateRegistration(@AuthenticationPrincipal MyUserDetail userDetail,
+                                     @ModelAttribute("userCourse") UserCourse userCourse,
+                                     Model model) {
+        User user = userDetail.getUser();
+        Integer userCourseId = userCourse.getId();
+        UserCourse userCourseOld = userCourseService.getUserCourseById(userCourseId);
+        userCourseOld.setId(userCourse.getId());
+        userCourseOld.setStartDate(userCourse.getStartDate());
+        userCourseOld.setEndDate(userCourse.getEndDate());
+        userCourseOld.setRegistrationDate(userCourse.getRegistrationDate());
+        userCourseOld.setRegistrationStatus(userCourse.getRegistrationStatus());
+        userCourseOld.setUser(userCourse.getUser());
+        userCourseOld.setCourse(userCourse.getCourse());
+        userCourseOld.setPricePackage(userCourse.getPricePackage());
+        userCourseOld.setLastModifiedBy(user.getFullName());
+        userCourseService.save(userCourseOld);
+        return viewRegistrationList(model, 1, -1, "");
     }
 }

@@ -1,21 +1,28 @@
 package com.example.onlinelearning.controller;
 
-import com.example.onlinelearning.entity.Category;
-import com.example.onlinelearning.entity.QuestionBank;
+import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.CourseRepository;
 import com.example.onlinelearning.repository.DimensionRepository;
 import com.example.onlinelearning.repository.LevelRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.service.CategoryService;
 import com.example.onlinelearning.service.QuestionService;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,20 +43,82 @@ public class QuestionController {
     @Autowired
     private CourseRepository courseRepository;
 
+    //    Save excel file
+    @PostMapping("/importFile")
+    public String mapReadExcelDatatoDB(@RequestParam("file") MultipartFile readExcelDataFile) throws IOException {
+
+        List<QuestionBank> questionBankList = new ArrayList<QuestionBank>();
+        XSSFWorkbook workbook = new XSSFWorkbook(readExcelDataFile.getInputStream());
+        XSSFSheet worksheet = workbook.getSheetAt(0);
+
+
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+            QuestionBank questionBank = new QuestionBank();
+            Status status = new Status();
+            Status courseStatus = new Status();
+            Course course = new Course();
+            Category category = new Category();
+            QuizLevel quizLevel = new QuizLevel();
+            XSSFRow row = worksheet.getRow(i);
+
+            category.setId((int) row.getCell(19).getNumericCellValue());
+            category.setValue(row.getCell(20).getStringCellValue());
+
+
+            status.setId((int) row.getCell(8).getNumericCellValue());
+            status.setValue(row.getCell(11).getStringCellValue());
+
+            courseStatus.setId((int) row.getCell(21).getNumericCellValue());
+            courseStatus.setValue(row.getCell(22).getStringCellValue());
+
+            quizLevel.setId((int) row.getCell(10).getNumericCellValue());
+            quizLevel.setName(row.getCell(12).getStringCellValue());
+
+            course.setId((int) row.getCell(9).getNumericCellValue());
+            course.setCreatedDate(row.getCell(13).getDateCellValue());
+            course.setDescription(row.getCell(14).getStringCellValue());
+            course.setFeatured((int) row.getCell(15).getNumericCellValue());
+            course.setShortDescription(row.getCell(16).getStringCellValue());
+            course.setThumbnail(row.getCell(17).getStringCellValue());
+            course.setTitle(row.getCell(18).getStringCellValue());
+            course.setCategory(category);
+            course.setStatus(courseStatus);
+
+
+            questionBank.setId((int) row.getCell(0).getNumericCellValue());
+            questionBank.setAnswer(row.getCell(1).getStringCellValue());
+            questionBank.setContent(row.getCell(2).getStringCellValue());
+            questionBank.setExplanation(row.getCell(3).getStringCellValue());
+            questionBank.setOption1(row.getCell(4).getStringCellValue());
+            questionBank.setOption2(row.getCell(5).getStringCellValue());
+            questionBank.setOption3(row.getCell(6).getStringCellValue());
+            questionBank.setOption4(row.getCell(7).getStringCellValue());
+            questionBank.setStatus(status);
+            questionBank.setCourse(course);
+            questionBank.setQuizLevel(quizLevel);
+
+            statusRepository.save(status);
+            levelRepository.save(quizLevel);
+            courseRepository.save(course);
+            service.saveQuestion(questionBank);
+        }
+
+        return "redirect:/questionList";
+    }
+
     @RequestMapping("/questionList")
-    public String questionPage (Model model,
-                                @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
-                                @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
+    public String questionPage(Model model,
+                               @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
+                               @RequestParam(value = "status", defaultValue = "-1") Integer statusId) {
         return listQuestionPage(model, 1, courseId, statusId, "");
     }
 
     @GetMapping("/questionList/{pageNumber}")
     public String listQuestionPage(Model model,
-                                   @PathVariable(name="pageNumber") int currentPage,
+                                   @PathVariable(name = "pageNumber") int currentPage,
                                    @RequestParam(value = "course", defaultValue = "-1") Integer courseId,
-
                                    @RequestParam(value = "status", defaultValue = "-1") Integer statusId,
-                                   @RequestParam(value = "keyword", defaultValue = "") String keyword ) {
+                                   @RequestParam(value = "keyword", defaultValue = "") String keyword) {
         List<Category> categoryList = categoryService.getAll();
         Page<QuestionBank> page = service.listAll(currentPage, keyword, courseId, statusId);
         long totalItems = page.getTotalElements();
@@ -57,9 +126,9 @@ public class QuestionController {
 
         List<QuestionBank> questionList = page.getContent();
 
-        model.addAttribute("currentPage",currentPage);
-        model.addAttribute("totalItems",totalItems);
-        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("keyword", keyword);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("questionList", questionList);
@@ -92,6 +161,7 @@ public class QuestionController {
         modelAndView.addObject("dimensionList", dimensionRepository.findAll());
         return modelAndView;
     }
+
     @PostMapping("/updateQuestion")
     public String updateQuestion(@ModelAttribute("question") QuestionBank questionBank, Model model) {
         Integer questionId = questionBank.getId();

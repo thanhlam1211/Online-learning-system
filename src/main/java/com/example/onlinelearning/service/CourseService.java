@@ -107,4 +107,11 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    public Course getCourseByTitle(String title) {
+        if(!title.equals("")){
+            return courseRepository.getCourseByTitleContaining(title);
+        }
+        return null;
+    }
+
 }
