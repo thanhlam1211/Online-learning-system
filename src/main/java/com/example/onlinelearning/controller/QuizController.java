@@ -240,17 +240,17 @@ public class QuizController {
             // Save
             userQuestionAnswerRepository.save(newUserQuestionAnswer);
         }
-        return "redirect:/quiz-handle/delete-cookie";
+        return "redirect:/quiz-handle/delete-cookie/"+quizId;
     }
 
-    @GetMapping("/quiz-handle/delete-cookie")
-    public String quizHandleDeleteCookie(HttpServletResponse response) {
+    @GetMapping("/quiz-handle/delete-cookie/{quizId}")
+    public String quizHandleDeleteCookie(HttpServletResponse response, @PathVariable(name = "quizId") Integer quizId) {
         // Delete Cookie
         Cookie currentUserQuizCookie = new Cookie("currentUserQuizId", null);
         currentUserQuizCookie.setMaxAge(0);
         currentUserQuizCookie.setPath("/");
         response.addCookie(currentUserQuizCookie);
 
-        return "redirect:/review-quiz-result";
+        return "redirect:/quiz_review/"+quizId;
     }
 }

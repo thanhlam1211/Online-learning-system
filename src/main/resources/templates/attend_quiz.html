@@ -19,7 +19,9 @@
                 <h5 th:text="'Highest mark: '+${highestMark}+'%'"></h5>
             </div>
             <div class="p-5 col-6 text-end">
-                <h5><a class="text-primary" th:text="${3 - userQuiz.size()}>0?'Start Quiz':''"></a></h5>
+                <h5><a class="text-primary"
+                       th:href="@{'/quiz-handle/' + ${quiz.id.toString()}}"
+                       th:text="${3 - userQuiz.size()}>0?'Start Quiz':''"></a></h5>
                 <h5>
                     <a class="text-primary"
                        th:href="@{'/quiz_review/'+${quiz.id}}"
