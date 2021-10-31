@@ -21,18 +21,22 @@
                     <h5 th:text="'Question: '+${question.content}"></h5>
                     <div>
                         <input class="form-check-input" type="radio" disabled
+                               style="padding: 0;"
                                th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option1} ">
                         <label class="form-check-label text-dark" th:text="${question.option1}"></label>
                         <br>
                         <input class="form-check-input" type="radio" disabled
+                               style="padding: 0;"
                                th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option2}">
                         <label class="form-check-label text-dark" th:text="${question.option2}"></label>
                         <br>
                         <input class="form-check-input" type="radio" disabled
+                               style="padding: 0;"
                                th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option3}">
                         <label class="form-check-label text-dark" th:text="${question.option3}"></label>
                         <br>
                         <input class="form-check-input" type="radio" disabled
+                               style="padding: 0;"
                                th:checked="${question.getUserQuestionAnswer_userChoice(lastUserQuiz.getId())==question.option4}">
                         <label class="form-check-label text-dark" th:text="${question.option4}"></label>
                         <br>
