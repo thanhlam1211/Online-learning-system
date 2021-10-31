@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "topics")
 public class Topic implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer topicId;

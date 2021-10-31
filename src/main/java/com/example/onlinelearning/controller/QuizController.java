@@ -221,8 +221,16 @@ public class QuizController {
         // Get UserQuiz
         UserQuiz currentUserQuiz = userQuizRepository.getById(Integer.parseInt(request.getParameter("currentUserQuizId")));
 
+
+
         // Get All Questions Of Quiz
         Set<QuestionBank> questionList = questionService.getAllQuestionsOfQuizId(quizId);
+
+        // Initialize mark
+        float mark = 0;
+        int numOfQuestions = questionList.size();
+        float numOfRightAnswers = 0;
+
         for (QuestionBank question : questionList) {
             // Create UserQuestionAnswer instance
             UserQuestionAnswer newUserQuestionAnswer = new UserQuestionAnswer();
@@ -232,6 +240,7 @@ public class QuizController {
             // User answered
             if (request.getParameter("q" + question.getId()) != null) {
                 newUserQuestionAnswer.setUserChoice(request.getParameter("q" + question.getId()));
+                if (request.getParameter("q" + question.getId()).equalsIgnoreCase(question.getAnswer())) numOfRightAnswers += 1;
             }
             // User didn't answer
             else {
@@ -240,6 +249,14 @@ public class QuizController {
             // Save
             userQuestionAnswerRepository.save(newUserQuestionAnswer);
         }
+
+        // Calculate mark
+        mark = numOfRightAnswers / numOfQuestions;
+
+        // Update mark for currentUserQuiz
+        currentUserQuiz.setMark(mark * 100);
+        userQuizRepository.save(currentUserQuiz);
+
         return "redirect:/quiz-handle/delete-cookie/"+quizId;
     }
 
