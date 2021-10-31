@@ -6,7 +6,7 @@ This project using:
 
 * Front end: Thymeleaf, Bootstrap.
 
-* Backend: Spring boot framework, OAuth2 combine with Spring security.
+* Backend: 3-tier architecture, Spring boot framework, OAuth2 combine with Spring security.
 
 * Others: MS Sql Server, IntelliJ, DataGrip
 
