@@ -68,15 +68,25 @@
                                             &nbsp;
                                         </th:block>
                                         <br/>
-                                        <th:block th:each="pricePackage : ${course.pricePackageList}">
-                                            <th:block th:if="${pricePackage.status.value} == 'ACTIVE'">
-                                                <span class="small-course-box-list-price text-danger fw-bold"
-                                                      th:text="'$' + ${pricePackage.salePrice}"></span>
-                                                <s class="small-course-box sale-price"
-                                                   th:text="'$' + ${pricePackage.listPrice}"></s>
-                                                <br/>
-                                            </th:block>
-                                        </th:block>
+<!--                                        Print out all price packages-->
+<!--                                        <th:block th:each="pricePackage : ${course.pricePackageList}">-->
+<!--                                            <th:block th:if="${pricePackage.status.value} == 'ACTIVE'">-->
+<!--                                                <span class="small-course-box-list-price text-danger fw-bold"-->
+<!--                                                      th:text="'$' + ${pricePackage.salePrice}"></span>-->
+<!--                                                <s class="small-course-box sale-price"-->
+<!--                                                   th:text="'$' + ${pricePackage.listPrice}"></s>-->
+<!--                                                <br/>-->
+<!--                                            </th:block>-->
+<!--                                        </th:block>-->
+<!--                                        Print lowest price package-->
+                                                <th:block th:if="${course.getLowestPricePackage() != null}">
+                                                    <span class="small-course-box-list-price text-danger fw-bold"
+                                                          th:text="'$' + ${course.getLowestPricePackage().getSalePrice()}"></span>
+                                                    <s class="small-course-box sale-price"
+                                                       th:text="'$' + ${course.getLowestPricePackage().getListPrice()}"></s>
+                                                </th:block>
+
+
 
                                     </a>
                                 </div>
