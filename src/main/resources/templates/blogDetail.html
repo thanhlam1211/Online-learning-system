@@ -17,7 +17,7 @@
                 <h1 th:text="${blog.title}" class="mb-3 mt-3"></h1>
                 <i class="fas fa-user text-muted"></i> <span class="small-blog-post-author me-3 text-muted" th:text="${blog.user.fullName}"></span> <i class="fas fa-tag text-muted"></i> <span class="small-blog-post-category text-muted" th:text="${blog.category.value}"></span>
                 <hr class="mt-0 mb-5">
-                <img th:src="@{${blog.thumbnail}}" class="float-start me-4 img-fluid">
+                <img th:src="@{${blog.blogImagePath}}" class="float-start me-4 img-fluid">
                 <p th:text="${blog.content}"></p>
             </div>
             <div class="col-md-4 pt-4">

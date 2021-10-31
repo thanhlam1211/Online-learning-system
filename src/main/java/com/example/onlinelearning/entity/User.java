@@ -90,4 +90,11 @@ public class User implements Serializable {
     public void addRole(Role role) {
         this.roleList.add(role);
     }
+
+    @Transient
+    public String getAvaterPath() {
+        if (avatar == null || id == null) return null;
+
+        return "/avatar/" + id + "/" + avatar;
+    }
 }

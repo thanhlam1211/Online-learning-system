@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout_admin/admin_nodashboard_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Slide</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add new slide
+            </button>
+
+            <!--Search with title-->
+            <div id="block1">
+                <form th:action="@{/slide}" method="get"
+                      style="margin-top: 10px; width: 200px">
+                    <div class="input-group rounded">
+                        <input class="form-control rounded" id="txtSearch" placeholder="Search..." type="search"
+                               name="keyword" aria-label="Search"
+                               aria-describedby="search-addon"/>
+                        <button class="input-group-text border-0" type="submit"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <!--MODAL-->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <form th:action="@{/addSlide}" th:object="${slide}" method="post" enctype="multipart/form-data">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">New slide</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <span for="inputName">Slide title:</span>
+                                    <input type="text" th:field="*{title}" class="form-control" id="inputName">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputImage">Image:</span>
+                                    <input type="file" name="fileImage" id="fileImage" accept="image/jpeg, image/png"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputDescription">Description:</span>
+                                    <input type="text" th:field="*{description}" class="form-control" id="inputDescription">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="inputCourseLink">Link:</span>
+                                    <input type="text" th:field="*{courseLink}" class="form-control" id="inputCourseLink">
+                                </div>
+
+                                <div class="form-group">
+                                    <span for="addType" class="col-form-label">Status:</span>
+                                    <select th:field="*{status}" class="form-select" name="category"
+                                            style="height: auto;">
+                                        <th:block th:each="status : ${statusList}">
+                                            <option th:text="${status.value}" th:value="${status.id}" name="status_id"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--END MODAL-->
+        </div>
+    </div>
+
+    <table class="table mt-3">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">ID</th>
+            <th scope="col">Course link</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th colspan="2" scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="slide : ${slideList}" style="text-align: center">
+            <th scope="row" th:text="${slide.id}"></th>
+            <td th:text="${slide.courseLink}"></td>
+            <td th:text="${slide.description}"></td>
+            <td>
+                <img th:src="@{${slide.slideImagePath}}" style="width: 100px;" />
+            </td>
+            <td th:text="${slide.title}"></td>
+            <td th:text="${slide.status.value}"></td>
+            <td><a th:href="@{/slide/details/{id}(id=${slide.id})}" class="d-block text-center btn-sm btn-secondary">Details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,9 +1,11 @@
 package com.example.onlinelearning.repository;
 
+import com.example.onlinelearning.entity.CountCourse;
 import com.example.onlinelearning.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,8 +27,22 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public User findByResetPasswordToken(String token);
 
+    // Get user by roles
+    public List<User> getUserByRoleListEqualsAndStatus (int role, int Status);
+
+    @Query(value = "SELECT * from users inner join user_role on users.id = user_role.user_id " +
+            "WHERE role_id = ?1 and status_id = 1", nativeQuery = true)
+    List<User> findByRole(int role_id, int status);
+
+    @Query(value = "select * from users inner join user_role on users.id = user_role.user_id where role_id = 1", nativeQuery = true)
+    List<User> findByAdmin();
+    public User getUserByEmailContaining(String email);
+
 
     @Query(value = "select * from users u where u.full_name like %:keyword% " +
             "or u.username like %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
+
+    @Query(value = "SELECT t1.id, t1.[value], (t2.num_course) FROM category t1 LEFT OUTER JOIN (SELECT category_id, COUNT(category_id) AS num_course FROM course GROUP BY category_id) t2 ON t1.id = t2.category_id", nativeQuery = true)
+    List<CountCourse> countCourseByCategory();
 }
