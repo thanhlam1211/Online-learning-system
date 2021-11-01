@@ -1,4 +1,4 @@
-# Online_learning_system SWP391
+# Online_learning_system
 
 Project SWP391 in Spring 2021 Semester.
 
