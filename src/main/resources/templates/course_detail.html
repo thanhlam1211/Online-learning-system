@@ -42,10 +42,43 @@
                                     <div>
                                         <!--                                        controller to enroll the course-->
                                         <!--                                        change to a link-->
-                                        <a class="btn btn-primary col-12" th:href="@{'/lesson_view/'+${course.id}}">
-                                            Enroll course </a>
+                                        <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal"
+                                                data-bs-target="#check">
+                                            Enroll course
+                                        </button>
+<!--                                        Show the package of this course-->
                                         <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
+<!--                                Modal to see price package (Trung Đức :>)-->
+                                    <div class="modal fade" id="check" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <form th:action="@{course/package/1}" method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="">Price Package Available</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div id="resultss" class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="">
+                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>
+                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">
+                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" style="width:100px" class="btn btn-primary">Sửa</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+<!--                                    End of modal to see price package of each course-->
+
                                 </div>
                             </div>
                             <div class="cdl_bottom">
@@ -212,6 +245,9 @@
             </div>
         </div>
     </div>
+
+
+
 
 </div>
 <!-- body wrap end -->
