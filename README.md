@@ -28,9 +28,12 @@ This project using Spring boot framework so before running project
 you should open the maven tab, and click on reload all maven to download all dependencies 
 of this project
 
+You must have your own application.properties file are not showing on this project because they include sentitive data.
+
 After that you must go to application.properties to change to your own computer
 the data source url is the sever of your jdbc
 user name and password of your sql
+
 At the end, you will see 'spring.jpa.hibernate.ddl-auto = update'
 you can change to create in your first time, leave update when you want to change
 leave none and push data into the database
