@@ -105,6 +105,7 @@ public class UserController {
     }
 
     // Account của từng user
+    // Trung Đức làm phần này, trả về thông tin của từng account
     @GetMapping("/user_home")
     public String viewUserHome(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         User user = userDetail.getUser();
