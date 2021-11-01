@@ -87,13 +87,13 @@ public class CourseController {
         return modelAndView;
     }
 
-    @GetMapping("/lesson_view/{id}")
-    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
-        // Thao tác để lấy thông tin về lesson và up lên course
-        return "lesson_view";
-    }
+//    @GetMapping("/lesson_view/{id}")
+//    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
+//        // Thao tác để lấy thông tin về lesson và up lên course
+//        return "learning/course";
+//    }
 
-
+    // Trung Đức làm phần này, thêm controller cho course Modal
     @GetMapping("/addnew_course")
     public String addCourseModal(Model model) {
         List<Category> listCate = categoryService.findAll();
@@ -104,18 +104,23 @@ public class CourseController {
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
 
+        // return to new form modal html
         return "addnew_course_modal";
     }
 
+    // Trung Đức làm phần này, nhận dữ liệu từ html
+    // bằng post mapping để lưu vào db
     @PostMapping("/addnew_course")
     public String addNewCourse(@AuthenticationPrincipal MyUserDetail userDetail,
                                Model model, Course course) {
         User user = userDetail.getUser();
+        // lưu course đó vào DB
         courseService.saveCourseToDB(course, user);
         return "redirect:/manage-courses";
     }
 
     // Save course to DB
+    // Trung Đức làm phần này, edit hoặc add course lưu nội dung của khoá học đó
     @PostMapping("/course/save")
     public String saveCourse(Course course) {
         Course originalCourse = courseService.getCourseById(course.getId());
@@ -128,7 +133,7 @@ public class CourseController {
 
     // Khi bấm nút subject detail thì sẽ link sang đây (từ html sang subject detail thì phải gửi 1 id để view)
     // getMapping cần có thêm id. Cái này chính là showEditForm, Có thể sửa thành
-
+    // Trung Đức và Khánh làm phần này, bao gồm subject detail và dimension của course
     @GetMapping("/subject_detail/{id}")
     public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
         List<Status> listStatus = statusRepository.findAll();
@@ -141,6 +146,8 @@ public class CourseController {
         List<PricePackage> pricePackageList = pricePackageRepository.findAll();
         Course course = courseService.getCourseById(id);
         course.setFeatured(1);
+
+        // Lấy tất cả các trường cần thiết và gửi lên html
         model.addAttribute("listCate", listCate);
         model.addAttribute("listStatus", listStatus);
         model.addAttribute("dimensionList", dimensionList);

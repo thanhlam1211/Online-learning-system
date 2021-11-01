@@ -41,4 +41,61 @@ public class DashBoardService {
         return list;
     }
 
+
+    public List<List<Map<Object, Object>>> getMapjsDataList() {
+        Map<Object,Object> map = null;
+        List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
+        List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();
+
+        List<Course> allCourse = courseService.findAll();
+        int count = allCourse.size();
+        // Lỗi truyền object countcourse
+        List<CountCourse> list1 = dashBoardRepository.countCourseByCategory();
+        for(CountCourse item : list1){
+            map = new HashMap<Object,Object>();
+            map.put("label",item.getCatName());
+            map.put("y", item.getCatCount()/count);
+            dataPoints1.add(map);
+        }
+        list.add(dataPoints1);
+        return list;
+    }
+
+    public List<List<Map<Object, Object>>> getPieChart() {
+        Map<Object,Object> map = null;
+        List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
+        List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();
+
+        List<Course> allCourse = courseService.findAll();
+        int count = allCourse.size();
+        // Lỗi truyền object countcourse
+        List<CountCourse> list1 = dashBoardRepository.countCourseByCategory();
+        for(CountCourse item : list1){
+            map = new HashMap<Object,Object>();
+            map.put("label",item.getCatName());
+            map.put("y", item.getCatCount()/count);
+            dataPoints1.add(map);
+        }
+        list.add(dataPoints1);
+        return list;
+    }
+
+    public List<List<Map<Object, Object>>> getChart() {
+        Map<Object,Object> map = null;
+        List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
+        List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();
+
+        List<Course> allCourse = courseService.findAll();
+        int count = allCourse.size();
+        // Lỗi truyền object countcourse
+        List<CountCourse> list1 = dashBoardRepository.countCourseByCategory();
+        for(CountCourse item : list1){
+            map = new HashMap<Object,Object>();
+            map.put("label",item.getCatName());
+            map.put("y", item.getCatCount()/count);
+            dataPoints1.add(map);
+        }
+        list.add(dataPoints1);
+        return list;
+    }
 }

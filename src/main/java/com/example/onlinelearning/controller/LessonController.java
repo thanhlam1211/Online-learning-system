@@ -42,6 +42,7 @@ public class LessonController {
     private LessonRepository lessonRepository;
 
     // SUBJECT Lesson DEFAULT
+    // Trung Đức làm phần này
     @GetMapping("/manage-lessons/course{currentCourseId}")
     public String manageLessons(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
                                 @RequestParam(value = "search", defaultValue = "") String searchInput,
@@ -52,6 +53,8 @@ public class LessonController {
     }
 
     // Subject Lesson Pagination
+    // Trung Đức làm phần này
+    // Phân trang của subject lesson theo các filter đã có
     @GetMapping("/manage-lessons/course{currentCourseId}/{pageNumber}")
     private String viewManageLessonsPage(@AuthenticationPrincipal MyUserDetail userDetail, Model model,
                                          @RequestParam(value = "search", defaultValue = "") String searchInput,

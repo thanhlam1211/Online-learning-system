@@ -46,6 +46,8 @@ public class LessonService {
         return lessonRepository.findAll(pageable);
     }
 
+    // Trung Đức làm phần này
+    // Filter theo từng field
     public Page<Lesson> filterLesson(Integer courseId, String searchInput, Integer topicId, Integer statusId, int currentPage){
         Pageable pageable = PageRequest.of(currentPage - 1, 5);
         if (topicId == -1 && statusId == -1) {
