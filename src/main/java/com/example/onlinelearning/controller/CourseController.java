@@ -87,11 +87,11 @@ public class CourseController {
         return modelAndView;
     }
 
-    @GetMapping("/lesson_view/{id}")
-    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
-        // Thao tác để lấy thông tin về lesson và up lên course
-        return "lesson_view";
-    }
+//    @GetMapping("/lesson_view/{id}")
+//    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
+//        // Thao tác để lấy thông tin về lesson và up lên course
+//        return "learning/course";
+//    }
 
     // Trung Đức làm phần này, thêm controller cho course Modal
     @GetMapping("/addnew_course")
