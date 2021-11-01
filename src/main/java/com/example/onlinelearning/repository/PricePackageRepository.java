@@ -1,5 +1,6 @@
 package com.example.onlinelearning.repository;
 
+import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.PricePackage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface PricePackageRepository extends JpaRepository<PricePackage,Integer> {
@@ -24,4 +26,6 @@ public interface PricePackageRepository extends JpaRepository<PricePackage,Integ
             Integer status_id,
             Integer package_id
     );
+
+    public List<PricePackage> findPricePackageByCourseList(Course course);
 }

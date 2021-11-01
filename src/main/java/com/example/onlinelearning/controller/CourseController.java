@@ -66,6 +66,7 @@ public class CourseController {
         return "course";
     }
 
+    // Sẽ phải truyền đi các price package của nó để có thể lựa chọn
     @GetMapping("/course_detail/{id}")
     public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail");
@@ -73,6 +74,17 @@ public class CourseController {
         List<Topic> topicList = topicService.findAllByCourse_IdAsc(id);
         modelAndView.addObject("newCourses", courseService.listAll(1, "",-1));
         modelAndView.addObject("listCategory", categoryService.findAll());
+        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
+        try{
+            for(int i = 0; i < listPackage.size(); i++){
+                System.out.println("i'm here");
+                System.out.println(listPackage.get(i).getName());
+            }
+        } catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+
+        modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("course", course);
         modelAndView.addObject("topicList", topicList);
         return modelAndView;

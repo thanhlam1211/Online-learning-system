@@ -49,29 +49,51 @@
 <!--                                        Show the package of this course-->
                                         <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
-<!--                                Modal to see price package (Trung Đức :>)-->
+
+<!--                           Modal to see price package (Trung Đức :>)-->
                                     <div class="modal fade" id="check" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
-                                            <form th:action="@{course/package/1}" method="post">
+                                            <form th:action="@{'/course/package/'+${course.id}}" method="post">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="">Price Package Available</h5>
+                                                        <h5 class="modal-title" id="">All Price Package Available</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div id="resultss" class="modal-body">
                                                         <div class="row">
-                                                            <div class="col">
-                                                                <div class="">
-                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>
-                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">
-                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>
-                                                                </div>
+                                                            <h3 style="text-align: center;" class="title" th:text="${course.title}"></h3>
+<!--                                                           Data Mid here-->
+<!--                                                            <div class="col">-->
+<!--                                                                <div class="">-->
+<!--                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>-->
+<!--                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
+<!--                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+                                                            <div class="col-md-4">
+                                                                <img th:src="${course.thumbnail}" alt="">
                                                             </div>
+                                                            <div class="col-md-4">
+                                                                <span th:text="${course.shortDescription}"></span>
+                                                                <h5 class="mt-2">Price Package: </h5>
+<!--                                                                All price packages available in the course-->
 
+                                                                <ul th:each="package:${listPackage}" class="accordion_box clearfix">
+                                                                    <li class="accordion block active-block">
+                                                                        <div th:text="${package.name}" class="acc-btn"></div>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span class="price text-primary h5"
+                                                                      th:text="'Created: ' + ${course.getDateCreate()}">
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" style="width:100px" class="btn btn-primary">Sửa</button>
+                                                        <button type="submit" style="width:100px" class="btn btn-primary">Submit</button>
                                                     </div>
                                                 </div>
                                             </form>
