@@ -42,12 +42,22 @@
                                     <div>
                                         <!--                                        controller to enroll the course-->
                                         <!--                                        change to a link-->
-                                        <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal"
-                                                data-bs-target="#check">
-                                            Enroll course
-                                        </button>
+
+                                        <th:block th:if="${courseStatus} == 0">
+                                            <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal"
+                                                    data-bs-target="#check">
+                                                Enroll course
+                                            </button>
+                                        </th:block>
+<!--                                        Add new button if already enrolled -->
+                                        <th:block th:if="${courseStatus} != 0">
+                                            <a type="button" class="btn btn-primary col-12" th:href="@{'/learning/course/' +${course.id}}"
+                                            >
+                                                Learning course
+                                            </a>
+                                        </th:block>
+
                                         <!--                                        Show the package of this course-->
-                                        <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
 
                                     <!--                           Modal to see price package (Trung Đức :>)-->
@@ -65,14 +75,6 @@
                                                         <div class="row">
                                                             <h3 style="text-align: center;" class="title"
                                                                 th:text="${course.title}"></h3>
-                                                            <!--                                                           Data Mid here-->
-                                                            <!--                                                            <div class="col">-->
-                                                            <!--                                                                <div class="">-->
-                                                            <!--                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>-->
-                                                            <!--                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
-                                                            <!--                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
-                                                            <!--                                                                </div>-->
-                                                            <!--                                                            </div>-->
                                                             <div class="col-md-4">
                                                                 <img th:src="${course.thumbnail}" alt="">
                                                             </div>
@@ -113,8 +115,6 @@
                                                         <th:block th:if="${sizePackage} == 0">
                                                             <input type="hidden" name="package_id" th:value="0">
                                                         </th:block>
-<!--                                                        <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
-<!--                                                        <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
 
                                                     </div>
                                                     <div class="modal-footer">

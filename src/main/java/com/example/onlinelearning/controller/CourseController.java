@@ -76,7 +76,8 @@ public class CourseController {
 
     // Sẽ phải truyền đi các price package của nó để có thể lựa chọn
     @GetMapping("/course_detail/{id}")
-    public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id) {
+    public ModelAndView viewCourseDetail(@AuthenticationPrincipal MyUserDetail userDetail,
+                                         @PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
         List<Topic> topicList = topicService.findAllByCourse_IdAsc(id);
@@ -92,6 +93,16 @@ public class CourseController {
             System.out.println(exception.toString());
         }
 
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
+        int courseStatus;
+        if(userCourse != null){
+            courseStatus = 1;
+        } else {
+            courseStatus = 0;
+        }
+        modelAndView.addObject("courseStatus", courseStatus);
         modelAndView.addObject("sizePackage", listPackage.size());
         modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("course", course);
@@ -296,6 +307,7 @@ public class CourseController {
             userCourse.setEndDate(c.getTime());
         }
 
+        // Còn phài xử lí vấn đề đối với các course free
         userCourse.setUser(user);
         userCourse.setPricePackage(pricePackage);
         userCourse.setRegistrationStatus(1);
