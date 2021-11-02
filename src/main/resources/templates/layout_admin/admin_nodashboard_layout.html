@@ -44,13 +44,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#" style="color: black">
+          <a class="nav-link" href="/" style="color: black">
             <i class="fas fa-sign-out-alt" style="color: black"></i>
-            LogOut<span class="sr-only">(current) </span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="color: black">
-            <i class="fas fa-id-card" style="color: black"></i>Contact Us</a>
+            Back to website<span class="sr-only">(current) </span></a>
         </li>
       </ul>
     </div>
@@ -77,7 +73,7 @@
         <a th:href="@{/admin_blog}"><i class="fas fa-pager"></i>Blog</a>
       </li>
       <li>
-        <a href=""><i class="fas fa-info"></i>About</a>
+        <a href="https://github.com/thanhlam1211/Online-learning-system/blob/main/README.md"><i class="fas fa-info"></i>About</a>
       </li>
     </ul>
   </nav>
@@ -118,6 +114,16 @@
   }
   searchBtn.onclick = function () {
     sidebar.classList.toggle("active");
+  }
+</script>
+<script>
+  function myFunction() {
+    var x = document.getElementById("addPass");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
   }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
