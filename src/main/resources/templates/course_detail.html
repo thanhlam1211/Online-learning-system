@@ -46,44 +46,40 @@
                                                 data-bs-target="#check">
                                             Enroll course
                                         </button>
-<!--                                        Show the package of this course-->
+                                        <!--                                        Show the package of this course-->
                                         <!--                                        <button class="btn btn-primary col-12">Enroll course</button>-->
                                     </div>
 
-<!--                           Modal to see price package (Trung Đức :>)-->
-                                    <div class="modal fade" id="check" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                    <!--                           Modal to see price package (Trung Đức :>)-->
+                                    <div class="modal fade" id="check" tabindex="-1" aria-labelledby=""
+                                         aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <form th:action="@{'/course/package/'+${course.id}}" method="post">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="">All Price Package Available</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                     </div>
                                                     <div id="resultss" class="modal-body">
                                                         <div class="row">
-                                                            <h3 style="text-align: center;" class="title" th:text="${course.title}"></h3>
-<!--                                                           Data Mid here-->
-<!--                                                            <div class="col">-->
-<!--                                                                <div class="">-->
-<!--                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>-->
-<!--                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
-<!--                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
+                                                            <h3 style="text-align: center;" class="title"
+                                                                th:text="${course.title}"></h3>
+                                                            <!--                                                           Data Mid here-->
+                                                            <!--                                                            <div class="col">-->
+                                                            <!--                                                                <div class="">-->
+                                                            <!--                                                                    <label class="col-form-label" style="font-weight:bold;width : 140px">Content từ chỗ này: </label>-->
+                                                            <!--                                                                    <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
+                                                            <!--                                                                    <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
+                                                            <!--                                                                </div>-->
+                                                            <!--                                                            </div>-->
                                                             <div class="col-md-4">
                                                                 <img th:src="${course.thumbnail}" alt="">
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <span th:text="${course.shortDescription}"></span>
-                                                                <h5 class="mt-2">Price Package: </h5>
-<!--                                                                All price packages available in the course-->
 
-                                                                <ul th:each="package:${listPackage}" class="accordion_box clearfix">
-                                                                    <li class="accordion block active-block">
-                                                                        <div th:text="${package.name}" class="acc-btn"></div>
-                                                                    </li>
-                                                                </ul>
-
+                                                                <!--                                                                All price packages available in the course-->
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <span class="price text-primary h5"
@@ -91,15 +87,46 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <th:block th:if="${sizePackage} != 0">
+                                                        <div style="text-align: center" class="row">
+                                                            <h5 class="mt-2">Price Package: </h5>
+                                                            <ul class="row">
+                                                                <li th:each="package :${listPackage}">
+                                                                    <input style="padding: 0;" class="form-check-input"
+                                                                           name="package_id"
+                                                                           type="radio" th:value="${package.id}"
+                                                                           required/>
+                                                                    <label style="margin-left: 10px">Name:</label>
+                                                                    <label style="width: 150px" th:for="${package.id}"
+                                                                           th:text="${package.name}"></label>
+                                                                    Sale Price:
+                                                                    <label style="width: 100px" th:for="${package.id}"
+                                                                           th:text="${package.salePrice}"></label>
+                                                                    Duration:
+                                                                    <label th:for="${package.id}"
+                                                                           th:text="${package.duraion}"></label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        </th:block>
+<!--                                                        Nếu khoá học đó miễn phí thì truyền về id là 0-->
+                                                        <th:block th:if="${sizePackage} == 0">
+                                                            <input type="hidden" name="package_id" th:value="0">
+                                                        </th:block>
+<!--                                                        <input class="form-control" type="text" id="name" name="name" value="@item.name">-->
+<!--                                                        <input class="form-control" type="hidden" id="id_category" name="id_category" value="@item.id_category" hidden>-->
+
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" style="width:100px" class="btn btn-primary">Submit</button>
+                                                        <button type="submit" style="width:100px"
+                                                                class="btn btn-primary">Submit
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-<!--                                    End of modal to see price package of each course-->
+                                    <!--                                    End of modal to see price package of each course-->
 
                                 </div>
                             </div>
@@ -152,12 +179,12 @@
                                                     <ul class="acc_body current">
                                                         <li th:each="lesson:${topic.getLessonList()}">
                                                             <a
-                                                               th:text="${lesson.lessonName}"
-                                                               th:href="@{'/learning/course/'+${course.id}}"></a>
+                                                                    th:text="${lesson.lessonName}"
+                                                                    th:href="@{'/learning/course/'+${course.id}}"></a>
                                                             <div class="acb_right">
                                                                 <span class="title">
                                                                     <a
-                                                                       th:href="@{'/learning/course/'+${course.id}}">View</a>
+                                                                            th:href="@{'/learning/course/'+${course.id}}">View</a>
                                                                 </span>
                                                             </div>
                                                         </li>
@@ -192,7 +219,8 @@
                                                             <div class="acb_right">
                                                                 <button><a
                                                                         th:href="@{'/attend_quiz/'+${quiz.id}}"
-                                                                        class="link-detail text-primary">Attend</a></button>
+                                                                        class="link-detail text-primary">Attend</a>
+                                                                </button>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -267,8 +295,6 @@
             </div>
         </div>
     </div>
-
-
 
 
 </div>

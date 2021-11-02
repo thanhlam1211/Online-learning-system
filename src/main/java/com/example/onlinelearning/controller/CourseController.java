@@ -84,6 +84,7 @@ public class CourseController {
             System.out.println(exception.toString());
         }
 
+        modelAndView.addObject("sizePackage", listPackage.size());
         modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("course", course);
         modelAndView.addObject("topicList", topicList);
@@ -243,6 +244,20 @@ public class CourseController {
         model.addAttribute("currentStatusId", statusId);
         model.addAttribute("currentSearch", searchInput);
         return "manage_course_list";
+    }
+
+    @PostMapping("/course/package/{course_id}")
+    public String addCourse(@AuthenticationPrincipal MyUserDetail userDetail,
+                            @PathVariable("course_id") int course_id,
+                            @RequestParam(value = "package_id") int package_id) {
+
+        System.out.println("Course id o day la: "+course_id);
+        System.out.println("User detail hien tai la: " +userDetail.getUsername());
+        System.out.println("Package nhan duoc la: " +package_id);
+
+        
+
+        return "redirect:/myRegistration";
     }
 
 }
