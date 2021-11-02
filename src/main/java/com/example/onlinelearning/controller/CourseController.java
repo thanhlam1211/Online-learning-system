@@ -4,6 +4,7 @@ import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.DimensionRepository;
 import com.example.onlinelearning.repository.PricePackageRepository;
 import com.example.onlinelearning.repository.StatusRepository;
+import com.example.onlinelearning.repository.UserCourseRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,7 +42,8 @@ public class CourseController {
     private PricePackageRepository pricePackageRepository;
     @Autowired
     private TopicService topicService;
-
+    @Autowired
+    private UserCourseRepository userCourseRepository;
 
     @GetMapping("/course")
     public String viewCourse(Model model,
@@ -246,6 +252,7 @@ public class CourseController {
         return "manage_course_list";
     }
 
+    // Trung Đức code, add vào db
     @PostMapping("/course/package/{course_id}")
     public String addCourse(@AuthenticationPrincipal MyUserDetail userDetail,
                             @PathVariable("course_id") int course_id,
@@ -255,8 +262,43 @@ public class CourseController {
         System.out.println("User detail hien tai la: " +userDetail.getUsername());
         System.out.println("Package nhan duoc la: " +package_id);
 
-        
+        // Get data
+        User user = userDetail.getUser();
+        PricePackage pricePackage = pricePackageRepository.getById(package_id);
+        LocalDateTime startDate = LocalDateTime.now();
+        int dayDuration = pricePackage.getDuraion();
+        // Xử lí ngày start là datetime.now; ngày end là ngày start + duration
+        //Date endDate = (Date)startDate;
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        UserCourse userCourse = new UserCourse();
+        Course courseNow = new Course();
+        courseNow = courseService.getCourseById(course_id);
 
+        if(package_id != 0){
+            c.setTime(currentDate);
+            userCourse.setStartDate(c.getTime());
+            userCourse.setRegistrationDate(c.getTime());
+            System.out.println("Time now: " +c.getTime().toString());
+            c.add(Calendar.DATE, dayDuration);
+            System.out.println("Time after: " +c.getTime().toString());
+            userCourse.setEndDate(c.getTime());
+
+        } else {
+            c.setTime(currentDate);
+            userCourse.setStartDate(c.getTime());
+            userCourse.setRegistrationDate(c.getTime());
+            c.add(Calendar.DATE, 90);
+            System.out.println("Time after: " +c.getTime().toString());
+            userCourse.setEndDate(c.getTime());
+        }
+
+        userCourse.setUser(user);
+        userCourse.setPricePackage(pricePackage);
+        userCourse.setRegistrationStatus(1);
+        userCourse.setCourse(courseNow);
+
+        userCourseRepository.save(userCourse);
         return "redirect:/myRegistration";
     }
 
