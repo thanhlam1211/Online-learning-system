@@ -44,6 +44,8 @@ public class CourseController {
     private TopicService topicService;
     @Autowired
     private UserCourseRepository userCourseRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/course")
     public String viewCourse(Model model,
@@ -263,7 +265,9 @@ public class CourseController {
         System.out.println("Package nhan duoc la: " +package_id);
 
         // Get data
-        User user = userDetail.getUser();
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        //User user = userService.getUserById(2);
         PricePackage pricePackage = pricePackageRepository.getById(package_id);
         LocalDateTime startDate = LocalDateTime.now();
         int dayDuration = pricePackage.getDuraion();
@@ -272,8 +276,7 @@ public class CourseController {
         Date currentDate = new Date();
         Calendar c = Calendar.getInstance();
         UserCourse userCourse = new UserCourse();
-        Course courseNow = new Course();
-        courseNow = courseService.getCourseById(course_id);
+        Course course = courseService.getCourseById(course_id);
 
         if(package_id != 0){
             c.setTime(currentDate);
@@ -296,7 +299,7 @@ public class CourseController {
         userCourse.setUser(user);
         userCourse.setPricePackage(pricePackage);
         userCourse.setRegistrationStatus(1);
-        userCourse.setCourse(courseNow);
+        userCourse.setCourse(course);
 
         userCourseRepository.save(userCourse);
         return "redirect:/myRegistration";
