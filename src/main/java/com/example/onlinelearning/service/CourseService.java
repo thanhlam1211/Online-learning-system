@@ -57,6 +57,10 @@ public class CourseService {
             return courseRepository.findCoursesByCategoryIdAndTitleContaining(categoryId,searchInput,pageable);
     }
 
+    // Trung Đức làm phần này
+    // lưu course vào db theo từng owner của nó
+    // Nhận về là course muốn thêm và user hiện tại đang log
+    // lưu vào db theo kiểu many to many
     public void saveCourseToDB(Course course, User user) {
         course.setFeatured(1);
         Date currentDate  = new Date();
@@ -113,5 +117,7 @@ public class CourseService {
         }
         return null;
     }
+
+    // Lấy tất cả các price package của khoá đó để cho người dùng chọn
 
 }

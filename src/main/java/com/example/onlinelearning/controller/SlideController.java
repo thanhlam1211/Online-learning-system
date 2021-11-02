@@ -53,7 +53,7 @@ public class SlideController {
         slide.setImageUrl(fileName);
         Slide savedSlide = slideService.save(slide);
 
-        String uploadDir = "./slide-images/" + savedSlide.getId();
+        String uploadDir = "./src/main/resources/static/slide-images/" + savedSlide.getId();
 
         Path uploadPath = Paths.get(uploadDir);
 
@@ -89,7 +89,7 @@ public class SlideController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         slide.setImageUrl(fileName);
 
-        String uploadDir = "./slide-images/" + slide.getId();
+        String uploadDir = "./src/main/resources/static/slide-images/" + slide.getId();
 
         Path uploadPath = Paths.get(uploadDir);
 

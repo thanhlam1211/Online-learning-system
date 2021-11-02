@@ -37,7 +37,6 @@ public class Topic implements Serializable {
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private List<Lesson> lessonList;
 
-
     public List<Lesson> getLessonList(){
         Collections.sort(lessonList, new Comparator<Lesson>() {
             @Override

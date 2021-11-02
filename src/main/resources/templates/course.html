@@ -33,13 +33,16 @@
                         <div class="d-flex justify-content-end">
                             <form th:action="@{/course}" class="row g-1" method="GET">
                                 <div class="col-auto">
-                                    <input type="text" class="form-control" placeholder="Find course" style="height:auto;" name="search" th:value="${currentSearch}">
+                                    <input type="text" class="form-control" placeholder="Find course"
+                                           style="height:auto;" name="search" th:value="${currentSearch}">
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-select" name="category" style="height: auto;">
-                                        <option th:selected="(${currentCategoryId == -1})" value="-1">All Categories</option>
+                                        <option th:selected="(${currentCategoryId == -1})" value="-1">All Categories
+                                        </option>
                                         <th:block th:each="category : ${listCategory}">
-                                            <option th:value="${category.id}" th:text="${category.value}" th:selected="(${currentCategoryId == category.id})"></option>
+                                            <option th:value="${category.id}" th:text="${category.value}"
+                                                    th:selected="(${currentCategoryId == category.id})"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -69,14 +72,40 @@
                                 <br>
                                 <span class="cat" th:text="${course.shortDescription}"></span>
                             </div>
+                            <div th:each="courseRegister : ${listCourseRegister}">
+                                <th:block th:if="${course.getId()} != ${courseRegister.getId()}">
+                                    <div class="d-flex justify-content-center">
+                                        <!--                                modify the button to see the detail_modal-->
+                                        <a class="btn btn-primary link-detail"
+                                           th:href="@{'/course_modal/'+${course.getId()}}">
+                                            Course Register
+                                        </a>
+                                        <!--                                Add button if already loggin => Go to the course-->
 
-                            <div class="d-flex justify-content-center">
-                                <!--                                modify the button to see the detail_modal-->
-                                <a class="btn btn-primary link-detail" th:href="@{'/course_modal/'+${course.getId()}}">
-                                    Course Register
-                                </a>
+<!--                                        <a type="button" style="width: auto" class="btn btn-primary"-->
+<!--                                           th:href="@{'/learning/course/' +${course.getId()}}"-->
+<!--                                        >-->
+<!--                                            Learning course-->
+<!--                                        </a>-->
+                                    </div>
+                                </th:block>
+                                <th:block th:if="${course.getId()} == ${courseRegister.getId()}">
+                                    <div class="d-flex justify-content-center">
+                                        <!--                                modify the button to see the detail_modal-->
+<!--                                        <a class="btn btn-primary link-detail"-->
+<!--                                           th:href="@{'/course_modal/'+${course.getId()}}">-->
+<!--                                            Course Register-->
+<!--                                        </a>-->
+                                        <!--                                Add button if already loggin => Go to the course-->
+
+                                        <a type="button" style="width: auto" class="btn btn-primary"
+                                           th:href="@{'/learning/course/' +${course.getId()}}"
+                                        >
+                                            Learning course
+                                        </a>
+                                    </div>
+                                </th:block>
                             </div>
-
                         </div>
                     </div>
                 </div>

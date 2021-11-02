@@ -107,6 +107,22 @@ public class Course implements Serializable {
         return date;
     }
 
+    public PricePackage getLowestPricePackage() {
+        if (pricePackageList.isEmpty()) return null;
+        PricePackage currentPricePackage = null;
+        for (PricePackage pricePackage : pricePackageList) {
+            if (pricePackage.getStatus().getValue().equals("ACTIVE")) {
+                currentPricePackage = pricePackage;
+                break;
+            }
+        }
+        if (currentPricePackage == null) return null;
+        for (PricePackage pricePackage : pricePackageList) {
+            if (currentPricePackage.getSalePrice() > pricePackage.getSalePrice()) currentPricePackage = pricePackage;
+        }
+        return currentPricePackage;
+    }
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Topic> topicList;
 
