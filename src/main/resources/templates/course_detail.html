@@ -49,7 +49,7 @@
                                                 Enroll course
                                             </button>
                                         </th:block>
-<!--                                        Add new button if already enrolled -->
+<!--                                        Add new button if already enrolled, will change go to direct course -->
                                         <th:block th:if="${courseStatus} != 0">
                                             <a type="button" class="btn btn-primary col-12" th:href="@{'/learning/course/' +${course.id}}"
                                             >

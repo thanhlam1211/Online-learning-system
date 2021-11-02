@@ -110,10 +110,28 @@ public class CourseController {
         return modelAndView;
     }
 
+    // Trung Đức code, modal course detail and register
     @GetMapping("/course_modal/{id}")
-    public ModelAndView viewCoursemodal(@PathVariable(name = "id") Integer id) {
+    public ModelAndView viewCoursemodal(@AuthenticationPrincipal MyUserDetail userDetail,
+                                        @PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail_modal");
         Course course = courseService.getCourseById(id);
+
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
+        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
+
+        int courseStatus;
+        if(userCourse != null){
+            courseStatus = 1;
+        } else {
+            courseStatus = 0;
+        }
+
+        modelAndView.addObject("courseStatus", courseStatus);
+        modelAndView.addObject("sizePackage", listPackage.size());
+        modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course", course);
         return modelAndView;
