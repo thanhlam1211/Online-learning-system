@@ -20,10 +20,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "topics")
 public class Topic implements Serializable {
-    public Set<Lesson> getLessonList() {
-        return lessonList;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer topicId;
@@ -46,7 +42,7 @@ public class Topic implements Serializable {
         Collections.sort(lessonList, new Comparator<Lesson>() {
             @Override
             public int compare(Lesson o1, Lesson o2) {
-                return o1.getOrder() > o2.getOrder() ? 1 : -1;
+                return o1.getOrder() > o2.getOrder() ? 1 : 0;
             }
         });
         return lessonList;
