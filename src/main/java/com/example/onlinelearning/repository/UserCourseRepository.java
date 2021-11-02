@@ -20,4 +20,5 @@ public interface UserCourseRepository extends JpaRepository<UserCourse, Integer>
     public Page<UserCourse> findUserCourseByUser_idAndCourse_id(Integer userId, Integer courseId, Pageable pageable);
 
     public UserCourse getUserCourseByCourseAndAndUser(Course course, User user);
+    public List<UserCourse> getUserCoursesByUser(User user);
 }

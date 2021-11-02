@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,21 +49,36 @@ public class CourseController {
     private UserService userService;
 
     @GetMapping("/course")
-    public String viewCourse(Model model,
+    public String viewCourse(@AuthenticationPrincipal MyUserDetail userDetail,
+                             Model model,
                              @RequestParam(value = "search", defaultValue = "") String searchInput,
                              @RequestParam(value = "category", defaultValue = "-1") Integer categoryId) {
-        return listByPages(model, searchInput, categoryId, 1);
+        return listByPages(model, searchInput, categoryId, 1, userDetail);
     }
 
     @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
                              @RequestParam(value = "search ", defaultValue = "") String searchInput,
                              @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
-                             @PathVariable(name = "pageNumber") int currentPage) {
+                             @PathVariable(name = "pageNumber") int currentPage,
+                              @AuthenticationPrincipal MyUserDetail userDetail) {
         Page<Course> page = courseService.listAll(currentPage, searchInput, categoryId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
+
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+
+        List<UserCourse> courseByUser = userCourseRepository.getUserCoursesByUser(user);
+        List<Course> listCourseRegister = new ArrayList<>();
+        for(int i = 0; i < courseByUser.size(); i++){
+            System.out.println("Code test 1: ");
+            System.out.println( "Nhung ID ma User do dang ki: "+courseByUser.get(i).getCourse().getId());
+            listCourseRegister.add(courseByUser.get(i).getCourse());
+        }
+
+        model.addAttribute("listCourseRegister", listCourseRegister);
         model.addAttribute("listCategory", categoryService.findAll());
         model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId);
         model.addAttribute("currentCategoryId", categoryId);
