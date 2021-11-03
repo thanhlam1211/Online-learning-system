@@ -66,7 +66,7 @@ public class BlogController {
         blog.setThumbnail(fileName);
         Blog savedBlog = blogService.save(blog);
 
-        String uploadDir = "./blog-images/" + savedBlog.getId();
+        String uploadDir = "./src/main/resources/static/blog-images/" + savedBlog.getId();
 
         Path uploadPath = Paths.get(uploadDir);
 
@@ -117,7 +117,7 @@ public class BlogController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         blog.setThumbnail(fileName);
 
-        String uploadDir = "./blog-images/" + blog.getId();
+        String uploadDir = "./src/main/resources/static/blog-images/" + blog.getId();
 
         Path uploadPath = Paths.get(uploadDir);
 

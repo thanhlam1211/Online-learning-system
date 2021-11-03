@@ -4,6 +4,7 @@ import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.DimensionRepository;
 import com.example.onlinelearning.repository.PricePackageRepository;
 import com.example.onlinelearning.repository.StatusRepository;
+import com.example.onlinelearning.repository.UserCourseRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,24 +43,42 @@ public class CourseController {
     private PricePackageRepository pricePackageRepository;
     @Autowired
     private TopicService topicService;
-
+    @Autowired
+    private UserCourseRepository userCourseRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/course")
-    public String viewCourse(Model model,
+    public String viewCourse(@AuthenticationPrincipal MyUserDetail userDetail,
+                             Model model,
                              @RequestParam(value = "search", defaultValue = "") String searchInput,
                              @RequestParam(value = "category", defaultValue = "-1") Integer categoryId) {
-        return listByPages(model, searchInput, categoryId, 1);
+        return listByPages(model, searchInput, categoryId, 1, userDetail);
     }
 
     @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
                              @RequestParam(value = "search ", defaultValue = "") String searchInput,
                              @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
-                             @PathVariable(name = "pageNumber") int currentPage) {
+                             @PathVariable(name = "pageNumber") int currentPage,
+                              @AuthenticationPrincipal MyUserDetail userDetail) {
         Page<Course> page = courseService.listAll(currentPage, searchInput, categoryId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
+
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+
+        List<UserCourse> courseByUser = userCourseRepository.getUserCoursesByUser(user);
+        List<Course> listCourseRegister = new ArrayList<>();
+        for(int i = 0; i < courseByUser.size(); i++){
+            System.out.println("Code test 1: ");
+            System.out.println( "Nhung ID ma User do dang ki: "+courseByUser.get(i).getCourse().getId());
+            listCourseRegister.add(courseByUser.get(i).getCourse());
+        }
+
+        model.addAttribute("listCourseRegister", listCourseRegister);
         model.addAttribute("listCategory", categoryService.findAll());
         model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId);
         model.addAttribute("currentCategoryId", categoryId);
@@ -66,32 +90,74 @@ public class CourseController {
         return "course";
     }
 
+    // Sẽ phải truyền đi các price package của nó để có thể lựa chọn
     @GetMapping("/course_detail/{id}")
-    public ModelAndView viewCourseDetail(@PathVariable(name = "id") Integer id) {
+    public ModelAndView viewCourseDetail(@AuthenticationPrincipal MyUserDetail userDetail,
+                                         @PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
         List<Topic> topicList = topicService.findAllByCourse_IdAsc(id);
         modelAndView.addObject("newCourses", courseService.listAll(1, "",-1));
         modelAndView.addObject("listCategory", categoryService.findAll());
+        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
+        try{
+            for(int i = 0; i < listPackage.size(); i++){
+                System.out.println("i'm here");
+                System.out.println(listPackage.get(i).getName());
+            }
+        } catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
+        int courseStatus;
+        if(userCourse != null){
+            courseStatus = 1;
+        } else {
+            courseStatus = 0;
+        }
+        modelAndView.addObject("courseStatus", courseStatus);
+        modelAndView.addObject("sizePackage", listPackage.size());
+        modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("course", course);
         modelAndView.addObject("topicList", topicList);
         return modelAndView;
     }
 
+    // Trung Đức code, modal course detail and register
     @GetMapping("/course_modal/{id}")
-    public ModelAndView viewCoursemodal(@PathVariable(name = "id") Integer id) {
+    public ModelAndView viewCoursemodal(@AuthenticationPrincipal MyUserDetail userDetail,
+                                        @PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("course_detail_modal");
         Course course = courseService.getCourseById(id);
+
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
+        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
+
+        int courseStatus;
+        if(userCourse != null){
+            courseStatus = 1;
+        } else {
+            courseStatus = 0;
+        }
+
+        modelAndView.addObject("courseStatus", courseStatus);
+        modelAndView.addObject("sizePackage", listPackage.size());
+        modelAndView.addObject("listPackage",listPackage);
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course", course);
         return modelAndView;
     }
 
-    @GetMapping("/lesson_view/{id}")
-    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
-        // Thao tác để lấy thông tin về lesson và up lên course
-        return "lesson_view";
-    }
+//    @GetMapping("/lesson_view/{id}")
+//    public String viewLesson(@PathVariable(name = "id") Integer id, Model model) {
+//        // Thao tác để lấy thông tin về lesson và up lên course
+//        return "learning/course";
+//    }
 
     // Trung Đức làm phần này, thêm controller cho course Modal
     @GetMapping("/addnew_course")
@@ -231,6 +297,58 @@ public class CourseController {
         model.addAttribute("currentStatusId", statusId);
         model.addAttribute("currentSearch", searchInput);
         return "manage_course_list";
+    }
+
+    // Trung Đức code, add vào db
+    @PostMapping("/course/package/{course_id}")
+    public String addCourse(@AuthenticationPrincipal MyUserDetail userDetail,
+                            @PathVariable("course_id") int course_id,
+                            @RequestParam(value = "package_id") int package_id) {
+
+        System.out.println("Course id o day la: "+course_id);
+        System.out.println("User detail hien tai la: " +userDetail.getUsername());
+        System.out.println("Package nhan duoc la: " +package_id);
+
+        // Get data
+        String userName = userDetail.getUsername();
+        User user = userService.getUserByUsername(userName);
+        //User user = userService.getUserById(2);
+        PricePackage pricePackage = pricePackageRepository.getById(package_id);
+        LocalDateTime startDate = LocalDateTime.now();
+        int dayDuration = pricePackage.getDuraion();
+        // Xử lí ngày start là datetime.now; ngày end là ngày start + duration
+        //Date endDate = (Date)startDate;
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        UserCourse userCourse = new UserCourse();
+        Course course = courseService.getCourseById(course_id);
+
+        if(package_id != 0){
+            c.setTime(currentDate);
+            userCourse.setStartDate(c.getTime());
+            userCourse.setRegistrationDate(c.getTime());
+            System.out.println("Time now: " +c.getTime().toString());
+            c.add(Calendar.DATE, dayDuration);
+            System.out.println("Time after: " +c.getTime().toString());
+            userCourse.setEndDate(c.getTime());
+
+        } else {
+            c.setTime(currentDate);
+            userCourse.setStartDate(c.getTime());
+            userCourse.setRegistrationDate(c.getTime());
+            c.add(Calendar.DATE, 90);
+            System.out.println("Time after: " +c.getTime().toString());
+            userCourse.setEndDate(c.getTime());
+        }
+
+        // Còn phài xử lí vấn đề đối với các course free
+        userCourse.setUser(user);
+        userCourse.setPricePackage(pricePackage);
+        userCourse.setRegistrationStatus(1);
+        userCourse.setCourse(course);
+
+        userCourseRepository.save(userCourse);
+        return "redirect:/myRegistration";
     }
 
 }

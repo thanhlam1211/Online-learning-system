@@ -1,5 +1,6 @@
 package com.example.onlinelearning.repository;
 
+import com.example.onlinelearning.entity.Course;
 import com.example.onlinelearning.entity.User;
 import com.example.onlinelearning.entity.UserCourse;
 import org.springframework.data.domain.Page;
@@ -17,4 +18,7 @@ public interface UserCourseRepository extends JpaRepository<UserCourse, Integer>
     public Page<UserCourse> findUserCourseByUser_id(Integer userId, Pageable pageable);
     public Page<UserCourse> findUserCourseByCourse_id(Integer courseId, Pageable pageable);
     public Page<UserCourse> findUserCourseByUser_idAndCourse_id(Integer userId, Integer courseId, Pageable pageable);
+
+    public UserCourse getUserCourseByCourseAndAndUser(Course course, User user);
+    public List<UserCourse> getUserCoursesByUser(User user);
 }

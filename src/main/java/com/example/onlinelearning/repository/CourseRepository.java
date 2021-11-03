@@ -1,6 +1,7 @@
 package com.example.onlinelearning.repository;
 
 import com.example.onlinelearning.entity.Course;
+import com.example.onlinelearning.entity.PricePackage;
 import com.example.onlinelearning.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,4 +33,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Transactional
     @Query(value = "insert into owner values (?1, ?2)", nativeQuery = true)
     public void addCourseOwner(Integer course_id, Integer user_id);
+
 }

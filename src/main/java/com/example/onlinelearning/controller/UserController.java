@@ -226,7 +226,7 @@ public class UserController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         existUser.setAvatar(fileName);
 
-        String uploadDir = "./avatar/" + existUser.getId();
+        String uploadDir = "./src/main/resources/static/avatar/" + existUser.getId();
 
         Path uploadPath = Paths.get(uploadDir);
 
