@@ -43,15 +43,15 @@
                                         <!--                                        controller to enroll the course-->
                                         <!--                                        change to a link-->
 
-                                        <th:block th:if="${courseStatus} == 0">
+                                        <th:block th:if="${courseStatus} != 1">
                                             <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal"
                                                     data-bs-target="#check">
                                                 Enroll course
                                             </button>
                                         </th:block>
 <!--                                        Add new button if already enrolled, will change go to direct course -->
-                                        <th:block th:if="${courseStatus} != 0">
-                                            <a type="button" class="btn btn-primary col-12" th:href="@{'/learning/course/' +${course.id}}"
+                                        <th:block th:if="${courseStatus} == 1">
+                                            <a type="button" class="btn btn-success col-12" th:href="@{'/learning/course/' +${course.id}}"
                                             >
                                                 Learning course
                                             </a>
