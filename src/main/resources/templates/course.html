@@ -72,6 +72,19 @@
                                 <br>
                                 <span class="cat" th:text="${course.shortDescription}"></span>
                             </div>
+<!--                      Đang có bug ở đây, nếu account nào chưa đăng kí môn nào thì sẽ không hiển thị ra button nào cả-->
+
+                            <div th:if="${listCourseRegister.isEmpty()}">
+                                <div class="d-flex justify-content-center">
+                                    <!--                                modify the button to see the detail_modal-->
+                                    <a class="btn btn-primary link-detail"
+                                       th:href="@{'/course_modal/'+${course.getId()}}">
+                                        Course Register
+                                    </a>
+                                    <!--                                Add button if already loggin => Go to the course-->
+
+                                </div>
+                            </div>
                             <div th:each="courseRegister : ${listCourseRegister}">
                                 <div th:if="${course.getId()} != ${courseRegister.getId()}">
                                     <div class="d-flex justify-content-center">

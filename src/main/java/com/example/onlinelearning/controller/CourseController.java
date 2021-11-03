@@ -59,26 +59,28 @@ public class CourseController {
 
     @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
-                             @RequestParam(value = "search ", defaultValue = "") String searchInput,
-                             @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
-                             @PathVariable(name = "pageNumber") int currentPage,
+                              @RequestParam(value = "search ", defaultValue = "") String searchInput,
+                              @RequestParam(value = "category", defaultValue = "-1") Integer categoryId,
+                              @PathVariable(name = "pageNumber") int currentPage,
                               @AuthenticationPrincipal MyUserDetail userDetail) {
         Page<Course> page = courseService.listAll(currentPage, searchInput, categoryId);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
 
-        //String userName = userDetail.getUsername();
-        //User user = userService.getUserByUsername(userName);
-        User user = userDetail.getUser();
-
-        List<UserCourse> courseByUser = userCourseRepository.getUserCoursesByUser(user);
         List<Course> listCourseRegister = new ArrayList<>();
-        for(int i = 0; i < courseByUser.size(); i++){
-            System.out.println("Code test 1: ");
-            System.out.println( "Nhung ID ma User do dang ki: "+courseByUser.get(i).getCourse().getId());
-            listCourseRegister.add(courseByUser.get(i).getCourse());
+        try {
+            User user = userDetail.getUser();
+            List<UserCourse> courseByUser = userCourseRepository.getUserCoursesByUser(user);
+            for (int i = 0; i < courseByUser.size(); i++) {
+                System.out.println("Code test 1: ");
+                System.out.println("Nhung ID ma User do dang ki: " + courseByUser.get(i).getCourse().getId());
+                listCourseRegister.add(courseByUser.get(i).getCourse());
+            }
+        } catch (Exception ex) {
+            System.out.println("Loi o day: " + ex.toString());
         }
+
 
         model.addAttribute("listCourseRegister", listCourseRegister);
         model.addAttribute("listCategory", categoryService.findAll());
@@ -99,31 +101,35 @@ public class CourseController {
         ModelAndView modelAndView = new ModelAndView("course_detail");
         Course course = courseService.getCourseById(id);
         List<Topic> topicList = topicService.findAllByCourse_IdAsc(id);
-        modelAndView.addObject("newCourses", courseService.listAll(1, "",-1));
+        modelAndView.addObject("newCourses", courseService.listAll(1, "", -1));
         modelAndView.addObject("listCategory", categoryService.findAll());
         List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
-        try{
-            for(int i = 0; i < listPackage.size(); i++){
+        try {
+            for (int i = 0; i < listPackage.size(); i++) {
                 System.out.println("i'm here");
                 System.out.println(listPackage.get(i).getName());
             }
-        } catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println(exception.toString());
         }
 
-        //String userName = userDetail.getUsername();
-        //User user = userService.getUserByUsername(userName);
-        User user = userDetail.getUser();
-        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
-        int courseStatus;
-        if(userCourse != null){
-            courseStatus = 1;
-        } else {
-            courseStatus = 0;
+        int courseStatus = 0;
+
+        try {
+            User user = userDetail.getUser();
+            UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course, user);
+            if (userCourse != null) {
+                courseStatus = 1;
+            } else {
+                courseStatus = 0;
+            }
+        } catch (Exception exception) {
+            System.out.println( "Loi o dong 119" + exception.toString());
         }
+
         modelAndView.addObject("courseStatus", courseStatus);
         modelAndView.addObject("sizePackage", listPackage.size());
-        modelAndView.addObject("listPackage",listPackage);
+        modelAndView.addObject("listPackage", listPackage);
         modelAndView.addObject("course", course);
         modelAndView.addObject("topicList", topicList);
         return modelAndView;
@@ -136,22 +142,25 @@ public class CourseController {
         ModelAndView modelAndView = new ModelAndView("course_detail_modal");
         Course course = courseService.getCourseById(id);
 
-        //String userName = userDetail.getUsername();
-        //User user = userService.getUserByUsername(userName);
-        User user = userDetail.getUser();
-        UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
-        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
 
-        int courseStatus;
-        if(userCourse != null){
-            courseStatus = 1;
-        } else {
-            courseStatus = 0;
+        int courseStatus = 0;
+        try{
+            User user = userDetail.getUser();
+            UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course, user);
+            if (userCourse != null) {
+                courseStatus = 1;
+            } else {
+                courseStatus = 0;
+            }
+        } catch (Exception ex){
+            System.out.println("Loi dong 156" + ex.toString());
         }
+
+        List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
 
         modelAndView.addObject("courseStatus", courseStatus);
         modelAndView.addObject("sizePackage", listPackage.size());
-        modelAndView.addObject("listPackage",listPackage);
+        modelAndView.addObject("listPackage", listPackage);
         modelAndView.addObject("listCategory", categoryService.findAll());
         modelAndView.addObject("course", course);
         return modelAndView;
@@ -205,7 +214,7 @@ public class CourseController {
     // getMapping cần có thêm id. Cái này chính là showEditForm, Có thể sửa thành
     // Trung Đức và Khánh làm phần này, bao gồm subject detail và dimension của course
     @GetMapping("/subject_detail/{id}")
-    public String viewSubjectDetail (@PathVariable("id") Integer id, Model model){
+    public String viewSubjectDetail(@PathVariable("id") Integer id, Model model) {
         List<Status> listStatus = statusRepository.findAll();
         List<Category> listCate = categoryService.findAll();
         List<Dimension> dimensionList = dimensionService.getDimensionByCourseID(id);
@@ -237,21 +246,21 @@ public class CourseController {
     }
 
     @GetMapping("/course/newDimension/{course_id}/{dim_id}")
-    public String addDimensionForCourse(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
+    public String addDimensionForCourse(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id) {
         dimensionService.addDimensionForCourse(course_id, dim_id);
         return "redirect:/subject_detail/" + course_id;
     }
 
     //delete dimension of course
     @GetMapping("/delete/{course_id}/{dim_id}")
-    public String deleteDimension(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id){
+    public String deleteDimension(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id) {
         dimensionService.deleteDimension(course_id, dim_id);
         return "redirect:/subject_detail/" + course_id;
     }
 
     // Lesson list default
     @GetMapping("/lesson_detail/{id}")
-    public String viewLessionList(@AuthenticationPrincipal MyUserDetail userDetail, Model model){
+    public String viewLessionList(@AuthenticationPrincipal MyUserDetail userDetail, Model model) {
         return "manage_lesson_list";
     }
 
@@ -310,9 +319,9 @@ public class CourseController {
                             @PathVariable("course_id") int course_id,
                             @RequestParam(value = "package_id") int package_id) {
 
-        System.out.println("Course id o day la: "+course_id);
-        System.out.println("User detail hien tai la: " +userDetail.getUsername());
-        System.out.println("Package nhan duoc la: " +package_id);
+        System.out.println("Course id o day la: " + course_id);
+        System.out.println("User detail hien tai la: " + userDetail.getUsername());
+        System.out.println("Package nhan duoc la: " + package_id);
 
         // Get data
         //String userName = userDetail.getUsername();
@@ -328,13 +337,13 @@ public class CourseController {
         UserCourse userCourse = new UserCourse();
         Course course = courseService.getCourseById(course_id);
 
-        if(package_id != 0){
+        if (package_id != 0) {
             c.setTime(currentDate);
             userCourse.setStartDate(c.getTime());
             userCourse.setRegistrationDate(c.getTime());
-            System.out.println("Time now: " +c.getTime().toString());
+            System.out.println("Time now: " + c.getTime().toString());
             c.add(Calendar.DATE, dayDuration);
-            System.out.println("Time after: " +c.getTime().toString());
+            System.out.println("Time after: " + c.getTime().toString());
             userCourse.setEndDate(c.getTime());
 
         } else {
@@ -342,7 +351,7 @@ public class CourseController {
             userCourse.setStartDate(c.getTime());
             userCourse.setRegistrationDate(c.getTime());
             c.add(Calendar.DATE, 90);
-            System.out.println("Time after: " +c.getTime().toString());
+            System.out.println("Time after: " + c.getTime().toString());
             userCourse.setEndDate(c.getTime());
         }
 
