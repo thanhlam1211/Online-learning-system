@@ -72,6 +72,7 @@
             </tr>
             </thead>
             <tbody>
+
             <tr th:each="course : ${courseList}" style="text-align: center">
                 <th scope="row" th:text="${course.id}"></th>
                 <td th:text="${course.title}"></td>
@@ -84,17 +85,23 @@
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{'/manage-courses/' + ${currentPage - 1} + ${query}}">Previous</a>
-                </li>
-                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link" th:href="@{'/manage-courses/' + ${i} + ${query}}">[[${i}]]</a></li>
-                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{'/manage-courses/' + ${currentPage + 1} + ${query}}">Next</a>
-                </li>
-            </ul>
-        </nav>
+        <th:block th:if="${courseList.size() == 0}">
+            <p class="text-center">No courses found...</p>
+        </th:block>
+        <th:block th:if="${courseList.size() > 0}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{'/manage-courses/' + ${currentPage - 1} + ${query}}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link" th:href="@{'/manage-courses/' + ${i} + ${query}}">[[${i}]]</a></li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{'/manage-courses/' + ${currentPage + 1} + ${query}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </th:block>
+
 
 
     </main>
