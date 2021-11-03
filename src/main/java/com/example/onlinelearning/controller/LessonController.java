@@ -157,6 +157,7 @@ public class LessonController {
         // Get currentCourse
         Course currentCourse = courseService.getCourseById(courseId);
 
+
         // Check if user has registered this course or not?
 //        boolean flag = false;
 //        for (UserCourse userCourse : currentUser.getUserCourseList()) {
