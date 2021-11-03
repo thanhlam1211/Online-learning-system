@@ -28,7 +28,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item" th:each="slide, iter : ${slideList}"
                          th:classappend="${iter.first} ? 'active' : ''">
-                        <img th:src="@{${slide.imageUrl}}" class="d-block w-100" alt="...">
+                        <img th:src="@{${slide.slideImagePath}}" class="d-block w-100" alt="...">
                         <div class="carousel-caption slide-text-box shadow-sm">
                             <h5 th:text="${slide.title}"></h5>
                             <p th:text="${slide.description}"></p>
@@ -103,7 +103,7 @@
                 <div class="row">
                     <div class="col-md-4" th:each="blog : ${featuredBlogList}">
                         <a class="small-blog-post" th:href="@{'/blog/' +  ${blog.id}}">
-                            <img th:src="@{${blog.thumbnail}}" class="d-block mb-1 rounded">
+                            <img th:src="@{${blog.blogImagePath}" class="d-block mb-1 rounded">
                             <i class="fas fa-user"></i> <span class="small-blog-post-author me-3"
                                                               th:text="${blog.user.fullName}"></span>
                             <!--                            <span class="small-blog-post-date"><i class="far fa-clock"></i> 9/30/2021</span>-->
