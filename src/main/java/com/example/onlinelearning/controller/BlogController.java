@@ -162,11 +162,13 @@ public class BlogController {
         return "Admin_blog";
     }
 
+    // VIEW ALL BLOGS
     @GetMapping("blog/all")
     public String viewAllBlogsHome(Model model) {
         return viewAllBlogs(model, 1);
     }
 
+    // VIEW ALL BLOGS PAGINATION
     @GetMapping("/blog/all/{pageNumber}")
     public String viewAllBlogs(Model model, @PathVariable(name = "pageNumber") int currentPage) {
         Page<Blog> page = blogService.listAll(currentPage);
@@ -188,11 +190,13 @@ public class BlogController {
         return "blogList";
     }
 
+    // VIEW BLOG(s) IN A CATEGORY
     @GetMapping("/blog/category/{categoryId}")
     public String viewAllBlogsInCategoryHome(Model model, @PathVariable(name = "categoryId") Integer categoryId) {
         return viewAllBlogsInCategory(model, categoryId, 1);
     }
 
+    // VIEW BLOG(s) IN A CATEGORY PAGINATION
     @GetMapping("/blog/category/{categoryId}/{pageNumber}")
     public String viewAllBlogsInCategory(Model model, @PathVariable(name = "categoryId") Integer categoryId, @PathVariable(name = "pageNumber") int currentPage) {
         Page<Blog> page = blogService.getAllBlogsInCategory(categoryId, currentPage);
@@ -215,12 +219,14 @@ public class BlogController {
         return "blogList";
     }
 
+    // VIEW BLOG(s) SEARCH RESULTS
     @GetMapping("/blog/search")
     public String viewAllBlogsSearchHome(Model model, @Param("query") String query) {
         return viewAllBlogsSearch(model, query, 1);
 
     }
 
+    // VIEW BLOG(s) SEARCH RESULTS PAGINATION
     @GetMapping("/blog/search/{pageNumber}")
     public String viewAllBlogsSearch(Model model, @Param("query") String query, @PathVariable(name = "pageNumber") int currentPage) {
         Page<Blog> page = blogService.getAllBlogsTitleContaining(query, currentPage);

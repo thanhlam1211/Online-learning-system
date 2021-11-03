@@ -15,6 +15,9 @@
         <div class="row">
             <div class="col-md-8">
                 <h1 th:text="${pageTitle}" class="mb-4"></h1>
+                <div th:if="${blogList.size() == 0}">
+                    <p>There're no blogs.</p>
+                </div>
                 <div class="blog-list-item rounded border shadow-sm p-4 mb-4" th:each="blog : ${blogList}">
                     <h2 th:text="${blog.title}" class="mb-2 fs-4"></h2>
                     <i class="fas fa-user text-muted"></i> <span class="small-blog-post-author me-3 text-muted" th:text="${blog.user.fullName}"></span> <i class="fas fa-tag text-muted"></i> <span class="small-blog-post-category text-muted" th:text="${blog.category.value}"></span>
@@ -29,17 +32,20 @@
                         </div>
                     </div>
                 </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                            <a class="page-link" th:href="@{${nextBaseURL} + ${currentPage - 1} + ${query}}">Previous</a>
-                        </li>
-                        <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link" th:href="@{${nextBaseURL} + ${i} + ${query}}">[[${i}]]</a></li>
-                        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
-                            <a class="page-link" th:href="@{${nextBaseURL} + ${currentPage + 1} + ${query}}">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                <th:block th:if="${blogList.size() > 0}">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${nextBaseURL} + ${currentPage - 1} + ${query}}">Previous</a>
+                            </li>
+                            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active' : ''"><a class="page-link" th:href="@{${nextBaseURL} + ${i} + ${query}}">[[${i}]]</a></li>
+                            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${nextBaseURL} + ${currentPage + 1} + ${query}}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </th:block>
+
             </div>
             <div class="col-md-4 pt-5">
                 <div class="blog-sidebar rounded shadow-sm border pt-4 pb-5 px-4 mt-2">
