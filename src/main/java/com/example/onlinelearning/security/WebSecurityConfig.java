@@ -96,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenRepository(persistentTokenRepository())
                 .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/403");
+                    .accessDeniedPage("/error");
     }
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

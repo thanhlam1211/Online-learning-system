@@ -36,7 +36,7 @@ public class UserCourseService {
     }
 
     public Page<UserCourse> listAll (int pageNumber, String keyword, Integer courseId) throws NullPointerException{
-        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
         User user = userService.getUserByEmail(keyword);
         Course course = courseService.getCourseByTitle(keyword);
         //filter keyword and course
