@@ -67,12 +67,14 @@
                             </li>
                             <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/registrationList}">Registration List</a></li>
                             <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin_home}">Admin homepage</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><form class="dropdown-item" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                                <a onclick="this.closest('form').submit();return false;">Log out</a>
+                            </form></li>
                         </ul>
                     </li>
                 </div>
-                <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-                    <button class="btn btn-primary" type="submit">Log out</button>
-                </form>
+
                 <div sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}" class="btn btn-outline-primary me-2">Login</a>
                     <a th:href="@{/process_register}" class="btn btn-primary">Sign up</a>
@@ -126,14 +128,10 @@
                             <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/registrationList}">Registration List</a></li>
 
                             <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin_home}">Admin homepage</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form th:action="@{/logout}" method="post">
-                                    <button class="btn btn-primary" type="submit">Log out</button>
-                                </form>
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><form class="dropdown-item" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                                <a onclick="this.closest('form').submit();return false;">Log out</a>
+                            </form></li>
                         </ul>
                     </li>
                 </div>
@@ -173,14 +171,10 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form th:action="@{/logout}" method="post">
-                                    <button class="btn btn-primary" type="submit">Log out</button>
-                                </form>
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><form class="dropdown-item" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                                <a onclick="this.closest('form').submit();return false;">Log out</a>
+                            </form></li>
                         </ul>
                     </li>
                 </div>
