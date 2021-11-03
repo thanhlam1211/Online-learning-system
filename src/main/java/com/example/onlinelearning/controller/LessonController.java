@@ -138,21 +138,34 @@ public class LessonController {
     // LESSON VIEW
     // Mode: Learning Default
     @GetMapping("/learning/course/{courseId}")
-    public String lessonViewDefault(Model model, @PathVariable(name = "courseId") Integer courseId) {
+    public String lessonViewDefault(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @PathVariable(name = "courseId") Integer courseId) {
         // Get first lessonId
         Integer firstLessonId = lessonService.getFirstLessonId(courseId);
-        return lessonView(model, courseId, firstLessonId);
+        return lessonView(userDetail, model, courseId, firstLessonId);
     }
 
     // LESSON VIEW
     // Mode: Learning
     @GetMapping("/learning/course/{courseId}/lesson/{lessonId}")
-    public String lessonView(Model model, @PathVariable(name = "courseId") Integer courseId, @PathVariable(name = "lessonId") Integer lessonId) {
+    public String lessonView(@AuthenticationPrincipal MyUserDetail userDetail, Model model, @PathVariable(name = "courseId") Integer courseId, @PathVariable(name = "lessonId") Integer lessonId) {
+        // Get current User
+        User currentUser = userDetail.getUser();
+
         // Get courseContent sorted by 'Order' field
         LinkedHashMap<Topic, List<Lesson>> courseContent = lessonService.getCourseContentByCourseId(courseId);
 
         // Get currentCourse
         Course currentCourse = courseService.getCourseById(courseId);
+
+        // Check if user has registered this course or not?
+//        boolean flag = false;
+//        for (UserCourse userCourse : currentUser.getUserCourseList()) {
+//            if (userCourse.getCourse().getId() == courseId) {
+//                flag = true;
+//                break;
+//            }
+//        }
+//        if (!flag) return "redirect:/";
 
         // Get currentLesson
         Lesson currentLesson = new Lesson();

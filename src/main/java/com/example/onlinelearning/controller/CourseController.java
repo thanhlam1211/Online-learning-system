@@ -9,6 +9,7 @@ import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -272,6 +273,7 @@ public class CourseController {
                                         @PathVariable(name = "pageNumber") int currentPage) {
         User currentUser = userDetail.getUser();
         Page<Course> page;
+
 
         // ROLE ADMIN
         // => Show all courses

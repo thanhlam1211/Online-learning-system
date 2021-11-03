@@ -97,6 +97,9 @@
     var div = document.getElementById('time-left');
 
     function CountDown(duration, display) {
+        if (duration < 0) {
+            duration = 0;
+        }
 
         var timer = duration, minutes, seconds;
 
