@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -30,10 +31,19 @@ public class HomeController {
 
     @GetMapping("/")
     public String viewHome(Model model) {
+        // Get all categories for navbar
         List<Category> categoryList = categoryService.getAll();
+
+        // Get all enabled slides to display on header
         List<Slide> slideList = slideService.getAllEnabledSlides();
-        HashMap<Category, List<Course>> allCategoryFeaturedCourse = courseService.getAllCategoryFeaturedCourse();
+
+        // Get all courseContent to display
+        LinkedHashMap<Category, List<Course>> allCategoryFeaturedCourse = courseService.getAllCategoryFeaturedCourse();
+
+        // Get featured blogs to display
         List<Blog> featuredBlogList = blogService.getFeaturedBlogs();
+
+        // Assign to model to use on thymeleaf later on
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("slideList", slideList);
         model.addAttribute("allCategoryFeaturedCourse", allCategoryFeaturedCourse);

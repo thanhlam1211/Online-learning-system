@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <title>G3Learn - Welcome to our Online Learning System</title>
+    <title>Edulan - Welcome to our Online Learning System</title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
 
@@ -46,15 +46,15 @@
                 <p>Choose from 155,000 online video courses with new additions published every month</p>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" th:each="item, iter : ${allCategoryFeaturedCourse}">
-                        <button class="nav-link" th:id="${item.key.value} + '-tab'" data-bs-toggle="tab"
-                                th:data-bs-target="'#' + ${item.key.value}" type="button" role="tab"
+                        <button class="nav-link" th:id="${item.key.id} + '-tab'" data-bs-toggle="tab"
+                                th:data-bs-target="'#tab' + ${item.key.id}" type="button" role="tab"
                                 aria-controls="home" aria-selected="true" th:classappend="${iter.first} ? 'active' : ''"
                                 th:text="${item.key.value}"></button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <th:block th:each="item, iter : ${allCategoryFeaturedCourse}">
-                        <div class="tab-pane fade" th:id="${item.key.value}" role="tabpanel"
+                        <div class="tab-pane fade" th:id="'tab' + ${item.key.id}" role="tabpanel"
                              aria-labelledby="profile-tab" th:classappend="${iter.first} ? 'show active' : ''">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-6 mt-4" th:each="course : ${item.value}">
@@ -85,16 +85,11 @@
                                                     <s class="small-course-box sale-price"
                                                        th:text="'$' + ${course.getLowestPricePackage().getListPrice()}"></s>
                                                 </th:block>
-
-
-
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </th:block>
-
-
                 </div>
             </div>
         </section>
@@ -104,7 +99,7 @@
         <section class="mt-5 py-4">
             <div class="container">
                 <h3>Hot Posts</h3>
-                <p>See our fking hot posts</p>
+                <p>See our latest hot posts</p>
                 <div class="row">
                     <div class="col-md-4" th:each="blog : ${featuredBlogList}">
                         <a class="small-blog-post" th:href="@{'/blog/' +  ${blog.id}}">

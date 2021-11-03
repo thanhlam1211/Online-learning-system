@@ -29,10 +29,25 @@ public class CourseService {
     }
 
     public LinkedHashMap<Category, List<Course>> getAllCategoryFeaturedCourse() {
+        // Initialize Linked HashMap
         LinkedHashMap<Category, List<Course>> allCategoryFeaturedCourse = new LinkedHashMap<>();
+
+        // Get all categories
+        int max_category_index = 8;  // Set maximum categories to get
         List<Category> categoryList = categoryService.getAll();
+        if (categoryList.size() < 8) max_category_index = categoryList.size();
+        categoryList = categoryList.subList(0, max_category_index);
+
+        // For each category, get all courses
         for (Category category : categoryList) {
-            allCategoryFeaturedCourse.put(category, getFeaturedCourseInCategory(category.getValue()));
+            // Get all course of this category
+            List<Course> currentCourseList = getFeaturedCourseInCategory(category.getValue());
+            int max_index = 8;  // Maximum courses to get
+            if (currentCourseList.size() < 8) {
+                max_index = currentCourseList.size();
+            }
+
+            allCategoryFeaturedCourse.put(category, currentCourseList.subList(0, max_index));
         }
         return allCategoryFeaturedCourse;
     }
