@@ -67,8 +67,9 @@ public class CourseController {
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
 
-        String userName = userDetail.getUsername();
-        User user = userService.getUserByUsername(userName);
+        //String userName = userDetail.getUsername();
+        //User user = userService.getUserByUsername(userName);
+        User user = userDetail.getUser();
 
         List<UserCourse> courseByUser = userCourseRepository.getUserCoursesByUser(user);
         List<Course> listCourseRegister = new ArrayList<>();
@@ -109,8 +110,9 @@ public class CourseController {
             System.out.println(exception.toString());
         }
 
-        String userName = userDetail.getUsername();
-        User user = userService.getUserByUsername(userName);
+        //String userName = userDetail.getUsername();
+        //User user = userService.getUserByUsername(userName);
+        User user = userDetail.getUser();
         UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
         int courseStatus;
         if(userCourse != null){
@@ -133,8 +135,9 @@ public class CourseController {
         ModelAndView modelAndView = new ModelAndView("course_detail_modal");
         Course course = courseService.getCourseById(id);
 
-        String userName = userDetail.getUsername();
-        User user = userService.getUserByUsername(userName);
+        //String userName = userDetail.getUsername();
+        //User user = userService.getUserByUsername(userName);
+        User user = userDetail.getUser();
         UserCourse userCourse = userCourseRepository.getUserCourseByCourseAndAndUser(course,user);
         List<PricePackage> listPackage = pricePackageRepository.findPricePackageByCourseList(course);
 
@@ -310,9 +313,9 @@ public class CourseController {
         System.out.println("Package nhan duoc la: " +package_id);
 
         // Get data
-        String userName = userDetail.getUsername();
-        User user = userService.getUserByUsername(userName);
-        //User user = userService.getUserById(2);
+        //String userName = userDetail.getUsername();
+        //User user = userService.getUserByUsername(userName);
+        User user = userDetail.getUser();
         PricePackage pricePackage = pricePackageRepository.getById(package_id);
         LocalDateTime startDate = LocalDateTime.now();
         int dayDuration = pricePackage.getDuraion();

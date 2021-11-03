@@ -73,7 +73,7 @@
                                 <span class="cat" th:text="${course.shortDescription}"></span>
                             </div>
                             <div th:each="courseRegister : ${listCourseRegister}">
-                                <th:block th:if="${course.getId()} != ${courseRegister.getId()}">
+                                <div th:if="${course.getId()} != ${courseRegister.getId()}">
                                     <div class="d-flex justify-content-center">
                                         <!--                                modify the button to see the detail_modal-->
                                         <a class="btn btn-primary link-detail"
@@ -82,29 +82,17 @@
                                         </a>
                                         <!--                                Add button if already loggin => Go to the course-->
 
-<!--                                        <a type="button" style="width: auto" class="btn btn-primary"-->
-<!--                                           th:href="@{'/learning/course/' +${course.getId()}}"-->
-<!--                                        >-->
-<!--                                            Learning course-->
-<!--                                        </a>-->
                                     </div>
-                                </th:block>
-                                <th:block th:if="${course.getId()} == ${courseRegister.getId()}">
+                                </div>
+                                <div th:if="${course.getId()} == ${courseRegister.getId()}">
                                     <div class="d-flex justify-content-center">
-                                        <!--                                modify the button to see the detail_modal-->
-<!--                                        <a class="btn btn-primary link-detail"-->
-<!--                                           th:href="@{'/course_modal/'+${course.getId()}}">-->
-<!--                                            Course Register-->
-<!--                                        </a>-->
-                                        <!--                                Add button if already loggin => Go to the course-->
-
                                         <a type="button" style="width: auto" class="btn btn-primary"
                                            th:href="@{'/learning/course/' +${course.getId()}}"
                                         >
                                             Learning course
                                         </a>
                                     </div>
-                                </th:block>
+                                </div>
                             </div>
                         </div>
                     </div>
