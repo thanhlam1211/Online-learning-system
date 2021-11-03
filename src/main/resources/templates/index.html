@@ -104,7 +104,11 @@
                 <div class="row">
                     <div class="col-md-4" th:each="blog : ${featuredBlogList}">
                         <a class="small-blog-post" th:href="@{'/blog/' +  ${blog.id}}">
+<<<<<<< HEAD
                             <img th:src="@{${blog.blogImagePath}}" class="d-block mb-1 rounded">
+=======
+                            <img th:src="@{${blog.blogImagePath}" class="d-block mb-1 rounded">
+>>>>>>> 1d95076bbd4d86ce4e534bc1699ea7f3e8300258
                             <i class="fas fa-user"></i> <span class="small-blog-post-author me-3"
                                                               th:text="${blog.user.fullName}"></span>
                             <!--                            <span class="small-blog-post-date"><i class="far fa-clock"></i> 9/30/2021</span>-->

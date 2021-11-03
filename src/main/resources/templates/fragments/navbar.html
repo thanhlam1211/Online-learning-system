@@ -172,6 +172,15 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
+                            <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myCourse}">My Course</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/manage-courses}">Manage Courses</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/questionList}">Question Bank</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+                                <a class="dropdown-item" th:href="@{/quiz}">Quiz List</a>
+                            </li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/registrationList}">Registration List</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin_home}">Admin homepage</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><form class="dropdown-item" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                                 <a onclick="this.closest('form').submit();return false;">Log out</a>

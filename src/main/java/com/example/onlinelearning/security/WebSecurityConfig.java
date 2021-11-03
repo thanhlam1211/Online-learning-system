@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin_user_list").hasRole("ADMIN")
                     .antMatchers("/slide").hasRole("ADMIN")
                     .antMatchers("/admin_blog").hasRole("ADMIN")
+                    .antMatchers("/course/package/**").authenticated()
 //                    .antMatchers("/edit/**").hasAnyRole("ADMIN","EDITOR")
 //                    .antMatchers("/new").authenticated()
                     .anyRequest().permitAll()
@@ -96,7 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenRepository(persistentTokenRepository())
                 .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/403");
+                    .accessDeniedPage("/error");
     }
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

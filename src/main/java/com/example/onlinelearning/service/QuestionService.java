@@ -24,7 +24,7 @@ public class QuestionService {
     private QuizRepository quizRepository;
 
     public Page<QuestionBank> listAll(int pageNumber, String keyword, Integer courseId, Integer statusId ) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 2);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 10);
         if(!keyword.equals("")) {
             return repository.findByContentContaining(keyword, pageable);
         }
