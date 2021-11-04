@@ -57,6 +57,8 @@ public class CourseController {
         return listByPages(model, searchInput, categoryId, 1, userDetail);
     }
 
+    // Adding try catch for fix conflict if using guest
+
     @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
                               @RequestParam(value = "search ", defaultValue = "") String searchInput,
