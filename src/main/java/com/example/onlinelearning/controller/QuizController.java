@@ -1,18 +1,15 @@
 package com.example.onlinelearning.controller;
-
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.*;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +45,7 @@ public class QuizController {
     private UserQuestionAnswerRepository userQuestionAnswerRepository;
 
     //Quiz
+    //thanhlthe150044 made this
     @GetMapping("/quiz")
     public String viewQuiz(Model model,
                            @RequestParam(value = "search", defaultValue = "") String searchInput,
@@ -55,7 +53,7 @@ public class QuizController {
                            @RequestParam(value = "level", defaultValue = "-1") Integer levelId) {
         return listQuizByPages(model, searchInput, typeId, levelId, 1);
     }
-
+    //thanhlthe150044 made this
     @GetMapping("/quiz/{pageNumber}")
     public String listQuizByPages(Model model,
                                   @RequestParam(value = "search ", defaultValue = "") String searchInput,
@@ -79,7 +77,7 @@ public class QuizController {
         model.addAttribute("listQuiz", listQuiz);
         return "quiz";
     }
-
+    //thanhlthe150044 made this
     @GetMapping("/quiz_detail/{id}")
     public ModelAndView viewQuizDetail(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("quiz_detail");
@@ -89,13 +87,13 @@ public class QuizController {
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }
-
+    //thanhlthe150044 made this
     @PostMapping("/updateQuiz")
     public String updateQuiz(@ModelAttribute("quiz") Quiz quiz, Model model) {
         quizService.saveQuiz(quiz);
         return viewQuiz(model, "", -1, -1);
     }
-
+    //thanhlthe150044 made this
     @GetMapping("/add_quiz/{id}")
     public ModelAndView addQuiz(@PathVariable(name = "id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("add_quiz");
@@ -107,7 +105,7 @@ public class QuizController {
         modelAndView.addObject("course", courseRepository.getById(id));
         return modelAndView;
     }
-
+    //thanhlthe150044 made this
     @PostMapping("/saveQuiz")
     public String saveQuiz(@ModelAttribute("quiz") Quiz quiz,
                            @ModelAttribute(name = "courseid") Integer id) {
@@ -115,7 +113,7 @@ public class QuizController {
         quizService.saveQuiz(quiz);
         return "redirect:/course_detail/" + id;
     }
-
+    //thanhlthe150044 made this
     @GetMapping("/attend_quiz/{quiz_id}")
     public ModelAndView attendQuiz(@PathVariable(name = "quiz_id") Integer quiz_id, @AuthenticationPrincipal MyUserDetail userDetail) {
         ModelAndView modelAndView = new ModelAndView("attend_quiz");
@@ -133,7 +131,7 @@ public class QuizController {
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
     }
-
+    //thanhlthe150044 made this
     @GetMapping("/quiz_review/{quiz_id}")
     public ModelAndView reviewQuiz(@PathVariable(name = "quiz_id") Integer quiz_id, @AuthenticationPrincipal MyUserDetail userDetail) {
         ModelAndView modelAndView = new ModelAndView("quiz_review");
