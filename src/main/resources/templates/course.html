@@ -18,11 +18,9 @@
         </a>
     </div>
     <!-- backtotop - end -->
-
     <!-- header start -->
     <div th:include="fragments/navbar:: home_navbar(${listCategory})"></div>
     <!-- header start -->
-
     <main>
         <!-- courses start -->
         <section class="courses_area pt-120 pb-120">
@@ -71,36 +69,32 @@
                                 <br>
                                 <span class="cat" th:text="${course.shortDescription}"></span>
                             </div>
-<!--                      Đang có bug ở đây, nếu account nào chưa đăng kí môn nào thì sẽ không hiển thị ra button nào cả-->
-
+                            <!--Đang có bug ở đây, nếu account nào chưa đăng kí môn nào thì sẽ không hiển thị ra button nào cả-->
                             <div th:if="${listCourseRegister.isEmpty()}">
                                 <div class="d-flex justify-content-center">
-                                    <!--                                modify the button to see the detail_modal-->
+                                    <!--modify the button to see the detail_modal-->
                                     <a class="btn btn-primary link-detail"
                                        th:href="@{'/course_modal/'+${course.getId()}}">
                                         Course Register
                                     </a>
-                                    <!--                                Add button if already loggin => Go to the course-->
-
+                                    <!--Add button if already loggin => Go to the course-->
                                 </div>
                             </div>
                             <div th:each="courseRegister : ${listCourseRegister}">
                                 <div th:if="${course.getId()} != ${courseRegister.getId()}">
                                     <div class="d-flex justify-content-center">
-                                        <!--                                modify the button to see the detail_modal-->
+                                        <!--modify the button to see the detail_modal-->
                                         <a class="btn btn-primary link-detail"
                                            th:href="@{'/course_modal/'+${course.getId()}}">
                                             Course Register
                                         </a>
-                                        <!--                                Add button if already loggin => Go to the course-->
-
+                                        <!--Add button if already loggin => Go to the course-->
                                     </div>
                                 </div>
                                 <div th:if="${course.getId()} == ${courseRegister.getId()}">
                                     <div class="d-flex justify-content-center">
                                         <a type="button" style="width: auto" class="btn btn-primary"
-                                           th:href="@{'/learning/course/' +${course.getId()}}"
-                                        >
+                                           th:href="@{'/learning/course/' +${course.getId()}}">
                                             Learning course
                                         </a>
                                     </div>
@@ -153,8 +147,6 @@
                                    class="page-link">...</a>
                             </th:block>
                         </th:block>
-
-
                         <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                             <a th:href="@{'/course/'+${currentPage + 1} + ${query}}"
                                class="page-link">Next</a>
@@ -168,24 +160,16 @@
             </div>
         </section>
         <!-- courses end -->
-
     </main>
-
-    <th:block th:replace="fragments/footer :: footer">
-
-    </th:block>
-
+    <th:block th:replace="fragments/footer :: footer"></th:block>
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
-
             </div>
         </div>
     </div>
-
 </div>
 <!-- body wrap end -->
-
 <!-- jquery include -->
 <th:block th:replace="fragments/js_lib :: js_lib">
 </th:block>
@@ -196,10 +180,8 @@
             $("#myModal").modal("show").find(".modal-content").load($(this).attr("href"));
         });
     });
-
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
-
 </html>
