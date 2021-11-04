@@ -1,5 +1,4 @@
 package com.example.onlinelearning.controller;
-
 import com.example.onlinelearning.entity.*;
 import com.example.onlinelearning.repository.DimensionRepository;
 import com.example.onlinelearning.repository.PricePackageRepository;
@@ -15,13 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+//thanhlthe150044 made this
 @Controller
 public class CourseController {
     @Autowired
@@ -49,6 +47,7 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
+    //thanhlthe150044 made this
     @GetMapping("/course")
     public String viewCourse(@AuthenticationPrincipal MyUserDetail userDetail,
                              Model model,
@@ -58,7 +57,7 @@ public class CourseController {
     }
 
     // Adding try catch for fix conflict if using guest
-
+    //thanhlthe150044 made this
     @GetMapping("/course/{pageNumber}")
     public String listByPages(Model model,
                               @RequestParam(value = "search ", defaultValue = "") String searchInput,
@@ -69,7 +68,6 @@ public class CourseController {
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Course> listCourse = page.getContent();
-
         List<Course> listCourseRegister = new ArrayList<>();
         try {
             User user = userDetail.getUser();
@@ -82,8 +80,6 @@ public class CourseController {
         } catch (Exception ex) {
             System.out.println("Loi o day: " + ex.toString());
         }
-
-
         model.addAttribute("listCourseRegister", listCourseRegister);
         model.addAttribute("listCategory", categoryService.findAll());
         model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId);
@@ -97,6 +93,7 @@ public class CourseController {
     }
 
     // Sẽ phải truyền đi các price package của nó để có thể lựa chọn
+    //thanhlthe150044 made this
     @GetMapping("/course_detail/{id}")
     public ModelAndView viewCourseDetail(@AuthenticationPrincipal MyUserDetail userDetail,
                                          @PathVariable(name = "id") Integer id) {
@@ -114,7 +111,6 @@ public class CourseController {
         } catch (Exception exception) {
             System.out.println(exception.toString());
         }
-
         int courseStatus = 0;
 
         try {
@@ -128,7 +124,6 @@ public class CourseController {
         } catch (Exception exception) {
             System.out.println( "Loi o dong 119" + exception.toString());
         }
-
         modelAndView.addObject("courseStatus", courseStatus);
         modelAndView.addObject("sizePackage", listPackage.size());
         modelAndView.addObject("listPackage", listPackage);
