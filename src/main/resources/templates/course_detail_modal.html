@@ -119,6 +119,7 @@
                     class="btn btn-primary">Submit
             </button>
         </th:block>
+        <!-- Adding button to change the status of modal, if registered, go to the learning, if don't, register-->
         <th:block th:if="${courseStatus} != 0">
             <a type="button" style="width: auto" class="btn btn-primary" th:href="@{'/learning/course/' +${course.id}}"
             >
