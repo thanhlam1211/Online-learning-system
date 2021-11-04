@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+//thanhlthe150044 made this
 /**
  * @author Admin
  */
@@ -25,7 +25,7 @@ public class PricePackageController {
 
     @Autowired
     private PricePackageRepository pricePackageRepository;
-
+//thanhlthe150044 made this
     //--------Price Package--------
     @GetMapping("/add_pricePackage/{currentCourseId}")
     public ModelAndView addPricePackage(@PathVariable(name = "currentCourseId") Integer currentCourseId) {
@@ -35,6 +35,7 @@ public class PricePackageController {
         modelAndView.addObject("currentCourseId", currentCourseId);
         return modelAndView;
     }
+    //thanhlthe150044 made this
     @GetMapping("/update_pricePackage/{packageId}/{currentCourseId}")
     public ModelAndView updatePricePackage(@PathVariable(name = "packageId") Integer packageId,
                                            @PathVariable(name = "currentCourseId") Integer currentCourseId) {
@@ -44,6 +45,7 @@ public class PricePackageController {
         modelAndView.addObject("pricePackage", pricePackage);
         return modelAndView;
     }
+    //thanhlthe150044 made this
     @PostMapping("/save_pricePackage")
     public String savePricePackage(@ModelAttribute("pricePackage") PricePackage pricePackage,
                                    @ModelAttribute(name = "currentCourseId") Integer currentCourseId){
@@ -51,12 +53,14 @@ public class PricePackageController {
         pricePackageService.savePricePackage(pricePackage);
         return "redirect:/subject_detail/"+currentCourseId.toString();
     }
+    //thanhlthe150044 made this
     @PostMapping("/updated_pricePackage")
     public String updatedPricePackage(@ModelAttribute("pricePackage") PricePackage pricePackage,
                                       @ModelAttribute(name = "currentCourseId") Integer currentCourseId){
         pricePackageService.saveUpdatePricePackage(pricePackage);
         return "redirect:/subject_detail/"+currentCourseId.toString();
     }
+    //thanhlthe150044 made this
     @GetMapping("/active_pricePackage/{packageId}/{currentCourseId}")
     public String activePricePackage(@PathVariable(name = "packageId") Integer packageId,
                                      @PathVariable(name = "currentCourseId") Integer currentCourseId) {
