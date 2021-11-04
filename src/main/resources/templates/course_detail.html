@@ -49,9 +49,10 @@
                                                 Enroll course
                                             </button>
                                         </th:block>
-<!--                                        Add new button if already enrolled, will change go to direct course -->
+                                        <!--                                        Add new button if already enrolled, will change go to direct course -->
                                         <th:block th:if="${courseStatus} == 1">
-                                            <a type="button" class="btn btn-success col-12" th:href="@{'/learning/course/' +${course.id}}"
+                                            <a type="button" class="btn btn-success col-12"
+                                               th:href="@{'/learning/course/' +${course.id}}"
                                             >
                                                 Learning course
                                             </a>
@@ -90,28 +91,31 @@
                                                             </div>
                                                         </div>
                                                         <th:block th:if="${sizePackage} != 0">
-                                                        <div style="text-align: center" class="row">
-                                                            <h5 class="mt-2">Price Package: </h5>
-                                                            <ul class="row">
-                                                                <li th:each="package :${listPackage}">
-                                                                    <input style="padding: 0;" class="form-check-input"
-                                                                           name="package_id"
-                                                                           type="radio" th:value="${package.id}"
-                                                                           required/>
-                                                                    <label style="margin-left: 10px">Name:</label>
-                                                                    <label style="width: 150px" th:for="${package.id}"
-                                                                           th:text="${package.name}"></label>
-                                                                    Sale Price:
-                                                                    <label style="width: 100px" th:for="${package.id}"
-                                                                           th:text="${package.salePrice}"></label>
-                                                                    Duration:
-                                                                    <label th:for="${package.id}"
-                                                                           th:text="${package.duraion}"></label>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                            <div style="text-align: center" class="row">
+                                                                <h5 class="mt-2">Price Package: </h5>
+                                                                <ul class="row">
+                                                                    <li th:each="package :${listPackage}">
+                                                                        <input style="padding: 0;"
+                                                                               class="form-check-input"
+                                                                               name="package_id"
+                                                                               type="radio" th:value="${package.id}"
+                                                                               required/>
+                                                                        <label style="margin-left: 10px">Name:</label>
+                                                                        <label style="width: 150px"
+                                                                               th:for="${package.id}"
+                                                                               th:text="${package.name}"></label>
+                                                                        Sale Price:
+                                                                        <label style="width: 100px"
+                                                                               th:for="${package.id}"
+                                                                               th:text="${package.salePrice}"></label>
+                                                                        Duration:
+                                                                        <label th:for="${package.id}"
+                                                                               th:text="${package.duraion}"></label>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </th:block>
-<!--                                                        Nếu khoá học đó miễn phí thì truyền về id là 0-->
+                                                        <!--                                                        Nếu khoá học đó miễn phí thì truyền về id là 0-->
                                                         <th:block th:if="${sizePackage} == 0">
                                                             <input type="hidden" name="package_id" th:value="0">
                                                         </th:block>
@@ -178,13 +182,11 @@
                                                     <div th:text="${topic.topicName}" class="acc-btn"></div>
                                                     <ul class="acc_body current">
                                                         <li th:each="lesson:${topic.getLessonList()}">
-                                                            <a
-                                                                    th:text="${lesson.lessonName}"
-                                                                    th:href="@{'/learning/course/'+${course.id}}"></a>
-                                                            <div class="acb_right">
+                                                            <a th:text="${lesson.lessonName}"
+                                                               th:href="@{'/learning/course/'+${course.id}}"></a>
+                                                            <div class="acb_right" style="float: right">
                                                                 <span class="title">
-                                                                    <a
-                                                                            th:href="@{'/learning/course/'+${course.id}}">View</a>
+                                                                    <a th:href="@{'/learning/course/'+${course.id}}">View</a>
                                                                 </span>
                                                             </div>
                                                         </li>
@@ -203,14 +205,14 @@
                                                     <ul class="acc_body current">
                                                         <li>
                                                             <span>Duration</span>
-                                                            <div class="acb_right">
+                                                            <div class="acb_right" style="float: right">
                                                                 <span th:text="${quiz.duration}+' min'"
                                                                       class="acc-time"></span>
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <span>Number of questions</span>
-                                                            <div class="acb_right">
+                                                            <div class="acb_right" style="float: right">
                                                                 <span th:text="${quiz.numberQuestion}+' quest'"
                                                                       class="acc-time"></span>
                                                             </div>
