@@ -26,18 +26,19 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailServiceImpl();
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(passwordEncoder());
         authProvider.setUserDetailsService(userDetailsService());
@@ -53,52 +54,54 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/oauth2/**").permitAll()
-                    .antMatchers("/user_home").authenticated()
-                    .antMatchers("/user_home/update").authenticated()
-                    .antMatchers("/user_home/update/changePass").authenticated()
+                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/user_home").authenticated()
+                .antMatchers("/user_home/update").authenticated()
+                .antMatchers("/user_home/update/changePass").authenticated()
 //                    .antMatchers("/learning/course/**").authenticated()
-                    .antMatchers("/admin_home").hasRole("ADMIN")
-                    .antMatchers("/edit/**").hasRole("ADMIN")
-                    .antMatchers("/details/**").hasRole("ADMIN")
-                    .antMatchers("/questionList").hasAnyRole("TEACHER", "ADMIN")
-                    .antMatchers("/registrationList").hasRole("ADMIN")
+                .antMatchers("/admin_home").hasRole("ADMIN")
+                .antMatchers("/edit/**").hasRole("ADMIN")
+                .antMatchers("/details/**").hasRole("ADMIN")
+                .antMatchers("/questionList").hasAnyRole("TEACHER", "ADMIN")
+                .antMatchers("/registrationList").hasRole("ADMIN")
 //                    .antMatchers("/manage-courses").hasAnyRole("TEACHER", "ADMIN")
 //                    .antMatchers("/manage-courses/**").hasAnyRole("TEACHER", "ADMIN")
-                    .antMatchers("/admin_user_list").hasRole("ADMIN")
-                    .antMatchers("/slide").hasRole("ADMIN")
-                    .antMatchers("/admin_blog").hasRole("ADMIN")
-                    .antMatchers("/course/package/**").authenticated()
+                .antMatchers("/admin_user_list").hasRole("ADMIN")
+                .antMatchers("/slide").hasRole("ADMIN")
+                .antMatchers("/admin_blog").hasRole("ADMIN")
+                .antMatchers("/attend_quiz/**").authenticated()
+                .antMatchers("/course/package/**").authenticated()
 //                    .antMatchers("/edit/**").hasAnyRole("ADMIN","EDITOR")
 //                    .antMatchers("/new").authenticated()
-                    .anyRequest().permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                    .permitAll()
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .loginProcessingUrl("/doLogin")
+                .permitAll()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .loginProcessingUrl("/doLogin")
 //                    .defaultSuccessUrl("/login_success")
 //                    .failureUrl("/login_error")
                 .and()
                 .oauth2Login()
-                    .loginPage("/login")
-                    .userInfoEndpoint().userService(oAuth2UserService)
-                    .and()
-                    .successHandler(oAuth2LoginSuccessHandler)
+                .loginPage("/login")
+                .userInfoEndpoint().userService(oAuth2UserService)
+                .and()
+                .successHandler(oAuth2LoginSuccessHandler)
                 .and()
                 .logout()
-                    .permitAll()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
+                .permitAll()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
                 .and()
                 .rememberMe()
-                    .tokenRepository(persistentTokenRepository())
+                .tokenRepository(persistentTokenRepository())
                 .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/error");
+                .accessDeniedPage("/error");
     }
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
