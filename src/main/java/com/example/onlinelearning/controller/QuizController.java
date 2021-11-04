@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+//thanhlthe150044 made this
 @Controller
 public class QuizController {
     @Autowired
@@ -45,6 +46,7 @@ public class QuizController {
     private UserQuizRepository userQuizRepository;
     @Autowired
     private UserQuestionAnswerRepository userQuestionAnswerRepository;
+
     //Quiz
     @GetMapping("/quiz")
     public String viewQuiz(Model model,
@@ -89,16 +91,10 @@ public class QuizController {
     }
 
     @PostMapping("/updateQuiz")
-    public String updateQuiz(@ModelAttribute("quiz") Quiz quiz, Model model){
+    public String updateQuiz(@ModelAttribute("quiz") Quiz quiz, Model model) {
         quizService.saveQuiz(quiz);
-        return viewQuiz(model,"",-1,-1);
+        return viewQuiz(model, "", -1, -1);
     }
-
-//    @PostMapping("/deleteQuiz/{id}")
-//    public String deleteQuiz(@PathVariable(name = "id") Integer id, Model model){
-//        quizService.deleteQuiz(id);
-//        return viewQuiz(model);
-//    }
 
     @GetMapping("/add_quiz/{id}")
     public ModelAndView addQuiz(@PathVariable(name = "id") Integer id) {
@@ -114,10 +110,10 @@ public class QuizController {
 
     @PostMapping("/saveQuiz")
     public String saveQuiz(@ModelAttribute("quiz") Quiz quiz,
-                                 @ModelAttribute(name = "courseid") Integer id){
+                           @ModelAttribute(name = "courseid") Integer id) {
         quiz.setCourse(courseRepository.getById(id));
         quizService.saveQuiz(quiz);
-        return "redirect:/course_detail/"+id;
+        return "redirect:/course_detail/" + id;
     }
 
     @GetMapping("/attend_quiz/{quiz_id}")
@@ -125,11 +121,11 @@ public class QuizController {
         ModelAndView modelAndView = new ModelAndView("attend_quiz");
         User user = userDetail.getUser();
         Quiz quiz = quizService.getQuizById(quiz_id);
-        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
+        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(), user.getId());
         float highestMark = 0;
-        for (UserQuiz uq: userQuiz) {
-            if(uq.getMark()>=highestMark){
-                highestMark=uq.getMark();
+        for (UserQuiz uq : userQuiz) {
+            if (uq.getMark() >= highestMark) {
+                highestMark = uq.getMark();
             }
         }
         modelAndView.addObject("userQuiz", userQuiz);
@@ -143,21 +139,20 @@ public class QuizController {
         ModelAndView modelAndView = new ModelAndView("quiz_review");
         User user = userDetail.getUser();
         Quiz quiz = quizService.getQuizById(quiz_id);
-        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(),user.getId());
+        List<UserQuiz> userQuiz = userQuizService.getUserQuizByQuiz_IdAndUser_Id(quiz.getId(), user.getId());
         float highestMark = 0;
         int lastId = 0;
         UserQuiz lastUserQuiz = new UserQuiz();
-        for (UserQuiz uq: userQuiz) {
-            if(uq.getMark()>=highestMark){
-                highestMark=uq.getMark();
+        for (UserQuiz uq : userQuiz) {
+            if (uq.getMark() >= highestMark) {
+                highestMark = uq.getMark();
             }
-            if(uq.getId()>=lastId){
-                lastUserQuiz=uq;
+            if (uq.getId() >= lastId) {
+                lastUserQuiz = uq;
             }
         }
         List<UserQuestionAnswer> userQuestionAnswer = userQuestionAnswerService.getUserQuestionAnswersByUserQuizOrderById(lastUserQuiz.getId());
         modelAndView.addObject("lastUserQuiz", lastUserQuiz);
-//        modelAndView.addObject("userQuestionAnswer", userQuestionAnswer);
         modelAndView.addObject("highestMark", highestMark);
         modelAndView.addObject("quiz", quiz);
         return modelAndView;
@@ -222,7 +217,6 @@ public class QuizController {
         UserQuiz currentUserQuiz = userQuizRepository.getById(Integer.parseInt(request.getParameter("currentUserQuizId")));
 
 
-
         // Get All Questions Of Quiz
         Set<QuestionBank> questionList = questionService.getAllQuestionsOfQuizId(quizId);
 
@@ -240,7 +234,8 @@ public class QuizController {
             // User answered
             if (request.getParameter("q" + question.getId()) != null) {
                 newUserQuestionAnswer.setUserChoice(request.getParameter("q" + question.getId()));
-                if (request.getParameter("q" + question.getId()).equalsIgnoreCase(question.getAnswer())) numOfRightAnswers += 1;
+                if (request.getParameter("q" + question.getId()).equalsIgnoreCase(question.getAnswer()))
+                    numOfRightAnswers += 1;
             }
             // User didn't answer
             else {
@@ -257,7 +252,7 @@ public class QuizController {
         currentUserQuiz.setMark(mark * 100);
         userQuizRepository.save(currentUserQuiz);
 
-        return "redirect:/quiz-handle/delete-cookie/"+quizId;
+        return "redirect:/quiz-handle/delete-cookie/" + quizId;
     }
 
     @GetMapping("/quiz-handle/delete-cookie/{quizId}")
@@ -268,6 +263,6 @@ public class QuizController {
         currentUserQuizCookie.setPath("/");
         response.addCookie(currentUserQuizCookie);
 
-        return "redirect:/quiz_review/"+quizId;
+        return "redirect:/quiz_review/" + quizId;
     }
 }
