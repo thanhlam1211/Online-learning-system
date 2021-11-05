@@ -5,6 +5,7 @@ import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.BlogService;
 import com.example.onlinelearning.service.CategoryService;
+import com.example.onlinelearning.service.SlideService;
 import com.example.onlinelearning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,11 +35,15 @@ public class BlogController {
     private StatusRepository statusRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SlideService slideService;
 
     @GetMapping("/newBlog")
     public String addBlog(Blog blog, Model model) {
+        List<Slide> slideList = slideService.getAllEnabledSlides();
         List<Category> categoryList = categoryService.getAll();
 
+        model.addAttribute("slideList", slideList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
 
