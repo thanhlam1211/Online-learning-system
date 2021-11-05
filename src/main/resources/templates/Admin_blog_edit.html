@@ -14,7 +14,8 @@
                 <div class="col-md-12">
                     <div class="card" style="margin-top: 33px">
                         <h5 class="card-header">EDIT BLOG</h5>
-                        <form th:action="@{/blog/update/{id}(id=${blog.id})}" th:object="${blog}" method="post" enctype="multipart/form-data">
+                        <form th:action="@{/blog/update/{id}(id=${blog.id})}" th:object="${blog}" method="post"
+                              enctype="multipart/form-data">
                             <div class="form-group">
                                 <div class="form-group col-md-2">
                                     <label for="id">ID</label>
@@ -34,7 +35,8 @@
 
                             <div class="form-group col-md-3">
                                 <label for="inputContent">Content</label>
-                                <textarea type="text" class="form-control" id="inputContent" th:field="*{content}"></textarea>
+                                <textarea type="text" class="form-control" id="inputContent"
+                                          th:field="*{content}"></textarea>
                             </div>
 
                             <div class="form-group col-md-3">
@@ -49,7 +51,8 @@
 
                             <div class="form-group col-md-3">
                                 <label for="inputAuthor">Author</label>
-                                <input type="text" class="form-control" id="inputAuthor" th:field="*{user.username}" readonly>
+                                <input type="text" class="form-control" id="inputAuthor" th:field="*{user.username}"
+                                       readonly>
                             </div>
 
                             <div class="form-group col-md-3">
@@ -71,19 +74,26 @@
                                 </th:block>
                             </div>
 
-                            <div th:if="${currUser.username} == ${blog.user.username}">
-                            <a th:href="@{/admin_blog}" style="margin-bottom: 10px;margin-left: 10px;"
-                               type="submit" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" style="margin-bottom: 10px" class="btn btn-primary">Save</button>
+                            <!--                            <div th:if="${currUser.username} == ${blog.user.username}">-->
+                            <!--                                <a th:href="@{/admin_blog}" style="margin-bottom: 10px;margin-left: 10px;"-->
+                            <!--                                   type="submit" class="btn btn-secondary">Cancel</a>-->
+                            <!--                                <button type="submit" style="margin-bottom: 10px" class="btn btn-primary">Save</button>-->
+                            <!--                            </div>-->
+
+                            <div>
+                                <a th:href="@{/admin_blog}" style="margin-bottom: 10px;margin-left: 10px;"
+                                   type="submit" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" style="margin-bottom: 10px" class="btn btn-primary">Save</button>
                             </div>
 
-                            <div th:if="${currUser.username} != ${blog.user.username}">
-                                <div>
-                                    <i class="fas fa-exclamation-triangle"></i>You don't have permission to edit this blog
-                                </div>
-                                <a th:href="@{/admin_blog}" style="margin-bottom: 10px;margin-left: 10px;"
-                                   type="submit" class="btn btn-secondary">Back to blog list</a>
-                            </div>
+                            <!--                            <div th:if="${currUser.username} != ${blog.user.username}">-->
+                            <!--                                <div>-->
+                            <!--                                    <i class="fas fa-exclamation-triangle"></i>You don't have permission to edit this-->
+                            <!--                                    blog-->
+                            <!--                                </div>-->
+                            <!--                                <a th:href="@{/admin_blog}" style="margin-bottom: 10px;margin-left: 10px;"-->
+                            <!--                                   type="submit" class="btn btn-secondary">Back to blog list</a>-->
+                            <!--                            </div>-->
 
                         </form>
                     </div>

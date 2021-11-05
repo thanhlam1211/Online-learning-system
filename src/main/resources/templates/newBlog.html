@@ -42,7 +42,7 @@
 
         <hr>
         <h1>Post blog form</h1>
-        <form th:action="@{/addBlog}" th:object="${blog}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/addBlogNorm}" th:object="${blog}" method="post" enctype="multipart/form-data">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="form-group">
-                            <span for="inputName">Feature:</span>
+                            <span for="inputName">Featured:</span>
                             <input type="text" th:field="*{featured}" class="form-control" id="inputFeature">
                         </div>
 
@@ -99,11 +99,11 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <span for="addType" class="col-form-label">Status:</span>
                             <select th:field="*{status}" class="form-select" name="status"
                                     style="height: auto;">
-                                <th:block th:each="status : ${statusList}">
+                                <th:block>
                                     <option th:text="${status.value}" th:value="${status.id}"
                                             name="status_id"></option>
                                 </th:block>

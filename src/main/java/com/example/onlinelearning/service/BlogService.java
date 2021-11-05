@@ -52,6 +52,11 @@ public class BlogService {
         return blogRepository.findAllByCategory_Id(categoryId, pageable);
     }
 
+    public Page<Blog> getAllBlogsInCategoryAndActive(Integer cateId, int currentPage) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 5);
+        return blogRepository.findAllByCategory_IdAndActive(cateId, pageable);
+    }
+
     public Page<Blog> getAllBlogsTitleContaining(String title, int currentPage) {
         Pageable pageable = PageRequest.of(currentPage - 1, 5);
         return blogRepository.findAllByTitleContaining(title, pageable);

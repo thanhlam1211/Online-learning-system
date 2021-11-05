@@ -1,6 +1,7 @@
 package com.example.onlinelearning.controller;
 
 import com.example.onlinelearning.entity.*;
+import com.example.onlinelearning.repository.RoleRepository;
 import com.example.onlinelearning.repository.StatusRepository;
 import com.example.onlinelearning.security.MyUserDetail;
 import com.example.onlinelearning.service.BlogService;
@@ -37,21 +38,48 @@ public class BlogController {
     private UserService userService;
     @Autowired
     private SlideService slideService;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/newBlog")
     public String newBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Blog blog, Model model) {
         User user = myUserDetail.getUser();
-        List<Status> statusList = statusRepository.findAll();
+        Status status = statusRepository.findByValue("INACTIVE");
         List<Slide> slideList = slideService.getAllEnabledSlides();
         List<Category> categoryList = categoryService.getAll();
 
         model.addAttribute("currUser", user);
-        model.addAttribute("statusList", statusList);
+        model.addAttribute("status", status);
         model.addAttribute("slideList", slideList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
 
         return "newBlog";
+    }
+
+    @PostMapping("/addBlogNorm")
+    public String saveBlogNorm(@ModelAttribute(name = "blog") Blog blog,
+                           @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        blog.setThumbnail(fileName);
+        Blog savedBlog = blogService.save(blog);
+
+        String uploadDir = "./src/main/resources/static/blog-images/" + savedBlog.getId();
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath , StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName);
+        }
+
+        return "redirect:/blog/category/" + blog.getCategory().getId();
     }
 
     @GetMapping("/admin_blog")
@@ -60,14 +88,14 @@ public class BlogController {
         List<Blog> blogList = blogService.findAll();
         List<Status> statusList = statusRepository.findAll();
         List<Category> categoryList = categoryService.getAll();
-        List<User> users = userService.findByAdmin();
+        List<User> users = userService.getAllUsers();
         Blog blog = new Blog();
 
         model.addAttribute("currUser", user);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
         model.addAttribute("statusList", statusList);
-        model.addAttribute("adminList", users);
+        model.addAttribute("users", users);
 
         if (keyword != null) {
             model.addAttribute("blogList", blogService.findByKeyword(keyword));
@@ -116,11 +144,13 @@ public class BlogController {
     public String viewBlogEditForm(@PathVariable("id") Integer id,
                                    @AuthenticationPrincipal MyUserDetail myUserDetail,
                                    Model model) {
+        Role role = roleRepository.findByName("STUDENT");
         User user = myUserDetail.getUser();
         Blog blog = blogService.getBlogById(id);
         List<Category> categoryList = categoryService.getAll();
         List<Status> statusList = statusRepository.findAll();
 
+        model.addAttribute("role", role);
         model.addAttribute("currUser", user);
         model.addAttribute("statusList", statusList);
         model.addAttribute("blog", blog);
@@ -164,14 +194,14 @@ public class BlogController {
         User user = myUserDetail.getUser();
         List<Status> statusList = statusRepository.findAll();
         List<Category> categoryList = categoryService.getAll();
-        List<User> users = userService.findByAdmin();
+        List<User> users = userService.getAllUsers();
         Blog blog = new Blog();
 
         model.addAttribute("currUser", user);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
         model.addAttribute("statusList", statusList);
-        model.addAttribute("adminList", users);
+        model.addAttribute("users", users);
 
         if (keyword != null) {
             model.addAttribute("blogList", blogService.findByKeyword(keyword));
@@ -218,10 +248,11 @@ public class BlogController {
     // VIEW BLOG(s) IN A CATEGORY PAGINATION
     @GetMapping("/blog/category/{categoryId}/{pageNumber}")
     public String viewAllBlogsInCategory(Model model, @PathVariable(name = "categoryId") Integer categoryId, @PathVariable(name = "pageNumber") int currentPage) {
-        Page<Blog> page = blogService.getAllBlogsInCategory(categoryId, currentPage);
-        long totalItems = page.getTotalElements();
-        int totalPages = page.getTotalPages();
-        List<Blog> blogList = page.getContent();
+//        Page<Blog> page = blogService.getAllBlogsInCategory(categoryId, currentPage);
+        Page<Blog> page1 = blogService.getAllBlogsInCategoryAndActive(categoryId, currentPage);
+        long totalItems = page1.getTotalElements();
+        int totalPages = page1.getTotalPages();
+        List<Blog> blogList = page1.getContent();
 
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
