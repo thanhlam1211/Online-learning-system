@@ -4,22 +4,13 @@
     <meta charset="UTF-8">
     <title>Update account</title>
 
-    <!-- css include -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/fontawesome.css}">
-    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
-    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
-    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
-    <link rel="stylesheet" th:href="@{/css/metismenu.css}">
-    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
-    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
-    <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <meta charset="utf-8">
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
 <body>
-
+<div>
+    <div th:include="fragments/navbar:: home_navbar(${categoryList})"></div>
+</div>
 <div class="container rounded bg-white mt-5 mb-5 col-lg-6">
 
     <div class="row">
@@ -101,5 +92,10 @@
         window.history.back();
     }
 </script>
+<th:block th:replace="fragments/footer :: footer">
+
+</th:block>
 </body>
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
 </html>

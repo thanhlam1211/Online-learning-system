@@ -225,6 +225,7 @@ public class UserController {
         User existUser = userDetail.getUser();
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         existUser.setAvatar(fileName);
+        List<Category> categoryList = categoryService.getAll();
 
         String uploadDir = "./src/main/resources/static/avatar/" + existUser.getId();
 
@@ -247,6 +248,7 @@ public class UserController {
 
         service.updateUser(existUser);
         model.addAttribute("user", existUser);
+        model.addAttribute("categoryList", categoryList);
         return "redirect:/user_home";
     }
 
@@ -272,7 +274,9 @@ public class UserController {
                 service.updatePassword(user, newPassword);
                 model.addAttribute("user", user);
                 model.addAttribute("msg","Change password successfully");
-                return "user_home";
+                List<Category> categoryList = categoryService.getAll();
+                model.addAttribute("categoryList", categoryList);
+            return "user_home";
         } else {
             model.addAttribute("msg","Incorrect password");
             return "change_password_form";
