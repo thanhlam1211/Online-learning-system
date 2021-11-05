@@ -19,6 +19,9 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 
     public Page<Blog> findAllByCategory_Id(Integer id, Pageable pageable);
 
+    @Query(value = "select * from blog b where b.category_id = ?1 and b.status_id = 1", nativeQuery = true)
+    public Page<Blog> findAllByCategory_IdAndActive(Integer cateId, Pageable pageable);
+
     public Page<Blog> findAllByTitleContaining(String title, Pageable pageable);
 
     @Query(value = "select * from blog b where b.title like %:keyword%", nativeQuery = true)

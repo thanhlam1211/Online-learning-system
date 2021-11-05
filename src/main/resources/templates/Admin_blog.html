@@ -38,9 +38,9 @@
                     </button>
                     <ul class="dropdown-menu">
                         <span class="chosen"></span>
-                        <th:block th:each="admin : ${adminList}">
+                        <th:block th:each="user : ${users}">
                             <li>
-                                <a th:href="@{'/blog/filter/' + ${admin.id}}" th:text="${admin.username}"
+                                <a th:href="@{'/blog/filter/' + ${user.id}}" th:text="${user.username}"
                                    class="dropdown-item"></a>
                             </li>
                         </th:block>
