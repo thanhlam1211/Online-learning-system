@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Post blog</title>
+    <meta charset="utf-8">
+    <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
+</head>
+
+<body>
+<!-- body wrap start -->
+<div class="body_wrap bg-white">
+    <div th:include="fragments/navbar:: home_navbar(${categoryList})"></div>
+
+    <main class="container">
+
+        <h1>This is add blog page</h1>
+
+    </main>
+
+    <th:block th:replace="fragments/footer :: footer">
+
+    </th:block>
+
+</div>
+<!-- body wrap end -->
+
+<th:block th:replace="fragments/js_lib :: js_lib">
+</th:block>
+</body>
+
+</html>

@@ -35,6 +35,16 @@ public class BlogController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/newBlog")
+    public String addBlog(Blog blog, Model model) {
+        List<Category> categoryList = categoryService.getAll();
+
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("blog", blog);
+
+        return "newBlog";
+    }
+
     @GetMapping("/admin_blog")
     public String viewAdminBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model, String keyword) {
         User user = myUserDetail.getUser();
