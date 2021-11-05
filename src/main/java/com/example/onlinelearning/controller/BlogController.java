@@ -39,10 +39,14 @@ public class BlogController {
     private SlideService slideService;
 
     @GetMapping("/newBlog")
-    public String addBlog(Blog blog, Model model) {
+    public String newBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Blog blog, Model model) {
+        User user = myUserDetail.getUser();
+        List<Status> statusList = statusRepository.findAll();
         List<Slide> slideList = slideService.getAllEnabledSlides();
         List<Category> categoryList = categoryService.getAll();
 
+        model.addAttribute("currUser", user);
+        model.addAttribute("statusList", statusList);
         model.addAttribute("slideList", slideList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("blog", blog);
