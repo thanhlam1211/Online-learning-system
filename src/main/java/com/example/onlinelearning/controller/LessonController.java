@@ -159,14 +159,14 @@ public class LessonController {
 
 
         // Check if user has registered this course or not?
-//        boolean flag = false;
-//        for (UserCourse userCourse : currentUser.getUserCourseList()) {
-//            if (userCourse.getCourse().getId() == courseId) {
-//                flag = true;
-//                break;
-//            }
-//        }
-//        if (!flag) return "redirect:/";
+        boolean flag = false;
+        for (UserCourse userCourse : currentUser.getUserCourseList()) {
+            if (userCourse.getCourse().getId() == courseId) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) return "redirect:/";
 
         // Get currentLesson
         Lesson currentLesson = new Lesson();
