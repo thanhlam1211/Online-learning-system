@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <title>G3Learn - Welcome to our Online Learning System</title>
@@ -54,6 +55,9 @@
                         <a class="list-group-item" href="#" th:each="category, iter : ${categoryList}" th:text="${category.value}" th:classappend="${categoryId == category.id} ? 'active' : ''" th:href="@{'/blog/category/' + ${category.id}}"></a>
                     </ul>
                 </div>
+                <form th:action="@{/newBlog}">
+                    <button class="btn btn-success mt-10">Write new blog</button>
+                </form>
             </div>
         </div>
 

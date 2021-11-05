@@ -61,7 +61,6 @@
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
                             <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
                             <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myCourse}">My Course</a></li>
-                            <li sec:authorize="hasAnyRole('STUDENT', 'TEACHER')"><a class="dropdown-item" th:href="@{/newBlog}">Post a blog</a></li>
                             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/manage-courses}">Manage Courses</a></li>
                             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/questionList}">Question Bank</a></li>
                             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
@@ -123,7 +122,6 @@
                             <li><a class="dropdown-item" th:href="@{/user_home}">Profile</a></li>
                             <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myRegistration}">My Registration</a></li>
                             <li sec:authorize="hasRole('STUDENT')"><a class="dropdown-item" th:href="@{/myCourse}">My Course</a></li>
-                            <li sec:authorize="hasAnyRole('STUDENT', 'TEACHER')"><a class="dropdown-item" th:href="@{/newBlog}">Post a blog</a></li>
                             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="dropdown-item" th:href="@{/questionList}">Question Bank</a></li>
                             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
                                 <a class="dropdown-item" th:href="@{/quiz}">Quiz List</a>
