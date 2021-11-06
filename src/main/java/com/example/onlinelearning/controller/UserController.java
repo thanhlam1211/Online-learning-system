@@ -153,6 +153,16 @@ public class UserController {
             surveyMap.put(barCharts.get(i).getTagName(), barCharts.get(i).getCountCourse());
         }
 
+        // List<User> teacherAll = service.getUserByRole(2,1);
+        // List<Course> allCourse = courseService.findAll();
+
+        // model.addAttribute("user", user);
+        // // Get list of course and count
+        // List<CountCourse> pieChart = dashBoardRepository.countCourseByCategory();
+        // List<BarChart> barCharts = barChartRepository.countCourseByTag();
+
+        // Map<String, Integer> surveyMap = new LinkedHashMap<>();
+
         // Pass attribute to view
         model.addAttribute("max", max);
         model.addAttribute("surveyMap", surveyMap);
