@@ -202,6 +202,12 @@ public class BlogController {
         model.addAttribute("blog", blog);
         model.addAttribute("statusList", statusList);
         model.addAttribute("users", users);
+        
+        // model.addAttribute("currUser", user);
+        // model.addAttribute("categoryList", categoryList);
+        // model.addAttribute("blog", blog);
+        // model.addAttribute("statusList", statusList);
+        // model.addAttribute("users", users);
 
         if (keyword != null) {
             model.addAttribute("blogList", blogService.findByKeyword(keyword));
