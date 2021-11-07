@@ -19,6 +19,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("/login");
     }
 
+//    Config for save image path
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         Path blogUploadDir = Paths.get("./src/main/resources/static/blog-images");
