@@ -91,6 +91,7 @@ public class User implements Serializable {
         this.roleList.add(role);
     }
 
+//    Display image by path for avavtar
     @Transient
     public String getAvaterPath() {
         if (avatar == null || id == null) return null;
