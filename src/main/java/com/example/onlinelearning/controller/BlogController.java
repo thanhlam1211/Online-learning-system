@@ -41,6 +41,7 @@ public class BlogController {
     @Autowired
     private RoleRepository roleRepository;
 
+//    Add new blog for student, teacher (khanh)
     @GetMapping("/newBlog")
     public String newBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Blog blog, Model model) {
         User user = myUserDetail.getUser();
@@ -57,6 +58,7 @@ public class BlogController {
         return "newBlog";
     }
 
+//    Save new blog for student, teacher with default status is inactive (khanh)
     @PostMapping("/addBlogNorm")
     public String saveBlogNorm(@ModelAttribute(name = "blog") Blog blog,
                            @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
@@ -82,6 +84,7 @@ public class BlogController {
         return "redirect:/blog/category/" + blog.getCategory().getId();
     }
 
+//    View all blog for admin (khanh)
     @GetMapping("/admin_blog")
     public String viewAdminBlog(@AuthenticationPrincipal MyUserDetail myUserDetail, Model model, String keyword) {
         User user = myUserDetail.getUser();
@@ -106,6 +109,7 @@ public class BlogController {
         return "Admin_blog";
     }
 
+//    Save new blog for admin (khanh)
     @PostMapping("/addBlog")
     public String saveBlog(@ModelAttribute(name = "blog") Blog blog,
                             @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
@@ -131,6 +135,7 @@ public class BlogController {
         return "redirect:/admin_blog";
     }
 
+//    View blog detail for admin (khanh)
     @GetMapping("/blog/{id}")
     public String viewBlogDetail(@PathVariable(name = "id") Integer id, Model model) {
         Blog blog = blogService.getBlogById(id);
@@ -140,6 +145,7 @@ public class BlogController {
         return "blogDetail";
     }
 
+//    View blog edit form for admin (khanh)
     @GetMapping("/blog/details/{id}")
     public String viewBlogEditForm(@PathVariable("id") Integer id,
                                    @AuthenticationPrincipal MyUserDetail myUserDetail,
@@ -158,8 +164,9 @@ public class BlogController {
         return "Admin_blog_edit";
     }
 
+//    Save edited blog for admin (khanh)
     @PostMapping("/blog/update/{id}")
-    public String updateSlide(@PathVariable("id") Integer id,
+    public String updateBlog(@PathVariable("id") Integer id,
                               @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
         Blog blog = blogService.getBlogById(id);
 
@@ -185,6 +192,7 @@ public class BlogController {
         return "redirect:/admin_blog";
     }
 
+//    Return blogs which filtered by user for admin (khanh)
     @GetMapping("/blog/filter/{id}")
     public String blogFilter(@PathVariable("id") int id,
                              @AuthenticationPrincipal MyUserDetail myUserDetail,
