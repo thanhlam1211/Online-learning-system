@@ -175,7 +175,7 @@ public class UserController {
         return "Admin_Homepage";
     }
 
-    //Admin Site
+    //Admin Site (khanh)
     @GetMapping("/admin_user_list")
     public String viewUserList(Model model, String keyword) {
         if(keyword != null) {
@@ -187,7 +187,7 @@ public class UserController {
         return "Admin_user_list";
     }
 
-    //Save change for user (admin)
+    //Save change for user (admin) (khanh)
     @PostMapping("/addUser")
     public String addUser(User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         service.saveUserWithDefaultRole(user);
@@ -206,7 +206,7 @@ public class UserController {
     //     return "redirect:/admin_home";
     // }
 
-    //Get user in4 for edit page (admin)
+    //Get user in4 for edit page (admin) (khanh)
     @GetMapping("/edit/{id}")
     public String viewUserEdit(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         User user = service.getUserById(id);
@@ -219,7 +219,7 @@ public class UserController {
         return "Admin_user_edit";
     }
 
-    //User detail (admin)
+    //User detail (admin) (khanh)
     @GetMapping("/details/{id}")
     public String showDetails(@PathVariable("id") Integer id, Model model) {
         User user = service.getUserById(id);
@@ -227,7 +227,7 @@ public class UserController {
         return "Admin_user_details";
     }
 
-    //User update (admin)
+    //User update (admin) (khanh)
     @PostMapping("/update/{id}")
     public String saveUpdate(@PathVariable("id") int id, User user) {
         service.updateUser(id, user);
