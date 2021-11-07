@@ -35,6 +35,7 @@ public class Slide implements Serializable {
     @JoinColumn(name = "status_id")
     private Status status;
 
+//    Display image by path for slide
     @Transient
     public String getSlideImagePath() {
         if (imageUrl == null || id == null) return null;
