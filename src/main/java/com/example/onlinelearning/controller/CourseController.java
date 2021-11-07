@@ -235,20 +235,21 @@ public class CourseController {
         return "test_layout";
     }
 
-    //add a new dimension
+    //Add a new dimension in DB (khanh)
     @PostMapping("/course/addDimension")
     public String addDimension(Dimension dimension) {
         dimensionRepository.save(dimension);
         return "redirect:/manage-courses";
     }
 
+//    Add dimension for course get by id (khanh)
     @GetMapping("/course/newDimension/{course_id}/{dim_id}")
     public String addDimensionForCourse(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id) {
         dimensionService.addDimensionForCourse(course_id, dim_id);
         return "redirect:/subject_detail/" + course_id;
     }
 
-    //delete dimension of course
+    //delete dimension for course get by id (khanh)
     @GetMapping("/delete/{course_id}/{dim_id}")
     public String deleteDimension(@PathVariable("course_id") int course_id, @PathVariable("dim_id") int dim_id) {
         dimensionService.deleteDimension(course_id, dim_id);
