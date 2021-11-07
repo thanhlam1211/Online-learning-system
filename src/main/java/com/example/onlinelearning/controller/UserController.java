@@ -197,6 +197,15 @@ public class UserController {
         return "redirect:/admin_home";
     }
 
+    // @PostMapping("/addUser")
+    // public String addUser(User user, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+    //     service.saveUserWithDefaultRole(user);
+
+    //     String siteUrl = Utility.getSiteURL(request);
+    //     service.sendVerificationEmail(user, siteUrl);
+    //     return "redirect:/admin_home";
+    // }
+
     //Get user in4 for edit page (admin)
     @GetMapping("/edit/{id}")
     public String viewUserEdit(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
