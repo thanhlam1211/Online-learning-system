@@ -31,6 +31,7 @@ public class SlideController {
     @Autowired
     private SlideRepository slideRepository;
 
+//    View slide list for admin (khanh)
     @GetMapping("/slide")
     public String slideList(Model model, String keyword) {
         List<Status> statusList = statusRepository.findAll();
@@ -46,6 +47,7 @@ public class SlideController {
         return "slide";
     }
 
+//    Save new slide for admin (khanh)
     @PostMapping("/addSlide")
     public String saveSlide(@ModelAttribute(name = "slide") Slide slide,
                             @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
@@ -71,6 +73,7 @@ public class SlideController {
         return "redirect:/slide";
     }
 
+//    View slide detail and edit for admin (khanh)
     @GetMapping("/slide/details/{id}")
     public String viewEditForm(@PathVariable("id") Integer id, Model model) {
         Slide slide = slideService.getSlideByID(id);
@@ -81,6 +84,7 @@ public class SlideController {
         return "Admin_slide_edit";
     }
 
+//    Save updated slide for admin (khanh)
     @PostMapping("/slide/update/{id}")
     public String updateSlide(@PathVariable("id") Integer id,
                               @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
