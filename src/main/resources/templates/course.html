@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <title>Edulan - Education HTML Template</title>
+    <title>Courses - Edulan</title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
 <!--thanhlthe150044 made this-->
@@ -53,18 +53,22 @@
                 <div class="row grid mt-3">
                     <div th:each="course : ${listCourse}"
                          class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat4 cat5">
-                        <div class="course_single mb-30">
+                        <div class="course_single mb-30 shadow-sm">
                             <div class="c_thumb">
                                 <img th:src="${course.thumbnail}" alt="">
                             </div>
                             <div class="course_content">
                                 <div class="c_head">
-                                    <span class="cat" th:text="${course.category.value}"></span>
+                                    <p>
+                                        <i class="fas fa-tag text-muted"></i>
+                                        <span class="text-muted" th:text="${course.category.value}"></span>
+                                    </p>
+
                                     <span class="price"
                                           th:text="'Only: $' + ${course.minSalePrice().getSalePrice()}"></span>
                                 </div>
                                 <a th:href="@{'/course_detail/'+${course.getId()}}">
-                                    <h3 class="title" th:text="${course.title}"></h3>
+                                    <h3 class="title" style="font-family: 'Roboto', sans-serif; font-weight:500;" th:text="${course.title}"></h3>
                                 </a>
                                 <br>
                                 <span class="cat" th:text="${course.shortDescription}"></span>

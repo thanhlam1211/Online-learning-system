@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="course_dtls_left mb-30">
-                            <div class="cdl_top mb-30">
+                            <div class="cdl_top mb-30 shadow-sm">
                                 <div class="row">
                                 <div class="col-6">
                                     <img th:src="${course.thumbnail}" alt="">
@@ -132,7 +132,7 @@
                                 </div>
                                 </div>
                             </div>
-                            <div class="cdl_bottom">
+                            <div class="cdl_bottom shadow-sm">
                                 <ul class="nav nav-pills mb-15" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
@@ -255,7 +255,7 @@
                     <!--                    Có thể thêm vò modal form trong course.html-->
                     <div class="col-lg-4">
                         <div class="course_dtls_right">
-                            <div class="course_widget_wrap related_course mb-30">
+                            <div class="course_widget_wrap related_course mb-30 shadow-sm">
                                 <h3>New Course:</h3>
                                 <ul class="course_widget">
                                     <li th:each="course : ${newCourses}">
@@ -264,7 +264,7 @@
                                                  th:src="${course.thumbnail}" alt="">
                                         </div>
                                         <div class="content">
-                                            <h6><a th:href="@{'/course_detail/'+${course.getId()}}"
+                                            <h6 style="font-weight:bold;font-family:'Roboto', sans-serif;"><a th:href="@{'/course_detail/'+${course.getId()}}"
                                                    th:text="${course.title}"></a></h6>
                                             <span class="text-danger"
                                                   th:text="'$' + ${course.minSalePrice().getSalePrice()}"></span>
