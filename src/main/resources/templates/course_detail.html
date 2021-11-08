@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Course Details</title>
+    <title>Course Details - Edulan</title>
     <th:block th:replace="fragments/meta_head :: meta_head"></th:block>
 </head>
 <body>
@@ -16,7 +16,8 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="course_dtls_left mb-30">
-                            <div class="cdl_top mb-30 row">
+                            <div class="cdl_top mb-30">
+                                <div class="row">
                                 <div class="col-6">
                                     <img th:src="${course.thumbnail}" alt="">
                                 </div>
@@ -25,15 +26,17 @@
                                     <span th:text="${course.shortDescription}"></span>
                                     <div class="meta mt-2">
                                         <div class="left ul-li">
-                                            <span class="old text-decoration-line-through"
-                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}">
-                                            </span>
                                             <span class="price text-danger h5"
                                                   th:text="'$' + ${course.minSalePrice().getSalePrice()}">
                                             </span>
+                                            <span class="old text-decoration-line-through"
+                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}">
+                                            </span>
+
                                         </div>
                                         <div class="right">
-                                            <span class="price text-primary h5"
+                                            <i class="far fa-calendar"></i>
+                                            <span class="price text-muted"
                                                   th:text="'Created: ' + ${course.getDateCreate()}">
                                             </span>
                                         </div>
@@ -126,6 +129,7 @@
                                         </div>
                                     </div>
                                     <!--End of modal to see price package of each course-->
+                                </div>
                                 </div>
                             </div>
                             <div class="cdl_bottom">
