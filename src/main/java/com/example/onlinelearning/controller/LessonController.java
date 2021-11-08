@@ -161,7 +161,7 @@ public class LessonController {
         // Check if user has registered this course or not?
         boolean flag = false;
         for (UserCourse userCourse : currentUser.getUserCourseList()) {
-            if (userCourse.getCourse().getId() == courseId) {
+            if (userCourse.getCourse().getId().equals(courseId)) {
                 flag = true;
                 break;
             }
