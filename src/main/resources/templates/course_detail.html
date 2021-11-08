@@ -266,10 +266,10 @@
                                         <div class="content">
                                             <h6><a th:href="@{'/course_detail/'+${course.getId()}}"
                                                    th:text="${course.title}"></a></h6>
-                                            <span class="new"
+                                            <span class="text-danger"
                                                   th:text="'$' + ${course.minSalePrice().getSalePrice()}"></span>
-                                            <span class="old"
-                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}"></span>
+                                            <del class="text-muted"
+                                                  th:text="'$' + ${course.minSalePrice().getListPrice()}" style="font-size:0.88rem"></del>
                                         </div>
                                     </li>
                                 </ul>
